@@ -19,6 +19,18 @@ const routes: Routes = [
     path: 'perfil-conductor',
     loadChildren: () => import('./pages/perfil-conductor/perfil-conductor.module').then( m => m.PerfilConductorPageModule)
   },
+  {
+    path: 'registrop',
+    loadChildren: () => import('./pages/registrop/registrop.module').then( m => m.RegistropPageModule)
+  },
+  {
+    path: 'registroc',
+    loadChildren: () => import('./pages/registroc/registroc.module').then( m => m.RegistrocPageModule)
+  },{
+    path: 'menure',
+    loadChildren: () => import('./pages/menure/menure.module').then( m => m.MenurePageModule)
+
+  },
 ];
 
 @NgModule({
