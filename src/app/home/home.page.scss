@@ -28,3 +28,16 @@
 div {
   text-align: center;
 }
+ion-button {
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  width: 80%;
+  height: 50px;
+}
+ion-content.background{
+  --background: url(../../assets/fondo.jpg) 0 0/100% 100% no-repeat;
+}
+ion-item {
+  border-radius: 10px;
+}
