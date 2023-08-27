@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registro de Pasajero</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card-content style="margin-top: 50px;">
+    <div style="text-align: center;">
+      <ion-text style="font-size: 20px; font-weight: bold; color: white;">Crea tu cuenta como Pasajero</ion-text>
+    </div>
+  </ion-card-content>
+  <ion-card-content style="margin-top: 20px;">
+    <ion-item>
+      <ion-label position="floating">Nombre Completo</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Correo</ion-label>
+      <ion-input type="email" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="">Nacimiento</ion-label>
+      <ion-input type="date" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Repetir Contraseña</ion-label>
+      <ion-input type="password" required></ion-input>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-text style="font-size: 12px; color: var(--ion-color-medium)">Al hacer clic en "Registrarse", aceptas nuestra <a href="#">Política de Privacidad</a> y nuestros <a href="#">Términos y Condiciones</a>.</ion-text>
+    </ion-item>
+    <div style="text-align: center;">
+      <ion-button type="submit">Registrarse como Pasajero</ion-button>
+    </div>
+  </ion-card-content>
+</ion-content>

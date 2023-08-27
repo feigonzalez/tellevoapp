@@ -14,7 +14,15 @@ const routes: Routes = [
   {
     path: 'inicio-conductor',
     loadChildren: () => import('./pages/inicio-conductor/inicio-conductor.module').then( m => m.InicioConductorPageModule)
+  },  {
+    path: 'registrop',
+    loadChildren: () => import('./pages/registrop/registrop.module').then( m => m.RegistropPageModule)
   },
+  {
+    path: 'registroc',
+    loadChildren: () => import('./pages/registroc/registroc.module').then( m => m.RegistrocPageModule)
+  },
+
 ];
 
 @NgModule({
