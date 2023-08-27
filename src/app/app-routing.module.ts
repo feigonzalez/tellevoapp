@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'inicio-conductor',
     loadChildren: () => import('./pages/inicio-conductor/inicio-conductor.module').then( m => m.InicioConductorPageModule)
   },
+  {
+    path: 'perfil-conductor',
+    loadChildren: () => import('./pages/perfil-conductor/perfil-conductor.module').then( m => m.PerfilConductorPageModule)
+  },
 ];
 
 @NgModule({
