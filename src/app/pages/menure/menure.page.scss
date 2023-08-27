@@ -34,7 +34,8 @@
     color: white;
     width: 80%;
     height: 50px;
-    
+    align-items:center;
+    justify-content:center;
   }
 
   ion-item {
@@ -44,8 +45,11 @@
     --background: url(/assets/fondo.jpg) 0 0/100% 100% no-repeat;
   }
   ion-card-content {
+    align-items:center;
+justify-content:center;
     margin: 0;
     padding: 0;
+    
   }
 
 
