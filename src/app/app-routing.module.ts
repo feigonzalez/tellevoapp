@@ -14,7 +14,11 @@ const routes: Routes = [
   {
     path: 'inicio-conductor',
     loadChildren: () => import('./pages/inicio-conductor/inicio-conductor.module').then( m => m.InicioConductorPageModule)
+  },  {
+    path: 'menure',
+    loadChildren: () => import('./pages/menure/menure.module').then( m => m.MenurePageModule)
   },
+
 ];
 
 @NgModule({
