@@ -1,6 +1,10 @@
 
 <ion-header>
+  
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Volver"></ion-back-button>
+    </ion-buttons>
     <ion-title>Menú de Registro</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -18,8 +22,8 @@
   
     
   
-  <div style="text-align: center;"><ion-button color="grey" >Soy conductor.</ion-button></div>
-  <div style="text-align: center;"><ion-button color="grey" >Soy pasajero.</ion-button></div>
+  <div style="text-align: center;"><ion-button color="grey" [routerLink]="['/registroc']" >Soy conductor.</ion-button></div>
+  <div style="text-align: center;"><ion-button color="grey" [routerLink]="['/registrop']" >Soy pasajero.</ion-button></div>
 
 
   
