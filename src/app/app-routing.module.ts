@@ -26,10 +26,10 @@ const routes: Routes = [
   {
     path: 'registroc',
     loadChildren: () => import('./pages/registroc/registroc.module').then( m => m.RegistrocPageModule)
-  },{
+  },
+  {
     path: 'menure',
     loadChildren: () => import('./pages/menure/menure.module').then( m => m.MenurePageModule)
-
   },
 ];
 

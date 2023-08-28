@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-item class="ion-text-right" (click)="editarPerfil(-1)">
+    <ion-item class="ion-text-right" [routerLink]="['/perfil-conductor']">
       <ion-label>{{usuario.nombre}} {{usuario.apellido}}</ion-label>
       <ion-thumbnail class="userIcon round">
         <img src="{{usuario.imagen}}">

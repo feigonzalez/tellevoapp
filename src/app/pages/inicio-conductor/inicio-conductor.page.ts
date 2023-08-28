@@ -22,6 +22,7 @@ export class InicioConductorPage implements OnInit {
   usuario : any={
     nombre:"Juan Carlos",
     apellido:"Bodoque",
+    patente:"TP8373",
     imagen:"assets/icon/userIcon.jpg"
   }
 
