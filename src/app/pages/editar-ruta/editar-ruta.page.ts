@@ -35,6 +35,11 @@ export class EditarRutaPage implements OnInit {
   actualizarRuta(){
     console.log("!:actualizarRuta()");
     //guarda los datos de la ruta en la db
+    let ne:any={state:{
+      ruta:this.ruta
+    }}
+    ne.state.ruta.horaSalida=this.salidaHora+":"+this.salidaMinuto;
+    this.router.navigate(['/ver-ruta'],ne)
   }
 
 }
