@@ -21,11 +21,11 @@
       <ion-card-title style="color: #1e1e1e;" class="ion-text-center">Rutas</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-list>
+      <ion-list lines="full">
         <!-- esta lista debe tener una altura fija, cosa que el botón de "añadir ruta"
           salga al fondo de la pagina siempre-->
-        <ion-item *ngFor="let ruta of rutas" (click)="editarRuta(ruta.id)">
-          <ion-label>{{ruta.nombre}}</ion-label>
+        <ion-item *ngFor="let ruta of rutas" (click)="verRuta(ruta.id)">
+          <ion-label style="--padding-start:1rem">{{ruta.nombre}}</ion-label>
           <ion-label class="ion-text-right">{{ruta.longitud}}Km / {{ruta.duracion}}min</ion-label>
         </ion-item>
       </ion-list>

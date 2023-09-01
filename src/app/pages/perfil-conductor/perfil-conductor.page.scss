@@ -1,5 +1,5 @@
 #perfil-imagen{margin:auto;--size:140px;border-radius:50%;overflow:clip}
-ion-list > ion-item {--padding-start:0px}
+ion-list ion-item {--padding-start:0px}
 ion-thumbnail.round{border-radius:50%;overflow:clip}
 .userIcon{--size:40px;margin-left:16px}
 
@@ -8,25 +8,10 @@ ion-thumbnail.round{border-radius:50%;overflow:clip}
 
 
 
-ion-content.background{
-    --background: url(/assets/fondo.jpg) 0 0/100% 100% no-repeat;
-  }
-  ion-toolbar{
-    color: #1e1e1e;
-    background-color: #1e1e1e;
-  }
-
   ion-item {
     color: #1e1e1e;
     background-color: #1e1e1e;
   }
-
-.item-background-color{
-    --ion-item-background:#1e1e1e;
-    color:white;
-    text-align: right;
-    font-size: 19px;
-}
 
 ion-button {
     border-radius: 10px;
@@ -34,8 +19,4 @@ ion-button {
     color: white;
     width: 80%;
     height: 50px;
-  }
-  
-ion-content.background{
-    --background: url(/assets/fondo.jpg) 0 0/100% 100% no-repeat;
   }

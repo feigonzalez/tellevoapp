@@ -1,0 +1,48 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="#1e1e1e">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/inicio-conductor" text="Volver"></ion-back-button>
+      </ion-buttons>
+      <ion-item class="item-background-color" lines="none">
+        <ion-input value={{ruta.nombre}}></ion-input>
+        <ion-button slot="end" fill="outline" color="light" class="round-icon" (click)="actualizarRuta()">
+          <ion-icon name="checkmark-sharp"></ion-icon>
+        </ion-button>
+      </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <app-map viewType="edit"></app-map>
+</ion-content>
+
+<ion-footer>
+  <ion-grid>
+    <ion-row class="display-labels">
+      <ion-col>
+        <ion-item lines="none" class="ion-text-center">
+          <span>Tarifa</span>
+        </ion-item>
+      </ion-col> 
+      <ion-col>
+        <ion-item lines="none">
+          <span>Hora de Salida</span>
+        </ion-item>
+      </ion-col> 
+    </ion-row>
+    <ion-row class="display-values">
+      <ion-col>
+        <ion-item lines="none">
+          <ion-input type="number" value="{{ruta.tarifa}}"></ion-input>
+        </ion-item>
+      </ion-col> 
+      <ion-col>
+        <ion-item lines="none">
+          <ion-input [(ngModel)]="salidaHora" type="number"></ion-input>
+          :
+          <ion-input [(ngModel)]="salidaMinuto" type="number"></ion-input>
+        </ion-item>
+      </ion-col> 
+    </ion-row>
+  </ion-grid>
+</ion-footer>

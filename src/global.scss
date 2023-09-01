@@ -24,3 +24,27 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+ion-content.background{
+    --background: url(/assets/fondo.jpg) 0 0/100% 100% no-repeat;
+}
+
+ion-toolbar{
+    color: #1e1e1e;
+    background-color: #1e1e1e;
+}
+
+.item-background-color{
+    --ion-item-background:#1e1e1e;
+    color:white;
+    text-align: right;
+    font-size: 19px;
+}
+
+ion-back-button{
+    color:white;
+}
+
+ion-button{
+    --background:black;
+}

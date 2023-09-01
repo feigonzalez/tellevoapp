@@ -12,11 +12,15 @@ export class InicioConductorPage implements OnInit {
     {id:1,
      nombre:"Nombre de la ruta",
      longitud:13.7,
-     duracion:18},
+     duracion:18,
+     tarifa:3000,
+     horaSalida:"18:30"},
     {id:2,
      nombre:"Ruta 2",
      longitud:16.3,
-     duracion:21},
+     duracion:21,
+     tarifa:4000,
+     horaSalida:"14:00"},
   ]
 
   usuario : any={
@@ -36,9 +40,21 @@ export class InicioConductorPage implements OnInit {
     //se crea una ruta nueva, y se redirige a la interfaz "editar-ruta"
   }
 
-  editarRuta(id:number){
-    console.log("!:editarRuta("+id+")")
-    //redirige a "editar-ruta" para editar la ruta correspondiente a "id"
+  getRutaFromId(id:number){
+    let res:any=null;
+    this.rutas.forEach((r:any)=>{
+      if(r.id==id) res = r;
+    })
+    return res;
+  }
+
+  verRuta(id:number){
+    console.log("!:verRuta("+id+")")
+    let ne:any={state:{
+      ruta:this.getRutaFromId(id),
+      viewType:"view"
+    }}
+    this.router.navigate(['/ver-ruta'],ne)
   }
 
   editarPerfil(id:number){

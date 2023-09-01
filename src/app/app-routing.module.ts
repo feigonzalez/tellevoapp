@@ -30,7 +30,15 @@ const routes: Routes = [
   {
     path: 'menure',
     loadChildren: () => import('./pages/menure/menure.module').then( m => m.MenurePageModule)
+  },  {
+    path: 'ver-ruta',
+    loadChildren: () => import('./pages/ver-ruta/ver-ruta.module').then( m => m.VerRutaPageModule)
   },
+  {
+    path: 'editar-ruta',
+    loadChildren: () => import('./pages/editar-ruta/editar-ruta.module').then( m => m.EditarRutaPageModule)
+  },
+
 ];
 
 @NgModule({
