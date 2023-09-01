@@ -1,13 +1,23 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="#1e1e1e">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/inicio-conductor" text="Volver"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Perfil</ion-title>
+      <ion-back-button style="color: white;" defaultHref="/inicio-conductor" text="Volver"></ion-back-button>
+      </ion-buttons>
+      <ion-item class="item-background-color">
+        <ion-label>Perfil</ion-label>
+      </ion-item>
   </ion-toolbar>
 </ion-header>
 
+
+
+
+
+
+
 <ion-content [fullscreen]="true">
+  <ion-content padding class="background">
+
   <ion-card>
     <ion-card-header>
       <ion-card-title class="ion-text-center">
@@ -28,7 +38,7 @@
         <ion-label position="floating">Patente de mi Vehículo</ion-label>
         <ion-input type="text" required [value]="usuario.patente"></ion-input>
       </ion-item>
-      <ion-button expand="block" (click)="actualizarDatos()">Actualizar datos</ion-button>
+      <div style="text-align: center;"><ion-button color="grey" (click)="actualizarDatos()">Actualizar datos</ion-button></div>
     </ion-card-content>
   </ion-card>
   <ion-card>
@@ -44,12 +54,12 @@
         <ion-label position="floating">Repetir Contraseña</ion-label>
         <ion-input type="password" required></ion-input>
       </ion-item>
-      <ion-button expand="block" (click)="actualizarContrasena()">Actualizar contraseña</ion-button>
+      <div style="text-align: center;"><ion-button color="grey" (click)="actualizarContrasena()">Actualizar contraseña</ion-button></div>
     </ion-card-content>
   </ion-card>
   <ion-card>
     <ion-card-content class="ion-text-center">
-      <ion-button (click)="eliminarCuenta()">Eliminar cuenta</ion-button>
+      <div style="text-align: center;"><ion-button color="grey" (click)="eliminarCuenta()">Eliminar cuenta</ion-button></div>
     </ion-card-content>
   </ion-card>
 </ion-content>

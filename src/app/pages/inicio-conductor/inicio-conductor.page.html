@@ -1,18 +1,24 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-item class="ion-text-right" [routerLink]="['/perfil-conductor']">
+  <ion-toolbar color="#1e1e1e">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/home" text="Volver"></ion-back-button>
+    </ion-buttons>
+     <!--la nueva clase se llama item-background-color, tiene toda las propiedades scss necesarias -->
+    <ion-item class="item-background-color" [routerLink]="['/perfil-conductor']">
       <ion-label>{{usuario.nombre}} {{usuario.apellido}}</ion-label>
       <ion-thumbnail class="userIcon round">
         <img src="{{usuario.imagen}}">
       </ion-thumbnail>
     </ion-item>
+  
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-content padding class="background">
   <ion-card>
     <ion-card-header>
-      <ion-card-title class="ion-text-center">Rutas</ion-card-title>
+      <ion-card-title style="color: #1e1e1e;" class="ion-text-center">Rutas</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-list>
@@ -23,7 +29,7 @@
           <ion-label class="ion-text-right">{{ruta.longitud}}Km / {{ruta.duracion}}min</ion-label>
         </ion-item>
       </ion-list>
-      <ion-button expand="block" (click)="crearRuta()">Añadir ruta</ion-button>
+      <div style="text-align: center;"><ion-button color="grey" (click)="crearRuta()">Añadir Ruta</ion-button></div>
     </ion-card-content>
   </ion-card>
 </ion-content>
