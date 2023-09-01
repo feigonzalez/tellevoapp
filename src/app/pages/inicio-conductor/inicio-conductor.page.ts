@@ -38,6 +38,18 @@ export class InicioConductorPage implements OnInit {
   crearRuta(){
     console.log("!:crearRuta()")
     //se crea una ruta nueva, y se redirige a la interfaz "editar-ruta"
+    let ne:any={state:{
+      ruta:{
+         id:-1,
+         nombre:"Nueva Ruta",
+         longitud:0,
+         duracion:0,
+         tarifa:0,
+         horaSalida:"00:00"}
+      },
+      viewType:"new"
+    }
+    this.router.navigate(['/editar-ruta'],ne)
   }
 
   getRutaFromId(id:number){
