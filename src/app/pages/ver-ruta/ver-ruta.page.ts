@@ -16,19 +16,22 @@ export class VerRutaPage implements OnInit {
       if(this.router.getCurrentNavigation()?.extras.state){
         this.ruta=this.router.getCurrentNavigation()?.extras.state?.['ruta']
         this.viewType=this.router.getCurrentNavigation()?.extras?.state?.['viewType']
+        if(this.viewType=="new") this.editarRuta("new")
       }
     })
-    console.log("@VER:["+this.viewType+"]")
   }
 
   ngOnInit() {
   }
 
-  editarRuta(){
+  ngAfterContentInit(){
+  }
+
+  editarRuta(viewType?:string){
     console.log("!:editarRuta()");
     let ne:any={state:{
       ruta:this.ruta,
-      viewType:"edit"
+      viewType:viewType?viewType:"edit",
     }}
     this.router.navigate(['/editar-ruta'],ne)
   }

@@ -45,11 +45,11 @@ export class InicioConductorPage implements OnInit {
          longitud:0,
          duracion:0,
          tarifa:0,
-         horaSalida:"00:00"}
-      },
+         horaSalida:"00:00"},
       viewType:"new"
+      }
     }
-    this.router.navigate(['/editar-ruta'],ne)
+    this.router.navigate(['/ver-ruta'],ne)
   }
 
   getRutaFromId(id:number){
@@ -67,11 +67,6 @@ export class InicioConductorPage implements OnInit {
       viewType:"view"
     }}
     this.router.navigate(['/ver-ruta'],ne)
-  }
-
-  editarPerfil(id:number){
-    console.log("!:editarPerfil("+id+")")
-    //redirige a "editar-ruta" para editar la ruta correspondiente a "id"
   }
 
 }
