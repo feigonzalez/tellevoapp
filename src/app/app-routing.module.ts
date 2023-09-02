@@ -38,6 +38,14 @@ const routes: Routes = [
     path: 'editar-ruta',
     loadChildren: () => import('./pages/editar-ruta/editar-ruta.module').then( m => m.EditarRutaPageModule)
   },
+  {
+    path: 'inicio-pasajero',
+    loadChildren: () => import('./pages/inicio-pasajero/inicio-pasajero.module').then( m => m.InicioPasajeroPageModule)
+  },
+  {
+    path: 'perfil-pasajero',
+    loadChildren: () => import('./pages/perfil-pasajero/perfil-pasajero.module').then( m => m.PerfilPasajeroPageModule)
+  },
 
 ];
 
