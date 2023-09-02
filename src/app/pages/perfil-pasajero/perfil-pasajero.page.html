@@ -1,13 +1,63 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>perfilPasajero</ion-title>
+  <ion-toolbar color="#1e1e1e">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/inicio-pasajero" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-item class="item-background-color">
+      <ion-label>Perfil</ion-label>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">perfilPasajero</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-content padding class="background">
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">
+          <ion-thumbnail id="perfil-imagen" (click)="editarImagenPerfil()"><img [src]="usuario.imagen"></ion-thumbnail>
+          <ion-label style="color: rgb(255, 255, 255);">Tulio Triviño</ion-label> <!-- Cambiado a "Tulio Triviño" -->
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating" style="color: grey;">Nombre</ion-label>
+          <ion-input type="text" required [value]="usuario.nombre"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating" style="color: grey;">Apellido</ion-label>
+          <ion-input type="text" required [value]="usuario.apellido"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-textarea rows="3" required style="color: grey;">{{ usuario.informacionAdicional }}</ion-textarea>
+        </ion-item>
+        <div style="text-align: center;"><ion-button color="grey" (click)="actualizarDatos()">Actualizar datos</ion-button></div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Seguridad</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating" style="color: grey;">Contraseña actual</ion-label>
+          <ion-input type="password" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating" style="color: grey;">Nueva contraseña</ion-label>
+          <ion-input type="password" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating" style="color: grey;">Repetir nueva contraseña</ion-label>
+          <ion-input type="password" required></ion-input>
+        </ion-item>
+        <div style="text-align: center;"><ion-button color="grey" (click)="actualizarContrasena()">Actualizar contraseña</ion-button></div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-content class="ion-text-center">
+        <div style="text-align: center;"><ion-button color="grey" (click)="eliminarCuenta()">Eliminar cuenta</ion-button></div>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
 </ion-content>
