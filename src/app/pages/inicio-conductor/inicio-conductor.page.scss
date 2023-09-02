@@ -1,6 +1,12 @@
 ion-thumbnail.round{border-radius:50%;overflow:clip}
-.userIcon{--size:40px;margin-left:16px}
+ion-button .userIcon img{width:auto;max-width:fit-content}
 ion-list ion-item:nth-child(2n){--background:#EEEEEE}
+ion-footer.tabs ion-grid{padding:0;}
+ion-footer.tabs ion-col{padding:0}
+ion-footer.tabs ion-item{--padding-start:0;--inner-padding-end:0}
+ion-footer.tabs span.tab{display:block;text-align:center;width:100%;padding:1rem;
+  font-size:1.2rem;background-color:#1e1e1e;color:white}
+ion-footer.tabs span.tab.active{background-color:#2e2e2e;}
 
 
 ion-content.background{
