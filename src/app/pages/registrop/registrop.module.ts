@@ -8,12 +8,16 @@ import { RegistropPageRoutingModule } from './registrop-routing.module';
 
 import { RegistropPage } from './registrop.page';
 
+import {MatRadioModule} from '@angular/material/radio';
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RegistropPageRoutingModule
+    RegistropPageRoutingModule,
+    MatRadioModule
   ],
   declarations: [RegistropPage]
 })
