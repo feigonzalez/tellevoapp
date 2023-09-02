@@ -50,6 +50,14 @@ const routes: Routes = [
     path: 'viaje-conductor',
     loadChildren: () => import('./pages/viaje-conductor/viaje-conductor.module').then( m => m.ViajeConductorPageModule)
   },
+  {
+    path: 'buzon-conductor',
+    loadChildren: () => import('./pages/buzon-conductor/buzon-conductor.module').then( m => m.BuzonConductorPageModule)
+  },
+  {
+    path: 'mensaje-conductor',
+    loadChildren: () => import('./pages/mensaje-conductor/mensaje-conductor.module').then( m => m.MensajeConductorPageModule)
+  },
 
 ];
 

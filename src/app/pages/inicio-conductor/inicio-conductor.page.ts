@@ -27,7 +27,7 @@ export class InicioConductorPage implements OnInit {
     nombre:"Juan Carlos",
     apellido:"Bodoque",
     patente:"TP8373",
-    imagen:"assets/icon/userIcon.jpg"
+    imagen:"assets/icon/user_bodoque.jpg"
   }
 
   constructor(private router: Router) { }
@@ -69,4 +69,9 @@ export class InicioConductorPage implements OnInit {
     this.router.navigate(['/ver-ruta'],ne)
   }
 
+  salirCuenta(){
+    console.log("!:salirCuenta()");
+    //salir de la cuenta. borrar la sesión y todo eso
+    this.router.navigate(['/'])
+  }
 }

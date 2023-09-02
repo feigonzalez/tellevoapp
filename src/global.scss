@@ -52,3 +52,17 @@ ion-button{
 ion-fab-button:not(:first-child){
     margin-top:0.5rem
 }
+
+ion-button.round-icon{
+    --border-radius:50% !important;
+    height:40px !important;
+    width:40px !important;
+    font-size:1rem !important;
+}
+
+.user-icon.round{
+    --border-radius:50% !important;
+    height:40px !important;
+    width:40px !important;
+    overflow:clip
+}

@@ -11,7 +11,7 @@ export class PerfilConductorPage implements OnInit {
     nombre:"Juan Carlos",
     apellido:"Bodoque",
     patente:"TP8373",
-    imagen:"assets/icon/userIcon.jpg"
+    imagen:"assets/icon/user_bodoque.jpg"
   }
 
   constructor() { }
