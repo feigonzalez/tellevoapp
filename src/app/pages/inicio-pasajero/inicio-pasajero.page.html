@@ -1,13 +1,36 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>inicioPasajero</ion-title>
+  <ion-toolbar color="#1e1e1e">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/home" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-item class="item-background-color" [routerLink]="['/perfil-pasajero']">
+      <ion-label>{{ usuario.nombre }} {{ usuario.apellido }}</ion-label>
+      <ion-thumbnail class="userIcon round">
+        <img src="{{ usuario.imagen }}">
+      </ion-thumbnail>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">inicioPasajero</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-content padding class="background">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title style="color: #1e1e1e;" class="ion-text-center">Viajes</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="full">
+          <!-- esta lista debe tener una altura fija, cosa que el botón de "solicitar viaje"
+            salga al fondo de la página siempre-->
+          <ion-item *ngFor="let viaje of viajes" (click)="verViaje(viaje.id)">
+            <ion-label style="--padding-start:1rem">{{ viaje.nombre }}</ion-label>
+            <ion-label class="ion-text-right">{{ viaje.distancia }} Km / {{ viaje.duracion }} min</ion-label>
+          </ion-item>
+        </ion-list>
+        <div style="text-align: center;">
+          <ion-button color="grey" (click)="solicitarViaje()">Solicitar Viaje</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
 </ion-content>
