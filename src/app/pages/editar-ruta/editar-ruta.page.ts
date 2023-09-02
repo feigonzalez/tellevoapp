@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -13,7 +14,7 @@ export class EditarRutaPage implements OnInit {
   salidaHora : number = 0;
   salidaMinuto : number = 0;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private location:Location,private router: Router, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.queryParams.subscribe(params=>{
       if(this.router.getCurrentNavigation()?.extras.state){
         this.ruta=this.router.getCurrentNavigation()?.extras?.state?.['ruta']
@@ -41,6 +42,12 @@ export class EditarRutaPage implements OnInit {
     }}
     ne.state.ruta.horaSalida=this.salidaHora+":"+this.salidaMinuto;
     this.router.navigate(['/ver-ruta'],ne)
+  }
+
+  eliminarRuta(){
+    console.log("!:eliminarRuta()");
+    this.location.back();
+    this.location.back();
   }
 
 }

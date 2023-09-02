@@ -48,3 +48,7 @@ ion-back-button{
 ion-button{
     --background:black;
 }
+
+ion-fab-button:not(:first-child){
+    margin-top:0.5rem
+}

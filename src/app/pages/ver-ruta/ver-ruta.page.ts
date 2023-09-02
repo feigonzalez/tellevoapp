@@ -38,7 +38,10 @@ export class VerRutaPage implements OnInit {
 
   comenzarViaje(){
     console.log("!:comenzarViaje()");
-    //se comunica a los pasajeros suscritos al viaje que éste ha comenzado.
-    //redirige a "viajeConductor"
+    let ne:any={state:{
+      ruta:this.ruta,
+      viewType:this.viewType
+    }}
+    this.router.navigate(['/viaje-conductor'],ne)
   }
 }

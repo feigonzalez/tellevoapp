@@ -5,14 +5,19 @@
       </ion-buttons>
       <ion-item class="item-background-color" lines="none">
         <ion-input [(ngModel)]=ruta.nombre></ion-input>
-        <ion-button slot="end" fill="outline" color="light" class="round-icon" (click)="actualizarRuta()">
-          <ion-icon name="checkmark-sharp"></ion-icon>
-        </ion-button>
       </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-fab slot="fixed" vertical="top" horizontal="end">
+    <ion-fab-button size="large" color="success" (click)="actualizarRuta()">
+      <ion-icon name="checkmark-sharp"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button size="large" color="danger" (click)="eliminarRuta()">
+      <ion-icon name="trash-sharp"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   <app-map [viewType]="viewType"></app-map>
 </ion-content>
 

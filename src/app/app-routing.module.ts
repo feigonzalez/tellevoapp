@@ -46,6 +46,10 @@ const routes: Routes = [
     path: 'perfil-pasajero',
     loadChildren: () => import('./pages/perfil-pasajero/perfil-pasajero.module').then( m => m.PerfilPasajeroPageModule)
   },
+  {
+    path: 'viaje-conductor',
+    loadChildren: () => import('./pages/viaje-conductor/viaje-conductor.module').then( m => m.ViajeConductorPageModule)
+  },
 
 ];
 
