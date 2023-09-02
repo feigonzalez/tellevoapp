@@ -8,10 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class PerfilPasajeroPage implements OnInit {
 
   usuario: any = {
-    nombre: "Nombre del Pasajero",
-    apellido: "Apellido del Pasajero",
-    informacionAdicional: "Información adicional del pasajero", // Agregado un campo adicional
-    imagen: "assets/icon/userIcon.jpg"
+    nombre: "Tulio",
+    apellido: "Triviño",
+    informacionAdicional: "que es lo que se supone que es este campo?", // Agregado un campo adicional
+    imagen: "assets/icon/user_tulio.jpg"
   }
 
   constructor() { }

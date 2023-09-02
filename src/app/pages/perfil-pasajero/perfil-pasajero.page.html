@@ -3,9 +3,6 @@
     <ion-buttons slot="start">
       <ion-back-button style="color: white;" defaultHref="/inicio-pasajero" text="Volver"></ion-back-button>
     </ion-buttons>
-    <ion-item class="item-background-color">
-      <ion-label>Perfil</ion-label>
-    </ion-item>
   </ion-toolbar>
 </ion-header>
 
@@ -16,7 +13,7 @@
       <ion-card-header>
         <ion-card-title class="ion-text-center">
           <ion-thumbnail id="perfil-imagen" (click)="editarImagenPerfil()"><img [src]="usuario.imagen"></ion-thumbnail>
-          <ion-label style="color: rgb(255, 255, 255);">Tulio Triviño</ion-label> <!-- Cambiado a "Tulio Triviño" -->
+          <ion-label>{{usuario.nombre}} {{usuario.apellido}}</ion-label>
         </ion-card-title>
       </ion-card-header>
       <ion-card-content>

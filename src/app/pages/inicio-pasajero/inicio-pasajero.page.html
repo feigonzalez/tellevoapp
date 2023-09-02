@@ -1,14 +1,24 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="#1e1e1e">
     <ion-buttons slot="start">
-      <ion-back-button style="color: white;" defaultHref="/home" text="Volver"></ion-back-button>
+      <ion-button class="round-icon" (click)="salirCuenta()">
+        <ion-icon name="power"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <ion-item class="item-background-color" [routerLink]="['/perfil-pasajero']">
-      <ion-label>{{ usuario.nombre }} {{ usuario.apellido }}</ion-label>
-      <ion-thumbnail class="userIcon round">
-        <img src="{{ usuario.imagen }}">
-      </ion-thumbnail>
+    <ion-item class="item-background-color" lines="none" [routerLink]="['/perfil-pasajero']" detail="false">
+      <ion-label>{{usuario.nombre}} {{usuario.apellido}}</ion-label>
+      <ion-button class="round-icon">
+        <ion-thumbnail class="userIcon round">
+          <img src="{{usuario.imagen}}">
+        </ion-thumbnail>
+      </ion-button>
     </ion-item>
+    <ion-buttons slot="end">
+      <!--ion-button class="round-icon" [routerLink]="['/buzon-pasajero']"-->
+        <!--ion-icon name="chatbubbles-sharp"></ion-icon-->
+        <!--la pagina buzon-pasajero no existe. descomentar este botón cuando exista-->
+      <!--/ion-button-->
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -27,9 +37,6 @@
             <ion-label class="ion-text-right">{{ viaje.distancia }} Km / {{ viaje.duracion }} min</ion-label>
           </ion-item>
         </ion-list>
-        <div style="text-align: center;">
-          <ion-button color="grey" (click)="solicitarViaje()">Solicitar Viaje</ion-button>
-        </div>
       </ion-card-content>
     </ion-card>
   </ion-content>

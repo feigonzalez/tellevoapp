@@ -28,10 +28,9 @@ export class InicioPasajeroPage implements OnInit {
   ]
 
   usuario: any = {
-    nombre: "Juan Carlos",
-    apellido: "Bodoque",
-    patente: "TP8373",
-    imagen: "assets/icon/userIcon.jpg"
+    nombre: "Tulio",
+    apellido: "Triviño",
+    imagen: "assets/icon/user_tulio.jpg"
   }
 
   constructor(private router: Router) { }
@@ -60,7 +59,12 @@ export class InicioPasajeroPage implements OnInit {
         viewType: "view"
       }
     }
-    this.router.navigate(['/ver-viaje'], ne); // Asegúrate de tener una ruta 'ver-viaje'
+    //la página "ver-viaje" no existe. cuando se cree, descomentar esta línea
+    //this.router.navigate(['/ver-viaje'], ne); // Asegúrate de tener una ruta 'ver-viaje'
+  }
+
+  salirCuenta(){
+    console.log("!:salirCuenta()");
   }
 
 }
