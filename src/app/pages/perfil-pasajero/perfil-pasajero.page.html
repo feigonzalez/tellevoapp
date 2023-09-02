@@ -12,7 +12,7 @@
     <ion-card>
       <ion-card-header>
         <ion-card-title class="ion-text-center">
-          <ion-thumbnail id="perfil-imagen" (click)="editarImagenPerfil()"><img [src]="usuario.imagen"></ion-thumbnail>
+          <ion-thumbnail id="perfil-imagen" (click)="editarImagenPerfil()"><img src={{usuario.imagen}}></ion-thumbnail>
           <ion-label>{{usuario.nombre}} {{usuario.apellido}}</ion-label>
         </ion-card-title>
       </ion-card-header>
