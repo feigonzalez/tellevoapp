@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PerfilPasajeroPageRoutingModule } from './perfil-pasajero-routing.module';
+import { PerfilPasajeroPageRoutingModule } from './perfil-pasajero-routing.module'; // Cambio de nombre aquí
 
-import { PerfilPasajeroPage } from './perfil-pasajero.page';
+import { PerfilPasajeroPage } from './perfil-pasajero.page'; // Cambio de nombre aquí
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PerfilPasajeroPageRoutingModule
+    ReactiveFormsModule,
+    PerfilPasajeroPageRoutingModule, // Cambio de nombre aquí
   ],
-  declarations: [PerfilPasajeroPage]
+  declarations: [PerfilPasajeroPage], // Cambio de nombre aquí
 })
-export class PerfilPasajeroPageModule {}
+export class PerfilPasajeroPageModule {} // Cambio de nombre aquí

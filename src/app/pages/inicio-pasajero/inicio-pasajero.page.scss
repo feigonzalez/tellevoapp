@@ -1,34 +1,35 @@
-ion-thumbnail.round{border-radius:50%;overflow:clip}
-ion-button .userIcon img{width:auto;max-width:fit-content}
-ion-list ion-item:nth-child(2n){--background:#EEEEEE}
+ion-thumbnail.round {border-radius: 50%; overflow: clip}
+ion-button .userIcon img {width: auto; max-width: fit-content}
+ion-list ion-item:nth-child(2n) {--background: #EEEEEE}
 
-ion-content.background{
-    --background: url(/assets/fondo.jpg) 0 0/100% 100% no-repeat;
-  }
-  ion-toolbar{
-    color: #1e1e1e;
-    background-color: #1e1e1e;
-  }
+ion-content.background {
+  --background: url(/assets/fondo.jpg) 0 0/100% 100% no-repeat;
+}
 
-  ion-item {
-    color: #1e1e1e;
-    background-color: #1e1e1e;
-  }
+ion-toolbar {
+  color: #1e1e1e;
+  background-color: #1e1e1e;
+}
 
-.item-background-color{
-    --ion-item-background:#1e1e1e;
-    color:white;
-    text-align: right;
+ion-item {
+  color: #1e1e1e;
+  background-color: #1e1e1e;
+}
+
+.item-background-color {
+  --ion-item-background: #1e1e1e;
+  color: white;
+  text-align: right;
 }
 
 ion-button {
-    border-radius: 10px;
-    background-color: #1e1e1e;;
-    color: white;
-    width: 80%;
-    height: 50px;
-  }
-  
-ion-content.background{
-    --background: url(/assets/fondo.jpg) 0 0/100% 100% no-repeat;
-  }
+  border-radius: 10px;
+  background-color: #1e1e1e;
+  color: white;
+  width: 80%;
+  height: 50px;
+}
+
+ion-content.background {
+  --background: url(/assets/fondo.jpg) 0 0/100% 100% no-repeat;
+}

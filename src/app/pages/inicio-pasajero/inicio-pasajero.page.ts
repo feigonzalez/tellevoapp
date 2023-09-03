@@ -11,7 +11,7 @@ export class InicioPasajeroPage implements OnInit {
   viajes: any = [
     {
       id: 1,
-      nombre: "Nombre del viaje",
+      nombre: "Viaje 1",
       distancia: 13.7,
       duracion: 18,
       tarifa: 3000,

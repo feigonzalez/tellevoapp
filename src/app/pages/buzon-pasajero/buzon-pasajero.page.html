@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="#1e1e1e">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/home" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-item class="item-background-color" lines="none">
+      <ion-label>Buzón de Mensajes</ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" padding class="background">
+  <ion-card>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row *ngFor="let c of chats" class="ion-align-items-center" (click)="abrirMensajes(c.id)">
+          <ion-col size="auto">
+            <ion-thumbnail class="user-icon round">
+              <img src="{{c.uIcon}}">
+            </ion-thumbnail>
+          </ion-col>
+          <ion-col size="auto" class="buzonMensajeContainer">
+            <div class="mensajeAutor">{{c.uname}}</div>
+            <div class="mensajeUltimo">{{c.lastMsg}}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

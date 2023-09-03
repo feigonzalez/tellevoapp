@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { InicioPasajeroPageRoutingModule } from './inicio-pasajero-routing.module';
+import { InicioPasajeroPageRoutingModule } from './inicio-pasajero-routing.module'; // Cambio de nombre aquí
 
-import { InicioPasajeroPage } from './inicio-pasajero.page';
+import { InicioPasajeroPage } from './inicio-pasajero.page'; // Cambio de nombre aquí
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    InicioPasajeroPageRoutingModule
+    InicioPasajeroPageRoutingModule, // Cambio de nombre aquí
   ],
-  declarations: [InicioPasajeroPage]
+  declarations: [InicioPasajeroPage], // Cambio de nombre aquí
 })
-export class InicioPasajeroPageModule {}
+export class InicioPasajeroPageModule {} // Cambio de nombre aquí

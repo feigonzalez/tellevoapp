@@ -1,0 +1,49 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="#1e1e1e">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/inicio-conductor" text="Volver"></ion-back-button>
+      </ion-buttons>
+      <ion-item class="item-background-color" lines="none">
+        <ion-label>{{ruta.nombre}}</ion-label>
+      </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-fab slot="fixed" vertical="top" horizontal="end">
+    <ion-fab-button size="large" color="dark" (click)="editarRuta()">
+      <ion-icon name="pencil"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <app-map [viewType]="viewType"></app-map>
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="block" size="large" style="margin:1rem" (click)="comenzarViaje()">Comenzar viaje</ion-button>
+  <ion-grid>
+    <ion-row class="display-labels">
+      <ion-col>
+        <ion-item lines="none" class="ion-text-center">
+          <span>Tarifa</span>
+        </ion-item>
+      </ion-col> 
+      <ion-col>
+        <ion-item lines="none">
+          <span>Hora de Salida</span>
+        </ion-item>
+      </ion-col> 
+    </ion-row>
+    <ion-row class="display-values">
+      <ion-col>
+        <ion-item lines="none">
+          <span>{{ruta.tarifa | currency:'CLP':'$':"1.0-0"}}</span>
+        </ion-item>
+      </ion-col> 
+      <ion-col>
+        <ion-item lines="none">
+          <span>{{ruta.horaSalida}}</span>
+        </ion-item>
+      </ion-col> 
+    </ion-row>
+  </ion-grid>
+</ion-footer>

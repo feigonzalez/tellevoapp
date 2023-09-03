@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { BuzonConductorPage } from './buzon-conductor.page';
+import { BuzonPasajeroPage } from './buzon-pasajero.page';
 
-describe('BuzonConductorPage', () => {
-  let component: BuzonConductorPage;
-  let fixture: ComponentFixture<BuzonConductorPage>;
+describe('BuzonPasajeroPage', () => {
+  let component: BuzonPasajeroPage;
+  let fixture: ComponentFixture<BuzonPasajeroPage>;
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(BuzonConductorPage);
+    fixture = TestBed.createComponent(BuzonPasajeroPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

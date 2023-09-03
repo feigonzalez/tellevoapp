@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PerfilPasajeroPage } from './perfil-pasajero.page';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { PerfilPasajeroPage } from './perfil-pasajero.page'; // Cambio de nombre aquí
 
-describe('PerfilPasajeroPage', () => {
-  let component: PerfilPasajeroPage;
-  let fixture: ComponentFixture<PerfilPasajeroPage>;
+describe('PerfilPasajeroPage', () => { // Cambio de nombre aquí
+  let component: PerfilPasajeroPage; // Cambio de nombre aquí
+  let fixture: ComponentFixture<PerfilPasajeroPage>; // Cambio de nombre aquí
 
   beforeEach(async(() => {
     fixture = TestBed.createComponent(PerfilPasajeroPage);

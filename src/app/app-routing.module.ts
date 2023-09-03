@@ -58,6 +58,14 @@ const routes: Routes = [
     path: 'mensaje-conductor',
     loadChildren: () => import('./pages/mensaje-conductor/mensaje-conductor.module').then( m => m.MensajeConductorPageModule)
   },
+  {
+    path: 'ver-ruta-pasajero',
+    loadChildren: () => import('./pages/ver-ruta-pasajero/ver-ruta-pasajero.module').then( m => m.VerRutaPasajeroPageModule)
+  },
+  {
+    path: 'buzon-pasajero',
+    loadChildren: () => import('./pages/buzon-pasajero/buzon-pasajero.module').then( m => m.BuzonPasajeroPageModule)
+  },
 
 ];
 

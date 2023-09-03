@@ -14,13 +14,13 @@
       </ion-button>
     </ion-item>
     <ion-buttons slot="end">
-      <!--ion-button class="round-icon" [routerLink]="['/buzon-pasajero']"-->
-        <!--ion-icon name="chatbubbles-sharp"></ion-icon-->
-        <!--la pagina buzon-pasajero no existe. descomentar este botón cuando exista-->
-      <!--/ion-button-->
+      <ion-button class="round-icon" [routerLink]="['/buzon-pasajero']">
+        <ion-icon name="chatbubbles-sharp"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 
 <ion-content [fullscreen]="true">
   <ion-content padding class="background">
@@ -30,8 +30,7 @@
       </ion-card-header>
       <ion-card-content>
         <ion-list lines="full">
-          <!-- esta lista debe tener una altura fija, cosa que el botón de "solicitar viaje"
-            salga al fondo de la página siempre-->
+
           <ion-item *ngFor="let viaje of viajes" (click)="verViaje(viaje.id)">
             <ion-label style="--padding-start:1rem">{{ viaje.nombre }}</ion-label>
             <ion-label class="ion-text-right">{{ viaje.distancia }} Km / {{ viaje.duracion }} min</ion-label>

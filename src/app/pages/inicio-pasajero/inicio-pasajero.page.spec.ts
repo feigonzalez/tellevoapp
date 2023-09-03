@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { InicioPasajeroPage } from './inicio-pasajero.page';
+import { InicioPasajeroPage } from './inicio-pasajero.page'; // Cambio de nombre aquí
 
-describe('InicioPasajeroPage', () => {
-  let component: InicioPasajeroPage;
-  let fixture: ComponentFixture<InicioPasajeroPage>;
+describe('InicioPasajeroPage', () => { // Cambio de nombre aquí
+  let component: InicioPasajeroPage; // Cambio de nombre aquí
+  let fixture: ComponentFixture<InicioPasajeroPage>; // Cambio de nombre aquí
 
-  beforeEach(async(function (): void {
-    fixture = TestBed.createComponent(InicioPasajeroPage);
-    component = fixture.componentInstance;
+  beforeEach(async(() => {
+    fixture = TestBed.createComponent(InicioPasajeroPage); // Cambio de nombre aquí
+    component = fixture.componentInstance; // Cambio de nombre aquí
     fixture.detectChanges();
   }));
 
