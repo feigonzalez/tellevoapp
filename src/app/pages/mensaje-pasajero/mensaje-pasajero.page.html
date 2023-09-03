@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="#1e1e1e">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/home" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-item class="item-background-color" lines="none">
+      <ion-label>{{chat.uname}}</ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" padding class="background">
+  <ion-card>
+    <ion-card-content>
+      <ion-grid id="mensajesContainer">
+        <ion-row *ngFor="let m of chat.mensajes" class="ion-align-items-center">
+          <ion-col *ngIf="m[0]==0" size="12" class="enviado">
+            <span class="mensaje">{{m[1]}}</span>
+          </ion-col>
+          <ion-col *ngIf="m[0]==1" class="recibido" size="12">
+            <span class="mensaje">{{m[1]}}</span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-item style="--inner-padding-end:0">
+    <ion-input placeholder="Mensaje" [(ngModel)]="mensajeInput"></ion-input>
+    <ion-button size="large" item-right style="--border-radius:0;margin:0" (click)="enviarMensaje()">
+      <ion-icon name="send-sharp"></ion-icon>
+    </ion-button>
+  </ion-item>
+</ion-footer>

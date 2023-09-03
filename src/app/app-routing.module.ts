@@ -66,6 +66,10 @@ const routes: Routes = [
     path: 'buzon-pasajero',
     loadChildren: () => import('./pages/buzon-pasajero/buzon-pasajero.module').then( m => m.BuzonPasajeroPageModule)
   },
+  {
+    path: 'mensaje-pasajero',
+    loadChildren: () => import('./pages/mensaje-pasajero/mensaje-pasajero.module').then( m => m.MensajePasajeroPageModule)
+  },
 
 ];
 
