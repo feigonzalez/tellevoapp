@@ -37,7 +37,6 @@ export class PerfilConductorPage implements OnInit {
     });
   }
 
-
   async showToast(text:string,type:string) {
     const toast = await this.toastController.create({
       message: text,

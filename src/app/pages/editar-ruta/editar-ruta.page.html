@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="/inicio-conductor" text="Cancelar"></ion-back-button>
       </ion-buttons>
       <ion-item class="item-background-color" lines="none">
-        <ion-input [(ngModel)]=ruta.nombre></ion-input>
+        <ion-input placeholder="Nombre de la Ruta" [(ngModel)]=ruta.nombre></ion-input>
       </ion-item>
   </ion-toolbar>
 </ion-header>
@@ -26,26 +26,32 @@
     <ion-row class="display-labels">
       <ion-col>
         <ion-item lines="none" class="ion-text-center">
-          <span>Tarifa</span>
+          <span>
+            Tarifa
+            <div class="formErrorMessage" *ngIf="formErrors['tarifa_low']">Debe ser mayor a 0</div>
+          </span>
         </ion-item>
       </ion-col> 
       <ion-col>
         <ion-item lines="none">
-          <span>Hora de Salida</span>
+          <span>
+            Hora de Salida
+            <div class="formErrorMessage" *ngIf="formErrors['hora_range'] || formErrors['minuto_range']">Hora inválida</div>
+          </span>
         </ion-item>
       </ion-col> 
     </ion-row>
     <ion-row class="display-values">
       <ion-col>
         <ion-item lines="none">
-          <ion-input type="number" [(ngModel)]="ruta.tarifa"></ion-input>
+          <ion-input type="number" [(ngModel)]="ruta.tarifa" (input)="validarTarifa()"></ion-input>
         </ion-item>
       </ion-col> 
       <ion-col>
         <ion-item lines="none">
-          <ion-input [(ngModel)]="salidaHora" type="number"></ion-input>
+          <ion-input [(ngModel)]="salidaHora" type="number" (input)="validarHora()"></ion-input>
           :
-          <ion-input [(ngModel)]="salidaMinuto" type="number"></ion-input>
+          <ion-input [(ngModel)]="salidaMinuto" type="number" (input)="validarMinuto()"></ion-input>
         </ion-item>
       </ion-col> 
     </ion-row>
