@@ -17,19 +17,25 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-item>
-        <ion-label position="floating">Nombre</ion-label>
-        <ion-input type="text" required [value]="usuario.nombre"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Apellido</ion-label>
-        <ion-input type="text" required [value]="usuario.apellido"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Patente de mi Vehículo</ion-label>
-        <ion-input type="text" required [value]="usuario.patente"></ion-input>
-      </ion-item>
-      <div style="text-align: center;"><ion-button color="grey" (click)="actualizarDatos()">Actualizar datos</ion-button></div>
+      <form (ngSubmit)="actualizarDatos()" [formGroup]="formDatos">
+        <ion-item>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input formControlName="nombre" type="text" [(ngModel)]="usuario.nombre" required (input)="validarNombre()"></ion-input>
+        </ion-item>
+          <div class="formErrorMessage" *ngIf="formErrors['nombre_empty']">Este campo es obligatorio</div>
+        <ion-item>
+          <ion-label position="floating">Apellido</ion-label>
+          <ion-input formControlName="apellido" type="text" [(ngModel)]="usuario.apellido" required (input)="validarApellido()"></ion-input>
+        </ion-item>
+          <div class="formErrorMessage" *ngIf="formErrors['apellido_empty']">Este campo es obligatorio</div>
+        <ion-item>
+          <ion-label position="floating">Patente de mi Vehículo</ion-label>
+          <ion-input formControlName="patente" type="text" [(ngModel)]="usuario.patente" required  (input)="validarPatente()"></ion-input>
+        </ion-item>
+        <div class="formErrorMessage" *ngIf="formErrors['patente_empty']">Este campo es obligatorio</div>
+        <div class="formErrorMessage" *ngIf="!formErrors['patente_empty'] && formErrors['patente_invalid']">Patente inválida</div>
+        <div style="text-align: center;"><ion-button type="submit" color="grey">Actualizar datos</ion-button></div>
+      </form>
     </ion-card-content>
   </ion-card>
   <ion-card>
@@ -39,12 +45,20 @@
     <ion-card-content>
       <ion-item>
         <ion-label position="floating">Contraseña</ion-label>
-        <ion-input type="password" required></ion-input>
+        <ion-input [(ngModel)]="newPassA" type="password" required (input)="validarContraA()"></ion-input>
       </ion-item>
+        <div class="formErrorMessage" *ngIf="formErrors['passA_empty']">Este campo es obligatorio</div>
+        <div class="formErrorMessage" *ngIf="formErrors['passA_short']">Contraseña demasiado corta</div>
+        <div class="formErrorMessage" *ngIf="formErrors['passA_long']">Contraseña demasiado larga</div>
+        <div class="formErrorMessage" *ngIf="formErrors['passA_number']">Incluya un dígito numérico</div>
+        <div class="formErrorMessage" *ngIf="formErrors['passA_upper']">Incluya una letra mayúscula</div>
+        <div class="formErrorMessage" *ngIf="formErrors['passA_special']">Incluya un caracter especial</div>
       <ion-item>
         <ion-label position="floating">Repetir Contraseña</ion-label>
-        <ion-input type="password" required></ion-input>
+        <ion-input [(ngModel)]="newPassB" type="password" required (input)="validarContraB()"></ion-input>
       </ion-item>
+        <div class="formErrorMessage" *ngIf="formErrors['passB_empty']">Este campo es obligatorio</div>
+        <div class="formErrorMessage" *ngIf="formErrors['passB_match']">Las contraseñas no coinciden</div>
       <div style="text-align: center;"><ion-button color="grey" (click)="actualizarContrasena()">Actualizar contraseña</ion-button></div>
     </ion-card-content>
   </ion-card>

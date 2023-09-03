@@ -66,3 +66,13 @@ ion-button.round-icon{
     width:40px !important;
     overflow:clip
 }
+
+.formErrorMessage{
+    text-align:center;
+    color:var(--ion-color-danger);
+    font-size:0.8rem
+}
+
+.color-danger{
+    color:var(--ion-color-danger) !important;
+}
