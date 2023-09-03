@@ -54,7 +54,8 @@ export class EditarRutaPage implements OnInit {
           role:"confirm",
           cssClass:"color-danger",
           handler:()=>{
-            this.router.navigate(["/inicio-conductor"]);
+            this.location.back();
+            this.location.back();
           }
         }
       ],
@@ -120,8 +121,7 @@ export class EditarRutaPage implements OnInit {
 
   eliminarRuta(){
     console.log("!:eliminarRuta()");
-    this.location.back();
-    this.location.back();
+    this.alertaEliminar();
   }
 
 }
