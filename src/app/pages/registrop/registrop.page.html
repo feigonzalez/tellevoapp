@@ -3,11 +3,9 @@
     <ion-buttons slot="start">
       <ion-back-button style="color: white;" defaultHref="/home" text="Volver"></ion-back-button>
     </ion-buttons>
-    <ion-title style=" color: white;">Registro de pasajero</ion-title>
+    <ion-title style=" color: white;">Registro de Conductor</ion-title>
   </ion-toolbar>
 </ion-header>
-
-
 
 
 <ion-content>
@@ -15,56 +13,98 @@
   <ion-card-content style="margin-top: 2rem;">
     <div style="text-align: center;">
       <ion-card-content style="margin-top: 1rem; background-color: white;">
-        <div style="text-align: center;"><ion-text style="font-size: 20px; font-weight: bold; color: #1e1e1e;">Crea tu cuenta como Pasajero</ion-text></div>
+        <div style="text-align: center;"><ion-text style="font-size: 20px; font-weight: bold; color:#1e1e1e;;">Crea tu cuenta como Pasajero</ion-text></div>
       </ion-card-content>
     </div>
   </ion-card-content>
   <ion-card-content style="margin-top: 1rem;">
     <ion-card-content style="margin-top: -2rem; background-color: white ;">
+ 
 
-      <ion-label position="floating">Nombre Completo</ion-label>
-      <ion-input placeholder="Nombre completo" type="text" required></ion-input>
+      <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
+        <ion-item>
+          <ion-input name="nombre" type="text" placeholder="Nombre Completo" id="nombre" required
+            formControlName="nombre">
+            <ion-icon name="person-outline"></ion-icon>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="contactForm.get('nombre')?.touched && contactForm.get('nombre')?.errors?.['required']">Este campo es
+          obligatorio</div>
+        <div *ngIf="contactForm.get('nombre')?.touched && contactForm.get('nombre')?.errors?.['minlength']">El campo
+          tiene que tener un largo mayor a 3 caracteres</div>
+        <ion-item>
+          <ion-input name="pass" type="password" placeholder="Contraseña" id="pass" required formControlName="pass">
+            <ion-icon name="key-outline"></ion-icon>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.errors?.['required']">Este campo es
+          obligatorio</div>
+        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.errors?.['minlength']">La contraseña
+          tiene que ser mayor a 6 caracteres</div>
+        <ion-item>
+          <ion-input name="pass2" type="password" placeholder="Repita la contraseña" id="pass2" required
+            formControlName="pass2">
+            <ion-icon name="key-outline"></ion-icon>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="contactForm.get('pass2')?.touched && contactForm.get('pass2')?.errors?.['required']">Este campo es
+          obligatorio</div>
+        <div *ngIf="contactForm.get('pass2')?.touched && contactForm.get('pass2')?.errors?.['minlength']">La contraseña
+          tiene que ser mayor a 6 caracteres</div>
+        <ion-item>
+          <ion-input name="telefono" type="number" placeholder="Numero de telefono" id="telefono" required
+            formControlName="telefono">
+            <ion-icon name="call-outline"></ion-icon>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="contactForm.get('telefono')?.touched && contactForm.get('telefono')?.errors?.['required']">Este
+          campo es obligatorio</div>
+        <div *ngIf="contactForm.get('telefono')?.touched && contactForm.get('telefono')?.errors?.['minlength']">Ingrese
+          un número de teléfono válido</div>
+        <ion-item>
+          <ion-input name="email" type="text" placeholder="nombre@belleduca.cl" id="email" required
+            formControlName="email">
+            <ion-icon name="mail-outline"></ion-icon>
+          </ion-input>
+        </ion-item>
+        <div *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.errors?.['required']">Este campo es
+          obligatorio</div>
+        <div *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.errors?.['email']">Ingrese un correo
+          válido</div>
 
-      <ion-label position="floating">Correo</ion-label>
-      <ion-input type="email" placeholder="Correo electrónico" required></ion-input>
-
-      <ion-label position="">Nacimiento</ion-label>
-      <ion-input type="date" required></ion-input>
-
-      <ion-label position="floating">RUT</ion-label>
-      <ion-input type="text"placeholder="000.000.000-0" required></ion-input>
-
-
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password"placeholder="Contraseña" required></ion-input>
-
-      <ion-label position="floating">Repetir Contraseña</ion-label>
-      <ion-input type="password" placeholder="Repetir contraseña"required></ion-input>  
+          <br>
+          <div class="center-div">        
+          <mat-radio-group aria-label="Select an option">
+            <mat-radio-button value="1">Femenino</mat-radio-button>
+            <mat-radio-button value="2">Masculino</mat-radio-button>
+          </mat-radio-group>
+         </div>
 
 
-      <ion-label position="floating">Elija su género: </ion-label>
-      <br>
-      <mat-radio-group aria-label="Select an option">
-        <mat-radio-button value="1">Femenino</mat-radio-button>
-        <mat-radio-button value="2">Masculino</mat-radio-button>
-      </mat-radio-group>
+          <div style="text-align: center;">
+            <ion-card-content style="margin-top: 20px; background-color: white;">
+              <ion-text style="text-align: center;font-size: 12px; color: var(--ion-color-medium)">Al hacer clic en "Registrarse", aceptas nuestra <a href="#">Política de Privacidad</a> y nuestros <a href="#">Términos y Condiciones</a>.</ion-text>
+            </ion-card-content>
+            </div>
+        <div class="sign-btn-wrap">
+          <ion-button fill="solid" shape="round" class="recuperar" type="submit" [disabled]="contactForm.invalid"
+            [routerLink]="'/'" (click)="openSnackBar('Ya puedes iniciar sesión','Cerrar')" matRipple [matRippleCentered]="false"
+            [matRippleRadius]="30" [matRippleColor]="'#1e1e1e'">Registrarse </ion-button>
+        </div>
+      </form>
+
 
 
 
 
 
     </ion-card-content>
-    <div style="text-align: center;">
-    <ion-card-content style="margin-top: 20px; background-color: white;">
-      <ion-text style="text-align: center;font-size: 12px; color: var(--ion-color-medium)">Al hacer clic en "Registrarse", aceptas nuestra <a href="#">Política de Privacidad</a> y nuestros <a href="#">Términos y Condiciones</a>.</ion-text>
-    </ion-card-content>
-    </div>
-    <div style="text-align: center;">
-      <br>
-      <div style="text-align: center;"><ion-button color="grey">Registrarse como conductor.</ion-button></div>
-    </div>
+
+
+
+
   </ion-card-content>
-</ion-content>
+
 </ion-content>
 
 
