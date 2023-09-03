@@ -28,7 +28,8 @@
         <ion-item lines="none" class="ion-text-center">
           <span>
             Tarifa
-            <div class="formErrorMessage" *ngIf="formErrors['tarifa_low']">Debe ser mayor a 0</div>
+            <div class="formErrorMessage" *ngIf="formErrors['tarifa_nan']">Ingrese un número</div>
+            <div class="formErrorMessage" *ngIf="!formErrors['tarifa_nan'] && formErrors['tarifa_low']">Debe ser mayor a 0</div>
           </span>
         </ion-item>
       </ion-col> 
@@ -37,6 +38,7 @@
           <span>
             Hora de Salida
             <div class="formErrorMessage" *ngIf="formErrors['hora_range'] || formErrors['minuto_range']">Hora inválida</div>
+            <div class="formErrorMessage" *ngIf="formErrors['hora_nan'] || formErrors['minuto_nan']">Hora inválida</div>
           </span>
         </ion-item>
       </ion-col> 

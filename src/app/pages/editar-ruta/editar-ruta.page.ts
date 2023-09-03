@@ -89,7 +89,7 @@ export class EditarRutaPage implements OnInit {
           ruta:this.ruta,
           viewType:"view"
         }}
-        ne.state.ruta.horaSalida=this.salidaHora+":"+this.salidaMinuto;
+        ne.state.ruta.horaSalida=String(this.salidaHora).padStart(2,"0")+":"+String(this.salidaMinuto).padStart(2,"0");
         this.router.navigate(['/ver-ruta'],ne)
       }
     }
@@ -98,6 +98,9 @@ export class EditarRutaPage implements OnInit {
   validarTarifa(){
     let valid=true;
     this.formErrors["tarifa_low"]=false;
+    this.formErrors["tarifa_nan"]=false;
+    if(isNaN(Number(this.ruta.tarifa)) || this.ruta.tarifa===null){
+      this.formErrors["tarifa_nan"]=true; valid=false;}
     if(this.ruta.tarifa<=0){
       this.formErrors["tarifa_low"]=true; valid=false;}
     return valid;
@@ -106,6 +109,9 @@ export class EditarRutaPage implements OnInit {
   validarHora(){
     let valid=true;
     this.formErrors["hora_range"]=false;
+    this.formErrors["hora_nan"]=false;
+    if(isNaN(Number(this.salidaHora)) || this.salidaHora===null){
+      this.formErrors["hora_nan"]=true; valid=false;}
     if(this.salidaHora<0 || this.salidaHora>23){
       this.formErrors["hora_range"]=true; valid=false;}
     return valid;
@@ -114,6 +120,9 @@ export class EditarRutaPage implements OnInit {
   validarMinuto(){
     let valid=true;
     this.formErrors["minuto_range"]=false;
+    this.formErrors["minuto_nan"]=false;
+    if(isNaN(Number(this.salidaMinuto)) || this.salidaMinuto===null){
+      this.formErrors["minuto_nan"]=true; valid=false;}
     if(this.salidaMinuto<0 || this.salidaMinuto>59){
       this.formErrors["minuto_range"]=true; valid=false;}
     return valid;
