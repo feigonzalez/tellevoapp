@@ -21,7 +21,7 @@
     <ion-card-content style="top: 2rem;">      
     
       <ion-item   > 
-    <ion-input type="text" placeholder="Usuario"></ion-input>
+    <ion-input  [(ngModel)]="username" type="text" placeholder="Usuario"></ion-input>
     </ion-item>
     
     <br>
@@ -32,7 +32,7 @@
     
     <br>
     
-    <div style="text-align: center;"><ion-button color="grey"[routerLink]="['/inicio-conductor']">Iniciar sesión.</ion-button></div>
+    <div style="text-align: center;"><ion-button (click)="conductor()"(click)="pasajero()" >Iniciar sesión.</ion-button></div>
     <div style="text-align: center;"><ion-button color="grey"[routerLink]="['/menure']">Registrarse.</ion-button></div>
 
 

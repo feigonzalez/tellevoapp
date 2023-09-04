@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+
 const routes: Routes = [
   {
     path: 'home',
@@ -30,7 +31,8 @@ const routes: Routes = [
   {
     path: 'menure',
     loadChildren: () => import('./pages/menure/menure.module').then( m => m.MenurePageModule)
-  },  {
+  },
+  {
     path: 'ver-ruta',
     loadChildren: () => import('./pages/ver-ruta/ver-ruta.module').then( m => m.VerRutaPageModule)
   },
