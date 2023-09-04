@@ -10,28 +10,45 @@ import { NavController } from '@ionic/angular';
 export class HomePage {
 
   username: string = '';
+  password: string = '';
+  showErrorMessage: boolean = false; // Initialize the error message variable
+
 
   constructor(private navCtrl: NavController) {}
 
   conductor() {
-    if (this.username.toLowerCase() === 'conductor') {
-      // Redirect to another page (replace 'target-page' with your actual page route)
+    // Definimos el usuario y contraseña correcta
+    const correctUsername = 'conductor';
+    const correctPassword = '123';
+    
+    
+
+    if (this.username.toLowerCase() === correctUsername && this.password === correctPassword) {
+      // Redirección correcta en caso de inputs correctos wajajajaj
       this.navCtrl.navigateForward('/inicio-conductor');
-    }
-     else {
-      // Handle incorrect input or show an error message
-      console.log('Error en inicio de sesión.');
+    } else {
+      // Mensaje incorrecto
+      this.showErrorMessage = true;
+
     }
   }
+
   pasajero() {
-    if (this.username.toLowerCase() === 'pasajero') {
-      // Redirect to another page (replace 'target-page' with your actual page route)
+    // Definimos el usuario y contraseña correcta
+    const correctUsername = 'pasajero';
+    const correctPassword = '123';
+
+    if (this.username.toLowerCase() === correctUsername && this.password === correctPassword) {
+      // Redirección correcta en caso de inputs correctos wajajajaj
       this.navCtrl.navigateForward('/inicio-pasajero');
-    }
-     else {
-      // Handle incorrect input or show an error message
-      console.log('Error en inicio de sesión.');
+    } else {
+      // Mensaje incorrecto
+      this.showErrorMessage = true;
+
     }
   }
+
+
+
 }
 

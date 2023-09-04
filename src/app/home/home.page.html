@@ -27,11 +27,18 @@
     <br>
     
     <ion-item border-radius="10">
-      <ion-input type="password" placeholder="Contraseña"></ion-input>
+      <ion-input type="password" [(ngModel)]="password"type="password" placeholder="Contraseña"></ion-input>
     </ion-item>
     
     <br>
-    
+     
+    <div *ngIf="showErrorMessage" class="error-message">
+      
+      Error al iniciar sesión
+      
+    </div>
+ 
+    <br>
     <div style="text-align: center;"><ion-button (click)="conductor()"(click)="pasajero()" >Iniciar sesión.</ion-button></div>
     <div style="text-align: center;"><ion-button color="grey"[routerLink]="['/menure']">Registrarse.</ion-button></div>
 

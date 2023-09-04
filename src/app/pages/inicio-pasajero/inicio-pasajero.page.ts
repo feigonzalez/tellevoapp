@@ -65,6 +65,8 @@ export class InicioPasajeroPage implements OnInit {
 
   salirCuenta(){
     console.log("!:salirCuenta()");
+    //salir de la cuenta. borrar la sesión y todo eso
+    this.router.navigate(['/'])
   }
-
 }
+
