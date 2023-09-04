@@ -1,8 +1,5 @@
-import { Component, OnInit, ElementRef, ViewChildren, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import type { QueryList } from '@angular/core';
-import type { Animation } from '@ionic/angular';
-import { AnimationController, IonCard } from '@ionic/angular';
 
 @Component({
   selector: 'app-inicio-pasajero',
@@ -10,75 +7,69 @@ import { AnimationController, IonCard } from '@ionic/angular';
   styleUrls: ['./inicio-pasajero.page.scss'],
 })
 export class InicioPasajeroPage implements OnInit {
-  @ViewChild(IonCard, { read: ElementRef }) card: ElementRef<HTMLIonCardElement>;
-  private animation: Animation;
 
-  viajes: any = [
+  rutas : any = [
     {
       id: 1,
-      nombre: "Viaje 1",
-      distancia: 13.7,
-      duracion: 18,
-      tarifa: 3000,
-      horaSalida: "18:30"
-    },
-    {
-      id: 2,
-      nombre: "Viaje 2",
-      distancia: 16.3,
-      duracion: 21,
-      tarifa: 4000,
-      horaSalida: "14:00"
+        nombre: "Viaje 1",
+        distancia: 13.7,
+        duracion: 18,
+        tarifa: 3000,
+        horaSalida: "18:30"
+      },
+      {
+        id: 2,
+        nombre: "Viaje 2",
+        distancia: 16.3,
+        duracion: 21,
+        tarifa: 4000,
+        horaSalida: "14:00"
+      }
+    ]
+  
+    usuario: any = {
+      nombre: "Tulio",
+      apellido: "Triviño",
+      imagen: "assets/icon/user_tulio.jpg"
     }
-  ]
 
-  usuario: any = {
-    nombre: "Tulio",
-    apellido: "Triviño",
-    imagen: "assets/icon/user_tulio.jpg"
+  constructor(private router: Router) { }
+
+  ngOnInit() {
   }
 
-  constructor(private router: Router,private animationCtrl: AnimationController)  {
-
+  crearRuta(){
+    console.log("!:crearRuta()")
+    //se crea una ruta nueva, y se redirige a la interfaz "editar-ruta"
+    let ne:any={state:{
+      ruta:{
+         id:-1,
+         nombre:"Nueva Ruta",
+         longitud:0,
+         duracion:0,
+         tarifa:0,
+         horaSalida:"00:00"},
+      viewType:"new"
+      }
+    }
+    this.router.navigate(['/ver-ruta'],ne)
   }
 
-  ngOnInit(): void {
-  }
-  ngAfterViewInit() {
-    this.animation = this.animationCtrl
-      .create()
-      .addElement(this.card.nativeElement)
-      .duration(1500)
-      .iterations(Infinity)
-      .fromTo('transform', 'translateX(0px)', 'translateX(100px)')
-      .fromTo('opacity', '1', '0.2');
-  }
-  play() {
-    this.animation.play();
-  }
-  solicitarViaje() {
-    console.log("Solicitar Viaje");
-    // Aquí puedes agregar la lógica para solicitar un viaje
-  }
-
-  getViajeFromId(id: number) {
-    let res: any = null;
-    this.viajes.forEach((v: any) => {
-      if (v.id == id) res = v;
+  getRutaFromId(id:number){
+    let res:any=null;
+    this.rutas.forEach((r:any)=>{
+      if(r.id==id) res = r;
     })
     return res;
   }
 
-  verViaje(id: number) {
-    console.log("Ver Viaje(" + id + ")");
-    let ne: any = {
-      state: {
-        viaje: this.getViajeFromId(id),
-        viewType: "view"
-      }
-    }
-    //la página "ver-viaje" no existe. cuando se cree, descomentar esta línea
-    //this.router.navigate(['/ver-viaje'], ne); // Asegúrate de tener una ruta 'ver-viaje'
+  verRuta(id:number){
+    console.log("!:verRuta("+id+")")
+    let ne:any={state:{
+      ruta:this.getRutaFromId(id),
+      viewType:"view"
+    }}
+    this.router.navigate(['/ver-ruta'],ne)
   }
 
   salirCuenta(){
@@ -87,4 +78,3 @@ export class InicioPasajeroPage implements OnInit {
     this.router.navigate(['/'])
   }
 }
-

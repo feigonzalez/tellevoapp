@@ -21,22 +21,21 @@
   </ion-toolbar>
 </ion-header>
 
-
-<ion-content [fullscreen]="true">
-  <ion-content padding class="background">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title style="color: #1e1e1e;" class="ion-text-center">Viajes</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list lines="full">
-
-          <ion-item *ngFor="let viaje of viajes" (click)="verViaje(viaje.id)">
-            <ion-label style="--padding-start:1rem">{{ viaje.nombre }}</ion-label>
-            <ion-label class="ion-text-right">{{ viaje.distancia }} Km / {{ viaje.duracion }} min</ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
-  </ion-content>
+<ion-content [fullscreen]="true" padding class="background">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title style="color: #1e1e1e;" class="ion-text-center">Rutas</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="full">
+        <!-- esta lista debe tener una altura fija, cosa que el botón de "añadir ruta"
+          salga al fondo de la pagina siempre-->
+        <ion-item *ngFor="let ruta of rutas" (click)="verRuta(ruta.id)">
+          <ion-label style="--padding-start:1rem">{{ruta.nombre}}</ion-label>
+          <ion-label class="ion-text-right">{{ruta.longitud}}Km / {{ruta.duracion}}min</ion-label>
+        </ion-item>
+      </ion-list>
+      <div style="text-align: center;"><ion-button color="grey" >Rutas disponibles</ion-button></div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
