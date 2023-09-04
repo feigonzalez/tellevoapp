@@ -10,25 +10,34 @@
 
 <ion-content padding class="background">
 
-  
- 
-
-
-<ion-card-content style="top: 15rem;" >      
+  <br style = "line-height:100rem;">
+  <div class="container custom-spacing">
+    <!-- Your content here -->
+</div>
+<ion-card-content  >      
   
   
     
-  
-  <div style="text-align: center;"><ion-button color="grey" [routerLink]="['/registroc']" >Soy conductor.</ion-button></div>
-  <div style="text-align: center;"><ion-button color="grey" [routerLink]="['/registrop']" >Soy pasajero.</ion-button></div>
-
+  <ion-card #card class="transparent-card">
+  <div style="text-align: center;"><ion-button [routerLink]="['/registroc']" >Soy conductor.</ion-button></div>
+  <div style="text-align: center;"><ion-button  [routerLink]="['/registrop']" >Soy pasajero.</ion-button></div>
+  </ion-card> 
 
   
   
 </ion-card-content>
 
+<div class="container custom-spacing">
+  <!-- Your content here -->
+</div>
+<br>
+ 
+<ion-card class="transparent-card"> 
+  <div style="text-align: center;">
+<ion-button (click)="play()">Ocultar</ion-button>
+<ion-button (click)="stop()">Mostrar</ion-button>
+</div>
+</ion-card> 
 
 
-
-
-
+</ion-content>

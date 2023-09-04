@@ -1,15 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChildren, ViewChild } from '@angular/core';
+import type { QueryList } from '@angular/core';
+import type { Animation } from '@ionic/angular';
+import { AnimationController, IonCard } from '@ionic/angular';
 
 @Component({
   selector: 'app-menure',
   templateUrl: './menure.page.html',
   styleUrls: ['./menure.page.scss'],
 })
-export class MenurePage implements OnInit {
+export class MenurePage  {
+  @ViewChild(IonCard, { read: ElementRef }) card: ElementRef<HTMLIonCardElement>;
 
-  constructor() { }
+  private animation: Animation;
 
-  ngOnInit() {
+  constructor(private animationCtrl: AnimationController) {}
+
+  ngAfterViewInit() {
+    this.animation = this.animationCtrl
+      .create()
+      .addElement(this.card.nativeElement)
+      .duration(1500)
+      .iterations(1)
+      .fromTo('transform', 'translateX(0px)', 'translateX(100px)')
+      .fromTo('opacity', '1', '0');
   }
 
+  play() {
+    this.animation.play();
+  }
+
+  pause() {
+    this.animation.pause();
+  }
+
+  stop() {
+    this.animation.stop();
+  }
 }
+
+
+

@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChildren, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import type { QueryList } from '@angular/core';
+import type { Animation } from '@ionic/angular';
+import { AnimationController, IonCard } from '@ionic/angular';
 
 @Component({
   selector: 'app-inicio-pasajero',
@@ -7,6 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./inicio-pasajero.page.scss'],
 })
 export class InicioPasajeroPage implements OnInit {
+  @ViewChild(IonCard, { read: ElementRef }) card: ElementRef<HTMLIonCardElement>;
+  private animation: Animation;
 
   viajes: any = [
     {
@@ -33,11 +38,24 @@ export class InicioPasajeroPage implements OnInit {
     imagen: "assets/icon/user_tulio.jpg"
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private animationCtrl: AnimationController)  {
 
-  ngOnInit() {
   }
 
+  ngOnInit(): void {
+  }
+  ngAfterViewInit() {
+    this.animation = this.animationCtrl
+      .create()
+      .addElement(this.card.nativeElement)
+      .duration(1500)
+      .iterations(Infinity)
+      .fromTo('transform', 'translateX(0px)', 'translateX(100px)')
+      .fromTo('opacity', '1', '0.2');
+  }
+  play() {
+    this.animation.play();
+  }
   solicitarViaje() {
     console.log("Solicitar Viaje");
     // Aquí puedes agregar la lógica para solicitar un viaje

@@ -17,7 +17,6 @@
     font-size: 16px;
     line-height: 22px;
   
-    color: #8c8c8c;
   
     margin: 0;
   }
@@ -31,13 +30,14 @@
   ion-button {
     border-radius: 10px;
     background-color: #1e1e1e;;
-    color: white;
     width: 80%;
     height: 50px;
     align-items:center;
     justify-content:center;
   }
-
+  .custom-spacing {
+    margin: 14rem;
+}
   ion-item {
     border-radius: 10px;
   }
@@ -52,7 +52,9 @@ justify-content:center;
     
   }
 
-
+  .transparent-card {
+    background: transparent;
+}
   .center-container {
     display: flex;
     justify-content: center;
