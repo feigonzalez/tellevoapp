@@ -1,27 +1,5 @@
-/* Cambia el selector de clase a .round-icon en lugar de ion-button.round-icon */
-.round-icon {
-    --border-radius: 50%;
-    height: 40px;
-    width: 40px;
-    font-size: 1rem;
-  }
-  
-  /* Cambia el selector de clase en .display-labels a .display-labels-pasajero */
-  .display-labels-pasajero span {
-    display: block;
-    font-size: 1rem;
-    color: gray;
-    padding: 0.2rem;
-    text-align: center;
-    width: 100%;
-  }
-  
-  /* Cambia el selector de clase en .display-values a .display-values-pasajero */
-  .display-values-pasajero span {
-    display: block;
-    font-size: 2rem;
-    padding: 0.2rem;
-    text-align: center;
-    width: 100%;
-  }
-  
+ion-button.round-icon{--border-radius:50%;height:40px;width:40px;font-size:1rem}
+.display-labels span{display:block;font-size:1rem;color:gray;padding:0.2rem;
+    text-align:center;width:100%}
+.display-values span{display:block;font-size:2rem;padding:0.2rem;text-align:center;
+    width:100%}

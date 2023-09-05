@@ -10,26 +10,23 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-fab slot="fixed" vertical="top" horizontal="end">
-    <ion-fab-button size="large" color="dark" (click)="editarRuta()">
-      <ion-icon name="pencil"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+ 
+  
   <app-map [viewType]="viewType"></app-map>
 </ion-content>
 
 <ion-footer>
-  <ion-button expand="block" size="large" style="margin:1rem" (click)="comenzarViaje()">Comenzar viaje</ion-button>
+  <ion-button expand="block" size="large" style="margin:1rem" (click)="comenzarViaje()">Tomar viaje.</ion-button>
   <ion-grid>
     <ion-row class="display-labels">
       <ion-col>
         <ion-item lines="none" class="ion-text-center">
-          <span>Tarifa</span>
+          <span>Tarifa.</span>
         </ion-item>
       </ion-col> 
       <ion-col>
         <ion-item lines="none">
-          <span>Hora de Salida</span>
+          <span>Hora de Salida.</span>
         </ion-item>
       </ion-col> 
     </ion-row>

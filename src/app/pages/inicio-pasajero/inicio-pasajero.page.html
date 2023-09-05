@@ -20,7 +20,6 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true" padding class="background">
   <ion-card>
     <ion-card-header>
@@ -32,10 +31,10 @@
           salga al fondo de la pagina siempre-->
         <ion-item *ngFor="let ruta of rutas" (click)="verRuta(ruta.id)">
           <ion-label style="--padding-start:1rem">{{ruta.nombre}}</ion-label>
-          <ion-label class="ion-text-right">{{ruta.longitud}}Km / {{ruta.duracion}}min</ion-label>
+          <ion-label class="ion-text-right">{{ruta.longitud}}Km. / {{ruta.duracion}}Min.</ion-label>
         </ion-item>
       </ion-list>
-      <div style="text-align: center;"><ion-button color="grey" >Rutas disponibles</ion-button></div>
+      
     </ion-card-content>
   </ion-card>
 </ion-content>

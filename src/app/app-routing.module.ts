@@ -72,6 +72,11 @@ const routes: Routes = [
     path: 'mensaje-pasajero',
     loadChildren: () => import('./pages/mensaje-pasajero/mensaje-pasajero.module').then( m => m.MensajePasajeroPageModule)
   },
+  {
+    path: 'viaje-pasajero',
+    loadChildren: () => import('./pages/viaje-pasajero/viaje-pasajero.module').then( m => m.ViajePasajeroPageModule)
+  },
+
 
 ];
 

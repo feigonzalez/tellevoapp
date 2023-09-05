@@ -52,7 +52,7 @@ export class InicioPasajeroPage implements OnInit {
       viewType:"new"
       }
     }
-    this.router.navigate(['/ver-ruta'],ne)
+    this.router.navigate(['/ver-ruta-pasajero'],ne)
   }
 
   getRutaFromId(id:number){
@@ -64,12 +64,12 @@ export class InicioPasajeroPage implements OnInit {
   }
 
   verRuta(id:number){
-    console.log("!:verRuta("+id+")")
+    console.log("!:verRutaPasajero("+id+")")
     let ne:any={state:{
       ruta:this.getRutaFromId(id),
       viewType:"view"
     }}
-    this.router.navigate(['/ver-ruta'],ne)
+    this.router.navigate(['/ver-ruta-pasajero'],ne)
   }
 
   salirCuenta(){
