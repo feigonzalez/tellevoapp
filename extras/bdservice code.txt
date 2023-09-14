@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
+import { AlertController, Platform } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
@@ -6,12 +9,61 @@ import { Injectable } from '@angular/core';
 })
 export class BdserviceService {
 
+  public database!:SQLiteObject;
+
+  tablaNoticia = new BehaviorSubject([]);
+
+  private isDBReady : BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  createTableStmt="CREATE TABLE IF NOT EXISTS noticia (id INTEGER PRIMARY KEY AUOINCREMENT, titulo VARCHAR(100) NOT NUL, texto VARCHAR(300) NOT NULL);";
+  populateTableStmt="INSERT OR IGNORE INTO noticia (id, titulo, texto) VALUES (1,'Soy un titulo','Soy un texto largo de noticia');";
   
-  
-  constructor() { 
-    
+  constructor(private sqlite:SQLite, private platform: Platform,private alertController:AlertController) { 
+    this.crearDB();
   }
 
-  
+  async presentAlert(msg:string) {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      subHeader: 'Important message',
+      message: msg,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
+  dbState(){
+    return this.isDBReady.asObservable();
+
+  }
+
+  fetchNoticias(){
+
+  }
+
+  crearDB(){
+    this.platform.ready().then(()=>{
+      this.sqlite.create({
+        name:"bdnoticia.db",
+        location:"default"
+      }).then((db: SQLiteObject)=>{
+        this.database = db;
+        this.crearTablas();
+      }).catch(e=>{
+        this.presentAlert("ERROR al crear DB: "+ e);
+      })
+    })
+  }
+
+  async crearTablas(){
+    try{
+      await this.database.executeSql(this.createTableStmt,[]);
+      await this.database.executeSql(this.populateTableStmt,[]);
+      this.isDBReady.next(true)
+    } catch(e){
+      this.presentAlert("ERROR al crear tablas: "+ e);
+    }
+  }
 }
 
