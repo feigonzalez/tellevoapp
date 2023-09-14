@@ -25,7 +25,7 @@ export class ModificarPage implements OnInit {
   ngOnInit() {
   }
 
-  editar(x:any){
+  editar(){
     this.db.modificar(this.idNoticia, this.tituloNoticia, this.textoNoticia);
     this.db.presentAlert("Noticia modificada");
     this.router.navigate(['/listar']);

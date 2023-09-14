@@ -17,7 +17,7 @@ export class BdserviceService {
 
   private isDBReady : BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  createTableStmt="CREATE TABLE IF NOT EXISTS noticia (id INTEGER PRIMARY KEY AUOINCREMENT, titulo VARCHAR(100) NOT NUL, texto VARCHAR(300) NOT NULL);";
+  createTableStmt="CREATE TABLE IF NOT EXISTS noticia (id INTEGER PRIMARY KEY AUTOINCREMENT, titulo VARCHAR(100) NOT NULL, texto VARCHAR(300) NOT NULL);";
   populateTableStmt="INSERT OR IGNORE INTO noticia (id, titulo, texto) VALUES (1,'Soy un titulo','Soy un texto largo de noticia');";
   
   constructor(private sqlite:SQLite, private platform: Platform,private alertController:AlertController) { 
@@ -66,7 +66,7 @@ export class BdserviceService {
       //se ejecuta buscar() aquí para probarla
       this.buscar()
     } catch(e){
-      this.presentAlert("ERROR al crear tablas: "+ e);
+      this.presentAlert("ERROR al crear tablas: "+ (e as Error).message);
     }
   }
 
@@ -84,7 +84,7 @@ export class BdserviceService {
       }
       this.tablaNoticia.next(items as any);
     }).catch((e)=>{
-      this.presentAlert("ERROR al buscar en 'noticias': "+ e);
+      this.presentAlert("ERROR al buscar en 'noticias': "+ (e as Error).message);
     })
   }
 
@@ -92,7 +92,7 @@ export class BdserviceService {
     return this.database.executeSql("INSERT INTO noticia (titulo, texto) VALUES (?, ?);",[titulo, texto]).then((res)=>{
       this.buscar();
     }).catch((e)=>{
-      this.presentAlert("ERROR al insertar en 'noticias': "+ e);
+      this.presentAlert("ERROR al insertar en 'noticias': "+ (e as Error).message);
     })
   }
 
@@ -100,7 +100,7 @@ export class BdserviceService {
     return this.database.executeSql("DELETE FROM noticia WHERE id = ?;",[id]).then((res)=>{
       this.buscar();
     }).catch((e)=>{
-      this.presentAlert("ERROR al eliminar desde 'noticias': "+ e);
+      this.presentAlert("ERROR al eliminar desde 'noticias': "+ (e as Error).message);
     })
   }
 
@@ -108,7 +108,7 @@ export class BdserviceService {
     return this.database.executeSql("UPDATE noticia SET titulo = ?, texto = ? WHERE id = ?;",[titulo, texto, id]).then((res)=>{
       this.buscar();
     }).catch((e)=>{
-      this.presentAlert("ERROR al modificar 'noticias': "+ e);
+      this.presentAlert("ERROR al modificar 'noticias': "+ (e as Error).message);
     })
   }
 }
