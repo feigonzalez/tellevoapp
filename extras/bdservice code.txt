@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { InjectSetupWrapper } from '@angular/core/testing';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { AlertController, Platform } from '@ionic/angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Noticia } from './noticia';
 
 
 @Injectable({
@@ -38,8 +40,8 @@ export class BdserviceService {
 
   }
 
-  fetchNoticias(){
-
+  fetchNoticias(): Observable<Noticia[]>{
+    return this.tablaNoticia.asObservable();
   }
 
   crearDB(){
@@ -61,9 +63,53 @@ export class BdserviceService {
       await this.database.executeSql(this.createTableStmt,[]);
       await this.database.executeSql(this.populateTableStmt,[]);
       this.isDBReady.next(true)
+      //se ejecuta buscar() aquí para probarla
+      this.buscar()
     } catch(e){
       this.presentAlert("ERROR al crear tablas: "+ e);
     }
+  }
+
+  buscar(){
+    return this.database.executeSql("SELECT * FROM noticia;",[]).then((res)=>{
+      let items: Noticia[] = [];
+      if(res.rows.length > 0){
+        for(var i=0 ; i<res.rows.length ; i++){
+          items.push({
+            id: res.rows.item(i).id,
+            titulo: res.rows.item(i).titulo,
+            texto: res.rows.item(i).texto
+          });
+        }
+      }
+      this.tablaNoticia.next(items as any);
+    }).catch((e)=>{
+      this.presentAlert("ERROR al buscar en 'noticias': "+ e);
+    })
+  }
+
+  agregar(titulo:any, texto:any){
+    return this.database.executeSql("INSERT INTO noticia (titulo, texto) VALUES (?, ?);",[titulo, texto]).then((res)=>{
+      this.buscar();
+    }).catch((e)=>{
+      this.presentAlert("ERROR al insertar en 'noticias': "+ e);
+    })
+  }
+
+  eliminar(id:any){
+    return this.database.executeSql("DELETE FROM noticia WHERE id = ?;",[id]).then((res)=>{
+      this.buscar();
+    }).catch((e)=>{
+      this.presentAlert("ERROR al eliminar desde 'noticias': "+ e);
+    })
+  }
+
+  modificar(id:any, titulo:any, texto:any){
+    return this.database.executeSql("UPDATE noticia SET titulo = ?, texto = ? WHERE id = ?;",[titulo, texto, id]).then((res)=>{
+      this.buscar();
+    }).catch((e)=>{
+      this.presentAlert("ERROR al modificar 'noticias': "+ e);
+    })
   }
 }
 
