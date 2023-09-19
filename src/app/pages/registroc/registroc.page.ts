@@ -9,10 +9,10 @@ import { AlertController, MenuController, NavController, ToastController } from 
   styleUrls: ['./registroc.page.scss'],
 })
 export class RegistrocPage implements OnInit {
-    user: string;
-    clave: string;
-    nroFono: number;
-    correo: string;
+    user: string ="";
+    clave: string = "";
+    nroFono: number = 0;
+    correo: string = "";
     contactForm!: FormGroup;
     form: FormGroup = new FormGroup({})
 

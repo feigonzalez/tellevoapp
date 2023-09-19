@@ -9,9 +9,9 @@ import { AnimationController, IonCard } from '@ionic/angular';
   styleUrls: ['./menure.page.scss'],
 })
 export class MenurePage  {
-  @ViewChild(IonCard, { read: ElementRef }) card: ElementRef<HTMLIonCardElement>;
+  @ViewChild(IonCard, { read: ElementRef }) card!: ElementRef<HTMLIonCardElement>;
 
-  private animation: Animation;
+  private animation!: Animation;
 
   constructor(private animationCtrl: AnimationController) {}
 
