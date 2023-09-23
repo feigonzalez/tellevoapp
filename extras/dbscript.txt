@@ -1,0 +1,72 @@
+CREATE TABLE calificaciones (
+    id_calificaciones  VARCHAR2(25 BYTE) NOT NULL,
+    calificacion       FLOAT NOT NULL,
+    usuario_id_usuario VARCHAR2(25 BYTE) NOT NULL
+);
+
+ALTER TABLE calificaciones ADD CONSTRAINT calificaciones_pk PRIMARY KEY ( id_calificaciones );
+
+CREATE TABLE detalle_viaje (
+    id_d_viaje VARCHAR2(25 BYTE) NOT NULL,
+    f_viaje    DATE NOT NULL
+);
+
+ALTER TABLE detalle_viaje ADD CONSTRAINT detalle_viaje_pk PRIMARY KEY ( id_d_viaje );
+
+CREATE TABLE rol (
+    id_rol     VARCHAR2(25 BYTE) NOT NULL,
+    nombre_rol VARCHAR2(25 BYTE) NOT NULL
+);
+
+ALTER TABLE rol ADD CONSTRAINT rol_pk PRIMARY KEY ( id_rol );
+
+CREATE TABLE usuario (
+    id_usuario VARCHAR2(25 BYTE) NOT NULL,
+    nombre     VARCHAR2(25 BYTE) NOT NULL,
+    correo     VARCHAR2(25 BYTE) NOT NULL,
+    numero_cel VARCHAR2(25 BYTE) NOT NULL,
+    rol_id_rol VARCHAR2(25 BYTE) NOT NULL
+);
+
+ALTER TABLE usuario ADD CONSTRAINT usuario_pk PRIMARY KEY ( id_usuario );
+
+CREATE TABLE vehiculo (
+    patente            VARCHAR2(25 BYTE) NOT NULL,
+    color              VARCHAR2(25 BYTE) NOT NULL,
+    n_asientos         INTEGER NOT NULL,
+    usuario_id_usuario VARCHAR2(25 BYTE) NOT NULL
+);
+
+ALTER TABLE vehiculo ADD CONSTRAINT vehiculo_pk PRIMARY KEY ( patente );
+
+CREATE TABLE viaje (
+    id_viaje                 VARCHAR2(25 BYTE) NOT NULL,
+    tiempo_estimado          INTEGER NOT NULL,
+    destino                  VARCHAR2(25 BYTE) NOT NULL,
+    usuario_id_usuario       VARCHAR2(25 BYTE) NOT NULL,
+    detalle_viaje_id_d_viaje VARCHAR2(25 BYTE) NOT NULL
+);
+
+ALTER TABLE viaje ADD CONSTRAINT detalle_viaje_pkv1 PRIMARY KEY ( id_viaje );
+
+ALTER TABLE calificaciones
+    ADD CONSTRAINT calificaciones_usuario_fk FOREIGN KEY ( usuario_id_usuario )
+        REFERENCES usuario ( id_usuario );
+
+ALTER TABLE viaje
+    ADD CONSTRAINT detalle_viaje_usuario_fk FOREIGN KEY ( usuario_id_usuario )
+        REFERENCES usuario ( id_usuario );
+
+ALTER TABLE usuario
+    ADD CONSTRAINT usuario_rol_fk FOREIGN KEY ( rol_id_rol )
+        REFERENCES rol ( id_rol );
+
+ALTER TABLE vehiculo
+    ADD CONSTRAINT vehiculo_usuario_fk FOREIGN KEY ( usuario_id_usuario )
+        REFERENCES usuario ( id_usuario );
+
+ALTER TABLE viaje
+    ADD CONSTRAINT viaje_detalle_viaje_fk FOREIGN KEY ( detalle_viaje_id_d_viaje )
+        REFERENCES detalle_viaje ( id_d_viaje );
+
+
