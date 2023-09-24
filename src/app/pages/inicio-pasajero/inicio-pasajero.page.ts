@@ -73,8 +73,9 @@ export class InicioPasajeroPage implements OnInit {
   }
 
   salirCuenta(){
-    console.log("!:salirCuenta()");
-    //salir de la cuenta. borrar la sesión y todo eso
+    localStorage.removeItem("loggedIn")
+    localStorage.removeItem("uRole")
+    localStorage.removeItem("uID")
     this.router.navigate(['/'])
   }
 }
