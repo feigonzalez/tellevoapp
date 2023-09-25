@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BdserviceService } from 'src/app/services/bdservice.service';
 
 @Component({
   selector: 'app-inicio-pasajero',
@@ -27,32 +28,21 @@ export class InicioPasajeroPage implements OnInit {
       }
     ]
   
-    usuario: any = {
-      nombre: "Tulio",
-      apellido: "Triviño",
-      imagen: "assets/icon/user_tulio.jpg"
-    }
+    usuario: any = {}
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private db:BdserviceService) {}
 
   ngOnInit() {
+    this.db.dbState().subscribe(res=>{
+      if(res){
+        this.loadUsuario();
+      }
+    })
   }
 
-  crearRuta(){
-    console.log("!:crearRuta()")
-    //se crea una ruta nueva, y se redirige a la interfaz "editar-ruta"
-    let ne:any={state:{
-      ruta:{
-         id:-1,
-         nombre:"Nueva Ruta",
-         longitud:0,
-         duracion:0,
-         tarifa:0,
-         horaSalida:"00:00"},
-      viewType:"new"
-      }
-    }
-    this.router.navigate(['/ver-ruta-pasajero'],ne)
+  async loadUsuario(){
+    let uID=localStorage.getItem("uID");
+    if(uID) this.usuario=await this.db.leerUsuarioPorID(uID);
   }
 
   getRutaFromId(id:number){

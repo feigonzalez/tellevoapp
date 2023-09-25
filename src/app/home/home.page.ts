@@ -9,7 +9,7 @@ import { Usuario } from '../services/usuario';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit{
 
   username: string = '';
   password: string = '';
@@ -59,7 +59,7 @@ export class HomePage {
     } else {
       if(this.password.trim() == user.password){
         localStorage.setItem("loggedIn","true");
-        localStorage.setItem("uID",user.id_rol);
+        localStorage.setItem("uID",user.id_usuario);
         if(user.id_rol == "1"){
           this.navCtrl.navigateForward('/inicio-conductor');
           localStorage.setItem("uRole","conductor");

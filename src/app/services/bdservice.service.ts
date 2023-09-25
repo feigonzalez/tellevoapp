@@ -30,7 +30,7 @@ export class BdserviceService {
   private isDBReady : BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   tablaRolesStmt="CREATE TABLE IF NOT EXISTS roles (id_rol INTEGER PRIMARY KEY, nombre_rol VARCHAR(25) NOT NULL);";
-  tablaUsuariosStmt="CREATE TABLE IF NOT EXISTS usuarios (id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL, correo VARCHAR(100) NOT NULL, password VARCHAR(100) NOT NULL, numero_cel VARCHAR(25) NOT NULL, id_rol INTEGER NOT NULL, FOREIGN KEY(id_rol) REFERENCES roles(id_rol));";
+  tablaUsuariosStmt="CREATE TABLE IF NOT EXISTS usuarios (id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL, correo VARCHAR(100) NOT NULL, password VARCHAR(100) NOT NULL, numero_cel VARCHAR(25) NOT NULL, imagen VARCHAR(50) NOT NULL, id_rol INTEGER NOT NULL, FOREIGN KEY(id_rol) REFERENCES roles(id_rol));";
   tablaVehiculosStmt="CREATE TABLE IF NOT EXISTS vehiculos (id_vehiculo INTEGER PRIMARY KEY AUTOINCREMENT, patente VARCHAR(10) NOT NULL, color VARCHAR(25) NOT NULL, n_asientos INTEGER NOT NULL, id_usuario INTEGER NOT NULL, FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario));";
   tablaViajesStmt="CREATE TABLE IF NOT EXISTS viajes(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, tiempo_estimado INTEGER NOT NULL, destino VARCHAR(100) NOT NULL, tarifa INTEGER NOT NULL, id_usuario INTEGER NOT NULL, FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario))";
   tablaCalificacionesStmt="CREATE TABLE IF NOT EXISTS calificaciones (id_calificacion INTEGER PRIMARY KEY AUTOINCREMENT, calificacion FLOAT NOT NULL, id_usuario INTEGER NOT NULL, FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario));";
@@ -42,11 +42,39 @@ export class BdserviceService {
     "INSERT OR IGNORE INTO roles (id_rol, nombre_rol) VALUES (2, 'Pasajero');"
   ];
   poblarUsuariosStmts=[
-    "INSERT OR IGNORE INTO usuarios (id_usuario, nombre, correo, password, numero_cel, id_rol) VALUES (1, 'Juan Carlos Bodoque', 'jbodoque@aplaplac.com', 'pass', '+56900000001', 1)",
-    "INSERT OR IGNORE INTO usuarios (id_usuario, nombre, correo, password, numero_cel, id_rol) VALUES (2, 'Patana Trufillo', 'ptrufillo@aplaplac.com', 'pass', '+56900000002', 2)",
-    "INSERT OR IGNORE INTO usuarios (id_usuario, nombre, correo, password, numero_cel, id_rol) VALUES (3, 'Tulio Triviño', 'ttrivino@aplaplac.com', 'pass', '+56900000003', 2)",
-    "INSERT OR IGNORE INTO usuarios (id_usuario, nombre, correo, password, numero_cel, id_rol) VALUES (4, 'Patana Trufillo', 'ptrufillo@aplaplac.com', 'pass', '+56900000004', 2)",
-    "INSERT OR IGNORE INTO usuarios (id_usuario, nombre, correo, password, numero_cel, id_rol) VALUES (5, 'Freddy Turbina', 'fturbina@aplaplac.com', 'pass', '+56900000005', 1)",
+    "INSERT OR IGNORE INTO usuarios (id_usuario, nombre, correo, password, numero_cel, imagen, id_rol) VALUES (1, 'Juan Carlos Bodoque', 'jbodoque@aplaplac.com', 'pass', '+56900000001', 'user_bodoque.jpg', 1)",
+    "INSERT OR IGNORE INTO usuarios (id_usuario, nombre, correo, password, numero_cel, imagen, id_rol) VALUES (2, 'Patana Trufillo', 'ptrufillo@aplaplac.com', 'pass', '+56900000002', 'user_patana.jpg', 2)",
+    "INSERT OR IGNORE INTO usuarios (id_usuario, nombre, correo, password, numero_cel, imagen, id_rol) VALUES (3, 'Tulio Triviño', 'ttrivino@aplaplac.com', 'pass', '+56900000003', 'user_tulio.jpg', 2)",
+    "INSERT OR IGNORE INTO usuarios (id_usuario, nombre, correo, password, numero_cel, imagen, id_rol) VALUES (4, 'Freddy Turbina', 'fturbina@aplaplac.com', 'pass', '+56900000004', 'user_freddy.jpg', 1)"
+  ];
+  poblarViajesStmts=[
+    "INSERT OR IGNORE INTO viajes (id_viaje, tiempo_estimado, destino, tarifa, id_usuario) VALUES (1, 0, 'Pedro Fontova 6426, Huechuraba', 800, 1)",
+    "INSERT OR IGNORE INTO viajes (id_viaje, tiempo_estimado, destino, tarifa, id_usuario) VALUES (2, 0, 'Rigoberto Jara 0278, Quilicura', 2000, 1)",
+    "INSERT OR IGNORE INTO viajes (id_viaje, tiempo_estimado, destino, tarifa, id_usuario) VALUES (3, 0, 'Clemente Fabres 1025, Providencia', 3500, 5)"
+  ];
+  poblarCalificacionesStmts=[
+    "INSERT OR IGNORE INTO calificaciones (id_calificacion, calificacion, id_usuario) VALUES (1, 3, 1)",
+    "INSERT OR IGNORE INTO calificaciones (id_calificacion, calificacion, id_usuario) VALUES (2, 4, 1)",
+    "INSERT OR IGNORE INTO calificaciones (id_calificacion, calificacion, id_usuario) VALUES (3, 3, 1)",
+    "INSERT OR IGNORE INTO calificaciones (id_calificacion, calificacion, id_usuario) VALUES (4, 5, 5)",
+    "INSERT OR IGNORE INTO calificaciones (id_calificacion, calificacion, id_usuario) VALUES (5, 2, 1)",
+    "INSERT OR IGNORE INTO calificaciones (id_calificacion, calificacion, id_usuario) VALUES (6, 4, 5)"
+  ];
+  poblarMensajesStmts=[
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (1, 2, 1, '2023-09-20 16:34:11', 'oye tio, donde estás?')",
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (2, 1, 2, '2023-09-20 16:34:36', 'Estoy en el estacionamiento del canal')",
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (3, 2, 1, '2023-09-20 16:34:42', 'ah ya, voy para allá')",
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (4, 3, 1, '2023-09-13 17:13:02', 'Juan Carlos, necesito que vayas a dejarme')",
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (5, 1, 3, '2023-09-13 17:13:13', 'Pero Tulio, ¿qué le pasó a tu auto?')",
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (6, 3, 1, '2023-09-13 17:13:25', 'Un idiota me chocó ayer saliendo del canal')",
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (7, 3, 1, '2023-09-13 17:13:29', 'Tenía un auto igual al tuyo')",
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (8, 1, 3, '2023-09-13 17:13:38', 'Ah, así que eras tú')",
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (9, 3, 1, '2023-09-13 17:13:44', '¿Qué significa eso?')",
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (10, 1, 3, '2023-09-13 17:14:06', 'Eh... Nada, Tulio')",
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (11, 1, 3, '2023-09-13 17:14:12', 'Lo siento, pero no te voy a poder llevar')",
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (12, 3, 4, '2023-09-13 17:15:53', 'Freddy, necesito que vayas a dejarme.')",
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (13, 4, 3, '2023-09-13 17:16:35', 'Por supuesto, donde estas?')",
+    "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (14, 3, 4, '2023-09-13 17:16:43', 'En la entrada principal')"
   ];
   
   constructor(private sqlite:SQLite, private platform: Platform,private alertController:AlertController) { 
@@ -70,7 +98,7 @@ export class BdserviceService {
   fetchViajes(): Observable<Viaje[]>{ return this.tablaViajes.asObservable(); }
   fetchCalificaciones(): Observable<Calificacion[]>{ return this.tablaCalificaciones.asObservable(); }
   fetchDetalleViajes(): Observable<DetalleViaje[]>{ return this.tablaDetalleViajes.asObservable(); }
-  fetchMensajes(): Observable<Mensaje[]>{ return this.tablaDetalleViajes.asObservable(); }
+  fetchMensajes(): Observable<Mensaje[]>{ return this.tablaMensajes.asObservable(); }
 
   crearDB(){
     this.platform.ready().then(()=>{
@@ -87,23 +115,35 @@ export class BdserviceService {
   }
 
   async crearTablas(){
+    let status:string="INIT";
     try{
       await this.database.executeSql(this.tablaRolesStmt,[]);
+      status="created Roles";
       await this.database.executeSql(this.tablaUsuariosStmt,[]);
+      status="created Usuarios";
       await this.database.executeSql(this.tablaVehiculosStmt,[]);
+      status="created Vehiculos";
       await this.database.executeSql(this.tablaViajesStmt,[]);
+      status="created Viajes";
       await this.database.executeSql(this.tablaCalificacionesStmt,[]);
+      status="created Calificaciones";
       await this.database.executeSql(this.tablaDetalleViajesStmt,[]);
+      status="created DetalleViajes";
       await this.database.executeSql(this.tablaMensajesStmt,[]);
-      for(var stmt of this.poblarRolesStmts){
-        await this.database.executeSql(stmt,[]);
-      }
-      for(var stmt of this.poblarUsuariosStmts){
-        await this.database.executeSql(stmt,[]);
-      }
+      status="created Mensajes";
+      for(var stmt of this.poblarRolesStmts){ await this.database.executeSql(stmt,[]); }
+      status="populated Roles";
+      for(var stmt of this.poblarUsuariosStmts){ await this.database.executeSql(stmt,[]); }
+      status="populated Usuarios";
+      for(var stmt of this.poblarViajesStmts){ await this.database.executeSql(stmt,[]); }
+      status="populated Viajes";
+      for(var stmt of this.poblarCalificacionesStmts){ await this.database.executeSql(stmt,[]); }
+      status="populated Calificaciones";
+      for(var stmt of this.poblarMensajesStmts){ await this.database.executeSql(stmt,[]); }
+      status="populated Mensajes";
       this.isDBReady.next(true)
     } catch(e){
-      this.presentAlert("ERROR al crear tablas: "+ (e as Error).message);
+      this.presentAlert("[@"+status+"] ERROR al crear tablas: "+ (e as Error).message);
     }
   }
 
@@ -151,14 +191,14 @@ export class BdserviceService {
     })
   }
   
-  leerUsuarioPorId(id:number){
-    return this.database.executeSql("SELECT * FROM usuarios WHERE id_usuario = ?",[id]).then(res=>{
+  leerUsuarioPorID(uID:string){
+    return this.database.executeSql("SELECT * FROM usuarios WHERE id_usuario = ?",[uID]).then(res=>{
       if(res.rows.length==1){
         return res.rows.item(0);
       }
       return null;
     }).catch(e=>{
-      this.presentAlert("ERROR al obtener Usuario (ID:"+id+"): " + (e as Error).message);
+      this.presentAlert("ERROR al obtener Usuario (ID:"+uID+"): " + (e as Error).message);
       return null;
     })
   }
@@ -222,7 +262,7 @@ export class BdserviceService {
     })
   }
   
-  leerConversacion(user1:number,user2:number){
+  leerConversacion(user1:string,user2:string){
     return this.database.executeSql("SELECT * FROM mensajes WHERE (id_destinatario = ? AND id_remitente = ?) OR (id_destinatario = ? AND id_remitente = ?)",[user1, user2, user2, user1]).then(res=>{
       let items:Mensaje[] = [];
       if(res.rows.length>0){
@@ -240,6 +280,39 @@ export class BdserviceService {
       this.tablaMensajes.next(items as any)
     }).catch(e=>{
       this.presentAlert("ERROR al obtener Mensajes: " + (e as Error).message);
+    })
+  }
+
+/*
+Retorna una lista de objectos con la siguiente estructura:
+  pairCode: la suma de las ids de cada usuario de la conversación. Como en la página el id del usuario
+    que la ve es constante, este valor se usa para diferenciar conversaciones con diferentes parejas.
+  texto: el ultimo mensaje enviado en la conversacion
+  id_pareja: id del usuario con quien se tiene la conversacion.
+  nom_pareja: nombre del usuario con quien se tiene la conversacion.
+  img_pareja: imagen de perfil del usuario con quien se tiene la conversacion.
+*/
+  async leerConversacionesPorUsuario(uID:string){
+    return await this.database.executeSql("SELECT id_remitente, fecha, texto, (id_remitente + id_destinatario) AS pairCode, (id_remitente + id_destinatario - ?) AS id_pareja, usuarios.nombre, usuarios.imagen FROM mensajes JOIN usuarios ON id_pareja = id_usuario WHERE id_remitente = ? OR id_destinatario = ? GROUP BY pairCode ORDER BY fecha ASC;",[uID, uID, uID]).then(r=>{
+      let res:any=[];
+      if(r.rows.length>0){
+        for(var i=0;i<r.rows.length;i++){
+          let item=r.rows.item(i);
+          res.push({
+            pairCode:item.pairCode,
+            texto:item.texto,
+            id_pareja:item.pairCode-parseInt(uID),
+            nom_pareja:item.nombre,
+            img_pareja:item.imagen
+          })
+        }
+        return res;
+      } else {
+        return null;
+      }
+    }).catch(e=>{
+      this.presentAlert("ERROR en leerConversacionesPorUsuario (ID:"+uID+"):" + (e as Error).message);
+      return null;
     })
   }
 

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BdserviceService } from 'src/app/services/bdservice.service';
 
 @Component({
   selector: 'app-mensaje-conductor',
@@ -8,19 +9,40 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class MensajeConductorPage implements OnInit {
 
-  chat:any;
+  id_pareja:any;
+  chat:any=[];
   @Input() mensajeInput:string="";
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private db:BdserviceService) {
     this.activatedRoute.queryParams.subscribe(params=>{
       if(this.router.getCurrentNavigation()?.extras.state){
-        this.chat=this.router.getCurrentNavigation()?.extras?.state?.['chat']
-        console.log(this.chat)
+        this.id_pareja=this.router.getCurrentNavigation()?.extras?.state?.['id_pareja']
       }
     })
   }
 
   ngOnInit() {
+    this.db.dbState().subscribe(res=>{
+      if(res){
+        this.loadChat();
+        this.db.fetchMensajes().subscribe(items=>{
+          this.chat = items;
+          for(let m of this.chat){
+            if(m.id_remitente==localStorage.getItem("uID")) m.sent=true;
+          }
+/*
+Cada mensaje en la lista "chat" tiene los siguientes atributos
+  id_mensaje; id_remitente; id_destinatario; fecha; texto.
+Luego, se le añade un atributo "sent", que es "true" si el usuario actual envió el mensaje
+*/
+        })
+      }
+    })
+  }
+
+  loadChat(){
+    let uID=localStorage.getItem("uID");
+    if(uID) this.chat = this.db.leerConversacion(uID,this.id_pareja);
   }
 
   enviarMensaje(){

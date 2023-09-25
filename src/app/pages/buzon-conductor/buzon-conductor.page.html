@@ -13,15 +13,15 @@
   <ion-card>
     <ion-card-content>
       <ion-grid>
-        <ion-row *ngFor="let c of chats" class="ion-align-items-center" (click)="abrirMensajes(c.id)">
+        <ion-row *ngFor="let c of chats" class="ion-align-items-center" (click)="abrirMensajes(c.id_pareja)">
           <ion-col size="auto">
             <ion-thumbnail class="user-icon round">
-              <img src="{{c.uIcon}}">
+              <img src="../assets/icon/{{c.img_pareja}}">
             </ion-thumbnail>
           </ion-col>
           <ion-col size="auto" class="buzonMensajeContainer">
-            <div class="mensajeAutor">{{c.uname}}</div>
-            <div class="mensajeUltimo">{{c.lastMsg}}</div>
+            <div class="mensajeAutor">{{c.nom_pareja}}</div>
+            <div class="mensajeUltimo">{{c.texto}}</div>
           </ion-col>
         </ion-row>
       </ion-grid>

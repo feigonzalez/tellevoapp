@@ -13,12 +13,12 @@
   <ion-card>
     <ion-card-content>
       <ion-grid id="mensajesContainer">
-        <ion-row *ngFor="let m of chat.mensajes" class="ion-align-items-center">
-          <ion-col *ngIf="m[0]==0" size="12" class="enviado">
-            <span class="mensaje">{{m[1]}}</span>
+        <ion-row *ngFor="let m of chat" class="ion-align-items-center">
+          <ion-col *ngIf="m.sent" size="12" class="enviado">
+            <span class="mensaje">({{m.fecha}}) {{m.texto}}</span>
           </ion-col>
-          <ion-col *ngIf="m[0]==1" class="recibido" size="12">
-            <span class="mensaje">{{m[1]}}</span>
+          <ion-col *ngIf="!m.sent" class="recibido" size="12">
+            <span class="mensaje">({{m.fecha}}) {{m.texto}}</span>
           </ion-col>
         </ion-row>
       </ion-grid>

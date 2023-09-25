@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BdserviceService } from 'src/app/services/bdservice.service';
 
 @Component({
   selector: 'app-inicio-conductor',
@@ -23,16 +24,21 @@ export class InicioConductorPage implements OnInit {
      horaSalida:"14:00"},
   ]
 
-  usuario : any={
-    nombre:"Juan Carlos",
-    apellido:"Bodoque",
-    patente:"TP8373",
-    imagen:"assets/icon/user_bodoque.jpg"
-  }
+  usuario : any={}
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private db:BdserviceService) { }
 
   ngOnInit() {
+    this.db.dbState().subscribe(res=>{
+      if(res){
+        this.loadUsuario();
+      }
+    })
+  }
+
+  async loadUsuario(){
+    let uID=localStorage.getItem("uID");
+    if(uID) this.usuario=await this.db.leerUsuarioPorID(uID);
   }
 
   crearRuta(){

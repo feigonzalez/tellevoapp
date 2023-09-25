@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BdserviceService } from 'src/app/services/bdservice.service';
 
 @Component({
   selector: 'app-buzon-conductor',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
 export class BuzonConductorPage implements OnInit {
 
   chats:any=[{
+    /*
     id:0,
     uname:"Patana Trufillo",
     mensajes:[[1,"oye tio, donde estás?"],
@@ -29,16 +31,29 @@ export class BuzonConductorPage implements OnInit {
       [0,"Lo siento, pero no te voy a poder llevar."]],
     lastMsg:"Lo siento, pero no te voy a poder llevar.",
     uIcon:"assets/icon/user_tulio.jpg"
+    */
   }]
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private db:BdserviceService) { }
 
   ngOnInit() {
+    this.db.dbState().subscribe(res=>{
+      if(res){
+        this.loadChats();
+      }
+    })
+  }
+
+  async loadChats(){
+    let uID = localStorage.getItem("uID");
+    if(uID){
+      this.chats = await this.db.leerConversacionesPorUsuario(uID);
+    }
   }
 
   abrirMensajes(id:number){
     let ne:any={state:{
-      chat:this.chats[id]
+      id_pareja:id
     }}
     this.router.navigate(["/mensaje-conductor"],ne);
   }
