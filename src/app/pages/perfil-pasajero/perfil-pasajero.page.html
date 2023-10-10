@@ -12,19 +12,23 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title class="ion-text-center">
+        
+        
         <ion-thumbnail id="perfil-imagen" (click)="editarImagenPerfil()"><img src="{{usuario.imagen}}"></ion-thumbnail>
+
+        
         <ion-label>{{usuario.nombre}} {{usuario.apellido}}</ion-label>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <form (ngSubmit)="actualizarDatos()" [formGroup]="formDatos">
         <ion-item>
-          <ion-label position="floating">Nombre</ion-label>
+          <ion-label  position="floating"><ion-icon name="person-outline"></ion-icon> Nombre</ion-label>            
           <ion-input formControlName="nombre" type="text" [(ngModel)]="usuario.nombre" required (input)="validarNombre()"></ion-input>
         </ion-item>
           <div class="formErrorMessage" *ngIf="formErrors['nombre_empty']">Este campo es obligatorio</div>
         <ion-item>
-          <ion-label position="floating">Apellido</ion-label>
+          <ion-label position="floating"><ion-icon name="person-outline"></ion-icon>Apellido</ion-label>
           <ion-input formControlName="apellido" type="text" [(ngModel)]="usuario.apellido" required (input)="validarApellido()"></ion-input>
         </ion-item>
           <div class="formErrorMessage" *ngIf="formErrors['apellido_empty']">Este campo es obligatorio.</div>
@@ -42,7 +46,7 @@
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <ion-label position="floating">Contraseña</ion-label>
+        <ion-label position="floating"><ion-icon name="key-outline"></ion-icon>Contraseña</ion-label>
         <ion-input [(ngModel)]="newPassA" type="password" required (input)="validarContraA()"></ion-input>
       </ion-item>
         <div class="formErrorMessage" *ngIf="formErrors['passA_empty']">Este campo es obligatorio.</div>
@@ -52,7 +56,7 @@
         <div class="formErrorMessage" *ngIf="formErrors['passA_upper']">Incluya una letra mayúscula.</div>
         <div class="formErrorMessage" *ngIf="formErrors['passA_special']">Incluya un caracter especial.</div>
       <ion-item>
-        <ion-label position="floating">Repetir Contraseña.</ion-label>
+        <ion-label position="floating"><ion-icon name="key-outline"></ion-icon>Repetir Contraseña.</ion-label>
         <ion-input [(ngModel)]="newPassB" type="password" required (input)="validarContraB()"></ion-input>
       </ion-item>
         <div class="formErrorMessage" *ngIf="formErrors['passB_empty']">Este campo es obligatorio.</div>

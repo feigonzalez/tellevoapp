@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
+import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-perfil-pasajero', // Cambio de nombre aquí
@@ -22,7 +23,7 @@ export class PerfilPasajeroPage implements OnInit { // Cambio de nombre aquí
   formDatos!: FormGroup;
   formErrors:any={};
 
-  constructor(private router: Router,readonly fb: FormBuilder, private toastController: ToastController, private alertController: AlertController) { }
+  constructor(private router: Router,readonly fb: FormBuilder, private toastController: ToastController, private alertController: AlertController,public photoService: PhotoService) { }
 
   ngOnInit() {
     this.formDatos = this.initForm();
@@ -74,7 +75,10 @@ export class PerfilPasajeroPage implements OnInit { // Cambio de nombre aquí
     */
     await alert.present();
   }
-
+  addPhotoToGallery() {
+    this.photoService.addNewToGallery();
+  }
+  
   actualizarDatos(){
     console.log("!:actualizarDatos()");
     this.formErrors={};
