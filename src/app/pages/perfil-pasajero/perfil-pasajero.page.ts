@@ -4,13 +4,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { PhotoService } from 'src/app/services/photo.service';
-
+import { DataService } from './data.service'; //NOMBRE DEL SERVICIO
 @Component({
-  selector: 'app-perfil-pasajero', // Cambio de nombre aquí
-  templateUrl: './perfil-pasajero.page.html', // Cambio de nombre aquí
-  styleUrls: ['./perfil-pasajero.page.scss'], // Cambio de nombre aquí
+  selector: 'app-perfil-pasajero', 
+  templateUrl: './perfil-pasajero.page.html', 
+  styleUrls: ['./perfil-pasajero.page.scss'], 
 })
-export class PerfilPasajeroPage implements OnInit { // Cambio de nombre aquí
+export class PerfilPasajeroPage implements OnInit { 
 
   usuario : any={
     nombre:"Tulio",
@@ -23,8 +23,14 @@ export class PerfilPasajeroPage implements OnInit { // Cambio de nombre aquí
   formDatos!: FormGroup;
   formErrors:any={};
 
-  constructor(private router: Router,readonly fb: FormBuilder, private toastController: ToastController, private alertController: AlertController,public photoService: PhotoService) { }
-
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private toastController: ToastController,
+    private alertController: AlertController,
+    private photoService: PhotoService,
+    private dataService: DataService
+  ) {}
   ngOnInit() {
     this.formDatos = this.initForm();
   }
@@ -79,28 +85,42 @@ export class PerfilPasajeroPage implements OnInit { // Cambio de nombre aquí
     this.photoService.addNewToGallery();
   }
   
-  actualizarDatos(){
-    console.log("!:actualizarDatos()");
-    this.formErrors={};
-    let valid:boolean=true;
-    valid=valid&&this.validarNombre();
-    valid=valid&&this.validarApellido();
-    valid=valid&&this.validarPatente();
-    if(valid){
-      //actualizar datos en la db
-      this.showToast("Datos actualizados","success");
+  actualizarDatos() {
+    this.formErrors = {};
+    let valid: boolean = true;
+    valid = valid && this.validarNombre();
+    valid = valid && this.validarApellido();
+    valid = valid && this.validarPatente();
+    if (valid) {
+      this.dataService.actualizarDatos({
+        nombre: this.usuario.nombre,
+        apellido: this.usuario.apellido,
+        patente: this.usuario.patente
+      }).subscribe(
+        (response) => {
+          this.showToast('Datos actualizados', 'success');
+        },
+        (error) => {
+          // Manejar errores
+        }
+      );
     }
   }
 
-  actualizarContrasena(){
-    console.log("!:actualizarContrasena()");
-    this.formErrors={};
-    let valid:boolean=true;
-    valid=valid&&this.validarContraA();
-    valid=valid&&this.validarContraB();
-    if(valid){
-      //actualizar datos en la db
-      this.showToast("Contraseña actualizada","success");
+  actualizarContrasena() {
+    this.formErrors = {};
+    let valid: boolean = true;
+    valid = valid && this.validarContraA();
+    valid = valid && this.validarContraB();
+    if (valid) {
+      this.dataService.actualizarContrasena(this.newPassA).subscribe(
+        (response) => {
+          this.showToast('Contraseña actualizada', 'success');
+        },
+        (error) => {
+          // Manejar errores
+        }
+      );
     }
   }
 
@@ -165,12 +185,18 @@ export class PerfilPasajeroPage implements OnInit { // Cambio de nombre aquí
     return valid;
   }
 
-  eliminarCuenta(){
-    console.log("!:eliminarCuenta()");
-    this.alertaEliminar();
-    //se pide confirmar. de confirmar, se elimina la cuenta de la db y se redigire a inicio.
+  eliminarCuenta() {
+    this.dataService.eliminarCuenta().subscribe(
+      () => {
+        this.alertaEliminar();
+        this.router.navigate(["/"]);
+      },
+      (error) => {
+        console.error("Error al eliminar la cuenta:", error);
+        this.showToast("Error al eliminar la cuenta", "danger");
+      }
+    );
   }
-
   editarImagenPerfil(){
     console.log("!:editarImagenPerfil()");
     //se abre la cámara o la galería, y permite subir una imagen. si se actualizan los datos,
