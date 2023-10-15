@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
-import { DataService } from './data.service'; //NOMBRE DEL SERVICIO
+
 
 @Component({
   selector: 'app-perfil-conductor',
@@ -16,7 +16,7 @@ export class PerfilConductorPage implements OnInit {
     apellido: "Bodoque",
     patente: "TP8373",
     imagen: "assets/icon/user_bodoque.jpg"
-  }
+  }.
 
   newPassA: string = "";
   newPassB: string = "";

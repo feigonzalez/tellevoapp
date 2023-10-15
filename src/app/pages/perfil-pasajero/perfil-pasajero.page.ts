@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { PhotoService } from 'src/app/services/photo.service';
-import { DataService } from './data.service'; //NOMBRE DEL SERVICIO
+
 @Component({
   selector: 'app-perfil-pasajero', 
   templateUrl: './perfil-pasajero.page.html', 
