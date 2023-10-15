@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
-import { DataService } from './data.service'; //NOMBRE DEL SERVICIO
+//import { DataService } from './data.service'; //NOMBRE DEL SERVICIO
 
 @Component({
   selector: 'app-perfil-conductor',
@@ -28,7 +28,7 @@ export class PerfilConductorPage implements OnInit {
     private fb: FormBuilder,
     private toastController: ToastController,
     private alertController: AlertController,
-    private dataService: DataService
+//    private dataService: DataService
   ) {}
 
   ngOnInit() {
@@ -84,18 +84,18 @@ export class PerfilConductorPage implements OnInit {
     valid = valid && this.validarApellido();
     valid = valid && this.validarPatente();
     if (valid) {
-      this.dataService.actualizarDatos({
+      /*this.dataService.actualizarDatos({
         nombre: this.usuario.nombre,
         apellido: this.usuario.apellido,
         patente: this.usuario.patente
       }).subscribe(
-        (response) => {
+        (response:any) => {
           this.showToast('Datos actualizados', 'success');
         },
-        (error) => {
+        (error:any) => {
           // Manejar errores
         }
-      );
+      );*/
     }
   }
 
@@ -105,14 +105,14 @@ export class PerfilConductorPage implements OnInit {
     valid = valid && this.validarContraA();
     valid = valid && this.validarContraB();
     if (valid) {
-      this.dataService.actualizarContrasena(this.newPassA).subscribe(
-        (response) => {
+      /*this.dataService.actualizarContrasena(this.newPassA).subscribe(
+        (response:any) => {
           this.showToast('Contraseña actualizada', 'success');
         },
-        (error) => {
+        (error:any) => {
           // Manejar errores
         }
-      );
+      );*/
     }
   }
 
@@ -202,16 +202,17 @@ export class PerfilConductorPage implements OnInit {
   }
 
   eliminarCuenta() {
+    /*
     this.dataService.eliminarCuenta().subscribe(
       () => {
         this.alertaEliminar();
         this.router.navigate(["/"]);
       },
-      (error) => {
+      (error:any) => {
         console.error("Error al eliminar la cuenta:", error);
         this.showToast("Error al eliminar la cuenta", "danger");
       }
-    );
+    );*/
   }
 
   editarImagenPerfil() {

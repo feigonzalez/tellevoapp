@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { PhotoService } from 'src/app/services/photo.service';
-import { DataService } from './data.service'; //NOMBRE DEL SERVICIO
+//import { DataService } from './data.service'; //NOMBRE DEL SERVICIO
 @Component({
   selector: 'app-perfil-pasajero', 
   templateUrl: './perfil-pasajero.page.html', 
@@ -29,7 +29,7 @@ export class PerfilPasajeroPage implements OnInit {
     private toastController: ToastController,
     private alertController: AlertController,
     private photoService: PhotoService,
-    private dataService: DataService
+    //private dataService: DataService
   ) {}
   ngOnInit() {
     this.formDatos = this.initForm();
@@ -92,18 +92,18 @@ export class PerfilPasajeroPage implements OnInit {
     valid = valid && this.validarApellido();
     valid = valid && this.validarPatente();
     if (valid) {
-      this.dataService.actualizarDatos({
+      /*this.dataService.actualizarDatos({
         nombre: this.usuario.nombre,
         apellido: this.usuario.apellido,
         patente: this.usuario.patente
       }).subscribe(
-        (response) => {
+        (response:any) => {
           this.showToast('Datos actualizados', 'success');
         },
-        (error) => {
+        (error:any) => {
           // Manejar errores
         }
-      );
+      );*/
     }
   }
 
@@ -113,14 +113,14 @@ export class PerfilPasajeroPage implements OnInit {
     valid = valid && this.validarContraA();
     valid = valid && this.validarContraB();
     if (valid) {
-      this.dataService.actualizarContrasena(this.newPassA).subscribe(
-        (response) => {
+      /*this.dataService.actualizarContrasena(this.newPassA).subscribe(
+        (response:any) => {
           this.showToast('Contraseña actualizada', 'success');
         },
-        (error) => {
+        (error:any) => {
           // Manejar errores
         }
-      );
+      );*/
     }
   }
 
@@ -186,17 +186,18 @@ export class PerfilPasajeroPage implements OnInit {
   }
 
   eliminarCuenta() {
-    this.dataService.eliminarCuenta().subscribe(
+    /*this.dataService.eliminarCuenta().subscribe(
       () => {
         this.alertaEliminar();
         this.router.navigate(["/"]);
       },
-      (error) => {
+      (error:any) => {
         console.error("Error al eliminar la cuenta:", error);
         this.showToast("Error al eliminar la cuenta", "danger");
       }
-    );
+    );*/
   }
+  
   editarImagenPerfil(){
     console.log("!:editarImagenPerfil()");
     //se abre la cámara o la galería, y permite subir una imagen. si se actualizan los datos,

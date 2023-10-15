@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Geolocation } from '@capacitor/geolocation';
+import { BdserviceService } from 'src/app/services/bdservice.service';
 
 @Component({
   selector: 'app-map',
@@ -10,12 +12,12 @@ export class MapComponent implements OnInit {
   mapUrl:string="";
   @Input() viewType:string="";
 
-  constructor() {
+  constructor(private db:BdserviceService) {
   }
 
   ngOnInit() {}
 
-  ngAfterContentInit(){
+  async ngAfterContentInit(){
     console.log("@MAP:["+this.viewType+"]")
     switch(this.viewType){
       case "view":
@@ -31,6 +33,9 @@ export class MapComponent implements OnInit {
         this.mapUrl = "assets/map.png";
         break;
     }
+    Geolocation.getCurrentPosition().then(pos=>{
+      this.db.presentAlert(pos.coords.latitude+" "+pos.coords.longitude);
+    });
   }
 
 }
