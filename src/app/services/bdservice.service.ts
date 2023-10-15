@@ -215,13 +215,13 @@ export class BdserviceService {
     })
   }
 
-  crearUsuario(nombre:string, correo:string, pass:string, telefono:string, id_rol:number){
-    return this.database.executeSql("INSERT INTO usuarios (nombre, correo, password, numero_cel, id_rol) VALUES (?, ?, ?, ?, ?);",[nombre, correo, pass, telefono, id_rol]).then((res)=>{
-      this.leerUsuarios();
-    }).catch((e)=>{
-      this.presentAlert("ERROR al crear nuevo Usuario: "+ (e as Error).message);
-    })
-  }
+crearUsuario(nombre:string, correo:string, pass:string, telefono:string, id_rol:number, imagen: string){
+return this.database.executeSql("INSERT INTO usuarios (nombre, correo, password, numero_cel, id_rol, imagen) VALUES (?, ?, ?, ?, ?, ?);",[nombre, correo, pass, telefono, id_rol, imagen]).then((res)=>{
+this.leerUsuarios();
+}).catch((e)=>{
+this.presentAlert("ERROR al crear nuevo Usuario: "+ (e as Error).message);
+})
+}
 
   eliminarUsuario(id:number){
     return this.database.executeSql("DELETE FROM usuarios WHERE id_usuario = ?;",[id]).then((res)=>{

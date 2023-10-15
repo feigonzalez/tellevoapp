@@ -43,7 +43,7 @@
       <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
         <!-- Nombre Completo -->
         <ion-item>
-          <ion-input name="nombre" type="text" placeholder="Nombre Completo" id="nombre" required formControlName="nombre">
+          <ion-input name="nombre" type="text" placeholder="Nombre Completo" id="nombre" required formControlName="nombre" required [(ngModel)]="nombre" >
             <ion-icon name="person-outline"></ion-icon>
           </ion-input>
         </ion-item>
@@ -52,16 +52,25 @@
 
         <!-- Contraseña -->
         <ion-item>
-          <ion-input name="pass" type="password" placeholder="Contraseña" id="pass" required formControlName="pass">
+          <ion-input name="pass" type="password" placeholder="Contraseña" id="pass" required formControlName="pass" [(ngModel)]="pass" required >
             <ion-icon name="key-outline"></ion-icon>
           </ion-input>
         </ion-item>
         <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.errors?.['required']">Este campo es obligatorio</div>
         <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.errors?.['minlength']">La contraseña tiene que ser mayor a 6 caracteres</div>
+        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.errors?.['pattern']">La contraseña debe cumplir con los criterios de seguridad:</div>
+        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.hasError('pattern', ['(?=.*[A-Z])'])">Debe contener al menos una mayúscula</div>
+        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.hasError('pattern', ['(?=.*[a-z])'])">Debe contener al menos una minúscula</div>
+        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.hasError('pattern', ['(?=.*\d)'])">Debe contener al menos un número</div>
+        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.hasError('pattern', ['(?=.*[@$!%*?&])'])">Debe contener al menos un carácter especial</div>
+
+
 
         <!-- Repetir Contraseña -->
         <ion-item>
-          <ion-input name="pass2" type="password" placeholder="Repita la contraseña" id="pass2" required formControlName="pass2">
+          <ion-input name="pass2" type="password" placeholder="Repita la contraseña" id="pass2" required formControlName="pass2" required 
+          [(ngModel)]="pass2" 
+          [pattern]="pass">
                         <ion-icon name="key-outline"></ion-icon>
 
           </ion-input>
@@ -71,7 +80,7 @@
 
         <!-- Número de Teléfono -->
         <ion-item>
-          <ion-input name="telefono" type="number" placeholder="Numero de telefono" id="telefono" required formControlName="telefono">
+          <ion-input name="telefono" type="number" placeholder="Numero de telefono" id="telefono" required formControlName="telefono" [(ngModel)]="telefono" required>
             <ion-icon name="call-outline"></ion-icon>
           </ion-input>
         </ion-item>
@@ -80,7 +89,7 @@
 
         <!-- Correo Electrónico -->
         <ion-item>
-          <ion-input name="email" type="text" placeholder="nombre@belleduca.cl" id="email" required formControlName="email">
+          <ion-input name="email" type="text" placeholder="nombre@belleduca.cl" id="email" required formControlName="email" required [(ngModel)]="correo">
             <ion-icon name="mail-outline"></ion-icon>
           </ion-input>
         </ion-item>
@@ -102,7 +111,7 @@
         </div>
 
         <div class="sign-btn-wrap">
-          <ion-button fill="solid" shape="round" class="recuperar" type="submit" [disabled]="contactForm.invalid" [routerLink]="'/'" (click)="openSnackBar('Ya puedes iniciar sesión','Cerrar')" matRipple [matRippleCentered]="false" [matRippleRadius]="30" [matRippleColor]="'#1e1e1e'">Registrarse</ion-button>
+          <ion-button (click)="crearUsuario(nombre, correo, pass, telefono, id_rol, imagen)" fill="solid" shape="round" class="recuperar" type="submit" [disabled]="contactForm.invalid" [routerLink]="'/'" (click)="openSnackBar('Ya puedes iniciar sesión','Cerrar')" matRipple [matRippleCentered]="false" [matRippleRadius]="30" [matRippleColor]="'#1e1e1e'">Registrarse</ion-button>
         </div>
       </form>
   </ion-card-content>
