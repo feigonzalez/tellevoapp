@@ -16,7 +16,7 @@ export class PerfilConductorPage implements OnInit {
     apellido: "Bodoque",
     patente: "TP8373",
     imagen: "assets/icon/user_bodoque.jpg"
-  }
+  };
 
   newPassA: string = "";
   newPassB: string = "";
