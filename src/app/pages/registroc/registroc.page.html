@@ -41,6 +41,12 @@
         <!-- foto de perfil -->
 
       <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
+        <input
+        name="imagen"
+        type="file"
+        id="imagen"
+        
+        />
         <!-- Nombre Completo -->
         <ion-item>
           <ion-input name="nombre" type="text" placeholder="Nombre Completo" id="nombre" required formControlName="nombre" required [(ngModel)]="nombre" >

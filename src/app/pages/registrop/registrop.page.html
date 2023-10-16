@@ -39,12 +39,26 @@
             <ion-card-content>
               <ion-card-title class="ion-text-center">Foto de perfil</ion-card-title>
             </ion-card-content>
-        <!-- foto de perfil -->
+        <!-- foto de perfil --> 
+
+
+
+
+
+
 
       <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
+
+        <input
+        name="imagen"
+        type="file"
+        id="imagen"
+        
+        />
+
         <!-- Nombre Completo -->
         <ion-item>
-          <ion-input name="nombre" type="text" placeholder="Nombre Completo" id="nombre" required formControlName="nombre" required [(ngModel)]="nombre" >
+          <ion-input name="nombre" type="text" placeholder="Nombre Completo" id="nombre" required formControlName="nombre" [(ngModel)]="nombre" >
             <ion-icon name="person-outline"></ion-icon>
           </ion-input>
         </ion-item>

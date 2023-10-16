@@ -21,7 +21,7 @@ export class RegistropPage implements OnInit {
   pass2:string= "";
   telefono: string = "";
   correo: string = "";
-  imagen: string = "user_new.jpg";
+  imagen: string = "";
 
   id_rol: number = 0;
 
