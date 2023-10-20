@@ -53,7 +53,9 @@ export class PerfilConductorPage implements OnInit {
   initForm(): FormGroup {
     return this.fb.group({
       nombre: [''],
-      apellido: [''],
+      correo: [''],
+      numero_cel: [''],
+      telefono: [''],
       patente: [''],
     });
   }
