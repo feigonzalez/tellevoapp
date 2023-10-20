@@ -10,19 +10,25 @@ import { BdserviceService } from 'src/app/services/bdservice.service';
   styleUrls: ['./perfil-conductor.page.scss'],
 })
 export class PerfilConductorPage implements OnInit {
-
+  
   usuario : any={}
 
 
 
 
-
+  id: number = Math.floor(Math.random() * 100) + 1;
+  nombre: string = "";
+  correo: string = "";
+  numero_cel: string = "";
 
 
   newPassA: string = "";
   newPassB: string = "";
   formDatos!: FormGroup;
   formErrors: any = {};
+
+
+  
 
   constructor(
     private router: Router,
@@ -93,28 +99,8 @@ export class PerfilConductorPage implements OnInit {
     });
     await alert.present();
   }
+  
 
-  actualizarDatos() {
-    this.formErrors = {};
-    let valid: boolean = true;
-    valid = valid && this.validarNombre();
-    valid = valid && this.validarApellido();
-    valid = valid && this.validarPatente();
-    if (valid) {
-      /*this.dataService.actualizarDatos({
-        nombre: this.usuario.nombre,
-        apellido: this.usuario.apellido,
-        patente: this.usuario.patente
-      }).subscribe(
-        (response:any) => {
-          this.showToast('Datos actualizados', 'success');
-        },
-        (error:any) => {
-          // Manejar errores
-        }
-      );*/
-    }
-  }
 
   actualizarContrasena() {
     this.formErrors = {};
@@ -132,6 +118,12 @@ export class PerfilConductorPage implements OnInit {
       );*/
     }
   }
+
+  actualizarUsuario2(id: number, nombre: string, correo: string, numero_cel: string) {
+    this.BdserviceService.actualizarUsuario2(id, nombre, correo, numero_cel);
+  }
+ 
+
 
   validarNombre() {
     let valid = true;
