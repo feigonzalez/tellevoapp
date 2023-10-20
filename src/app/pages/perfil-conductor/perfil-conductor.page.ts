@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
-//import { DataService } from './data.service'; //NOMBRE DEL SERVICIO
+import { BdserviceService } from 'src/app/services/bdservice.service';
 
 @Component({
   selector: 'app-perfil-conductor',
@@ -11,12 +11,13 @@ import { AlertController, ToastController } from '@ionic/angular';
 })
 export class PerfilConductorPage implements OnInit {
 
-  usuario: any = {
-    nombre: "Juan Carlos",
-    apellido: "Bodoque",
-    patente: "TP8373",
-    imagen: "assets/icon/user_bodoque.jpg"
-  };
+  usuario : any={}
+
+
+
+
+
+
 
   newPassA: string = "";
   newPassB: string = "";
@@ -28,13 +29,27 @@ export class PerfilConductorPage implements OnInit {
     private fb: FormBuilder,
     private toastController: ToastController,
     private alertController: AlertController,
+    private db:BdserviceService,
+    public BdserviceService: BdserviceService
 //    private dataService: DataService
   ) {}
 
   ngOnInit() {
     this.formDatos = this.initForm();
+    this.db.dbState().subscribe(res=>{
+      if(res){
+        this.loadUsuario();
+      }
+    })
+  }
+  async loadUsuario(){
+    let uID=localStorage.getItem("uID");
+    if(uID) this.usuario=await this.db.leerUsuarioPorID(uID);
   }
 
+
+
+  
   initForm(): FormGroup {
     return this.fb.group({
       nombre: [''],
