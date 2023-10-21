@@ -21,7 +21,7 @@ export class RegistropPage implements OnInit {
   pass2:string= "";
   telefono: string = "";
   correo: string = "";
-  imagen: string = "";
+  imagen: any = {};
 
   id_rol: number = 0;
 
@@ -35,6 +35,11 @@ export class RegistropPage implements OnInit {
      ngOnInit(): void {
        this.contactForm = this.initForm();
      }
+
+
+
+
+
      crearUsuario(nombre: string, correo: string, pass: string, telefono: string, id_rol: number, imagen: string) {
       this.BdserviceService.crearUsuario(nombre, correo, pass, telefono, id_rol, imagen);
       }

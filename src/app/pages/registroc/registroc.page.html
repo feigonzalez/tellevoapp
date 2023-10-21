@@ -38,15 +38,16 @@
             <ion-card-content>
               <ion-card-title class="ion-text-center">Foto de perfil</ion-card-title>
             </ion-card-content>
-        <!-- foto de perfil -->
+        <!-- inicio forma -->
 
       <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
-        <input
-        name="imagen"
-        type="file"
-        id="imagen"
+
         
-        />
+        <!-- foto de perfil -->
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" id="imagen"   />
+
+
+
         <!-- Nombre Completo -->
         <ion-item>
           <ion-input name="nombre" type="text" placeholder="Nombre Completo" id="nombre" required formControlName="nombre" required [(ngModel)]="nombre" >
@@ -117,7 +118,7 @@
         </div>
 
         <div class="sign-btn-wrap">
-          <ion-button (click)="crearUsuario(nombre, correo, pass, telefono, id_rol, imagen)" fill="solid" shape="round" class="recuperar" type="submit" [disabled]="contactForm.invalid" [routerLink]="'/'" >Registrarse</ion-button>
+          <ion-button (click)="crearUsuario(nombre, correo, pass, telefono, id_rol, imagen)" fill="solid" shape="round" class="recuperar" [disabled]="imagen === null || contactForm.invalid" [routerLink]="'/'">Registrarse</ion-button>
         </div>
       </form>
   </ion-card-content>
