@@ -16,7 +16,7 @@ export class PerfilConductorPage implements OnInit {
 
 
 
-  id: number = Math.floor(Math.random() * 100) + 1;
+ //  id: number = Math.floor(Math.random() * 100) + 1;
   nombre: string = "";
   correo: string = "";
   numero_cel: string = "";
@@ -102,63 +102,18 @@ export class PerfilConductorPage implements OnInit {
   
 
 
-  actualizarContrasena() {
-    this.formErrors = {};
-    let valid: boolean = true;
-    valid = valid && this.validarContraA();
-    valid = valid && this.validarContraB();
-    if (valid) {
-      /*this.dataService.actualizarContrasena(this.newPassA).subscribe(
-        (response:any) => {
-          this.showToast('Contraseña actualizada', 'success');
-        },
-        (error:any) => {
-          // Manejar errores
-        }
-      );*/
-    }
-  }
 
-  actualizarUsuario2(id: number, nombre: string, correo: string, numero_cel: string) {
-    this.BdserviceService.actualizarUsuario2(id, nombre, correo, numero_cel);
+
+  actualizarUsuario2( nombre: string, correo: string, numero_cel: string) {
+    console.log("Nuevo nombre:", nombre);
+    console.log("Nuevo correo:", correo);
+    console.log("Nuevo número de celular:", numero_cel);
+  
+    this.BdserviceService.actualizarUsuario2( nombre, correo, numero_cel);
   }
  
 
 
-  validarNombre() {
-    let valid = true;
-    this.formErrors["nombre_empty"] = false;
-    if (this.usuario.nombre.trim() == "") {
-      this.formErrors["nombre_empty"] = true;
-      valid = false;
-    }
-    return valid;
-  }
-
-  validarApellido() {
-    let valid = true;
-    this.formErrors["apellido_empty"] = false;
-    if (this.usuario.apellido.trim() == "") {
-      this.formErrors["apellido_empty"] = true;
-      valid = false;
-    }
-    return valid;
-  }
-
-  validarPatente() {
-    let valid = true;
-    this.formErrors["patente_empty"] = false;
-    this.formErrors["patente_invalid"] = false;
-    if (this.usuario.patente.trim() == "") {
-      this.formErrors["patente_empty"] = true;
-      valid = false;
-    }
-    if (!this.usuario.patente.match(/[A-Z]{2}[1-9][0-9]{3}|[BCDFGHJKLPRSTVWXYZ]{4}[1-9][0-9]/)) {
-      this.formErrors["patente_invalid"] = true;
-      valid = false;
-    }
-    return valid;
-  }
 
   validarContraA() {
     let valid = true;

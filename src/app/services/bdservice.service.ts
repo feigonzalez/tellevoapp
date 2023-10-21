@@ -240,11 +240,10 @@ this.presentAlert("ERROR al crear nuevo Usuario: "+ (e as Error).message);
   }
   
 // actualizar usuario sin actualizar contraseña
-  actualizarUsuario2(id:number, nombre:string, correo:string,  numero_cel:string){
-    return this.database.executeSql("UPDATE usuarios SET nombre = ?, correo = ?, numero_cel = ? WHERE id_usuario = ?;",[nombre, correo,  numero_cel, id]).then((res)=>{
+  actualizarUsuario2( nombre:string, correo:string,  numero_cel:string){
+    return this.database.executeSql("UPDATE usuarios SET nombre = ?, correo = ?, numero_cel = ? WHERE id_usuario = ?;",[nombre, correo,  numero_cel]).then((res)=>{
       this.leerUsuarios();
     }).catch((e)=>{
-      this.presentAlert("ERROR al actualizar Usuario (ID:"+id+"): "+ (e as Error).message);
     })
   }
 
