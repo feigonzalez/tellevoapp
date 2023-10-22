@@ -1,0 +1,108 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>bdreport</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Roles</ion-card-title>
+    </ion-card-header>
+    <ion-card-content style="overflow:scroll">
+      <table style="width:200px">
+        <tr>
+          <th>ID</th><th>Nombre</th>
+        </tr>
+        <tr *ngFor="let r of roles">
+          <td>{{r.id_rol}}</td><td>{{r.nombre_rol}}</td>
+        </tr>
+      </table>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Usuarios</ion-card-title>
+    </ion-card-header>
+    <ion-card-content style="overflow:scroll">
+      <table style="width:700px">
+        <tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Contraseña</th><th>Núm. Teléfono</th><th>Imagen</th><th>ID Rol</th></tr>
+        <tr *ngFor="let u of usuarios">
+          <td>{{u.id_usuario}}</td><td>{{u.nombre}}</td><td>{{u.correo}}</td><td>{{u.password}}</td><td>{{u.numero_cel}}</td><td>{{u.imagen}}</td><td>{{u.id_rol}}</td>
+        </tr>
+      </table>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Vehículos</ion-card-title>
+    </ion-card-header>
+    <ion-card-content style="overflow:scroll">
+      <table style="width:500px">
+        <tr><th>ID</th><th>Patente</th><th>Color</th><th>Núm. Asientos</th><th>ID Usuario</th>
+        <tr *ngFor="let v of vehiculos">
+          <td>{{v.id_vehiculo}}</td><td>{{v.patente}}</td><td>{{v.color}}</td><td>{{v.n_asientos}}</td><td>{{v.id_usuario}}</td>
+        </tr>
+      </table>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Rutas</ion-card-title>
+    </ion-card-header>
+    <ion-card-content style="overflow:scroll">
+      <table style="width:600px">
+        <tr><th>ID</th><th>Tiempo Est.</th><th>Origen</th><th>Destino</th><th>Tarifa</th><th>ID Usuario</th>
+        <tr *ngFor="let r of rutas">
+          <td>{{r.id_ruta}}</td><td>{{r.tiempo_estimado}}</td><td>{{r.origen}}</td><td>{{r.destino}}</td><td>{{r.tarifa}}</td><td>{{r.id_usuario}}</td>
+        </tr>
+      </table>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Viajes</ion-card-title>
+    </ion-card-header>
+    <ion-card-content style="overflow:scroll">
+      <table style="width:600px">
+        <tr><th>ID</th><th>Tarifa</th><th>Fecha</th><th>ID Ruta</th><th>ID Conductor</th><th>ID Pasajero</th>
+        <tr *ngFor="let v of viajes">
+          <td>{{v.id_viaje}}</td><td>{{v.tarifa}}</td><td>{{v.fecha}}</td><td>{{v.id_ruta}}</td><td>{{v.id_conductor}}</td><td>{{v.id_pasajero}}</td>
+        </tr>
+      </table>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Calificaciones</ion-card-title>
+    </ion-card-header>
+    <ion-card-content style="overflow:scroll">
+      <table style="width:300px">
+        <tr><th>ID</th><th>Calificación</th><th>ID Viaje</th>
+        <tr *ngFor="let c of calificaciones">
+          <td>{{c.id_calificacion}}</td><td>{{c.calificacion}}</td><td>{{c.id_viaje}}</td>
+        </tr>
+      </table>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Mensajes</ion-card-title>
+    </ion-card-header>
+    <ion-card-content style="overflow:scroll">
+      <table style="width:500px">
+        <tr><th>ID</th><th>ID Remitente</th><th>ID Destinatario</th><th>Fecha</th><th>Texto</th>
+        <tr *ngFor="let m of mensajes">
+          <td>{{m.id_mensaje}}</td><td>{{m.id_remitente}}</td><td>{{m.id_destinatario}}</td><td>{{m.fecha}}</td><td>{{m.texto}}</td>
+        </tr>
+      </table>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

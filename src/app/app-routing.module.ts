@@ -75,6 +75,10 @@ const routes: Routes = [
     path: 'viaje-pasajero',
     loadChildren: () => import('./pages/viaje-pasajero/viaje-pasajero.module').then( m => m.ViajePasajeroPageModule)
   },
+  {
+    path: 'bdreport',
+    loadChildren: () => import('./pages/bdreport/bdreport.module').then( m => m.BdreportPageModule)
+  },
 ];
 
 @NgModule({

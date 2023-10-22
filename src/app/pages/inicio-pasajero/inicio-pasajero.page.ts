@@ -9,7 +9,7 @@ import { BdserviceService } from 'src/app/services/bdservice.service';
 })
 export class InicioPasajeroPage implements OnInit {
 
-  rutas : any = [
+  /*rutas : any = [
     {
       id: 1,
         nombre: "Viaje 1",
@@ -27,7 +27,9 @@ export class InicioPasajeroPage implements OnInit {
         horaSalida: "14:00"
       }
     ]
-  
+    */
+
+    rutas: any = {}
     usuario: any = {}
 
   constructor(private router: Router, private db:BdserviceService) {}
@@ -36,6 +38,7 @@ export class InicioPasajeroPage implements OnInit {
     this.db.dbState().subscribe(res=>{
       if(res){
         this.loadUsuario();
+        this.loadRutas();
       }
     })
   }
@@ -43,6 +46,10 @@ export class InicioPasajeroPage implements OnInit {
   async loadUsuario(){
     let uID=localStorage.getItem("uID");
     if(uID) this.usuario=await this.db.leerUsuarioPorID(uID);
+  }
+
+  async loadRutas(){
+    this.rutas=await this.db.leerRutas();
   }
 
   getRutaFromId(id:number){
