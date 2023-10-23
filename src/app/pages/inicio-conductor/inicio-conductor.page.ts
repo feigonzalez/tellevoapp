@@ -9,22 +9,6 @@ import { BdserviceService } from 'src/app/services/bdservice.service';
 })
 export class InicioConductorPage implements OnInit {
 
-/*  rutas : any = [
-    {id:1,
-     nombre:"Nombre de la ruta",
-     longitud:13.7,
-     duracion:18,
-     tarifa:3000,
-     horaSalida:"18:30"},
-    {id:2,
-     nombre:"Ruta 2",
-     longitud:16.3,
-     duracion:21,
-     tarifa:4000,
-     horaSalida:"14:00"},
-  ]
-*/
-
   rutas : any={}
   usuario : any={}
 
@@ -33,6 +17,9 @@ export class InicioConductorPage implements OnInit {
   ngOnInit() {
     this.db.dbState().subscribe(res=>{
       if(res){
+        this.db.fetchRutas().subscribe(items=>{
+          this.rutas = items;
+        })
         this.loadUsuario();
         this.loadRutas();
       }
@@ -46,7 +33,7 @@ export class InicioConductorPage implements OnInit {
 
   async loadRutas(){
     let uID=localStorage.getItem("uID");
-    if(uID) this.rutas=await this.db.leerRutasPorUsuario(uID);
+    if(uID) this.db.leerRutasPorUsuario(uID);
   }
 
   crearRuta(){
@@ -66,18 +53,10 @@ export class InicioConductorPage implements OnInit {
     this.router.navigate(['/ver-ruta'],ne)
   }
 
-  getRutaFromId(id:number){
-    let res:any=null;
-    this.rutas.forEach((r:any)=>{
-      if(r.id==id) res = r;
-    })
-    return res;
-  }
-
-  verRuta(id:number){
+  async verRuta(id:string){
     console.log("!:verRuta("+id+")")
     let ne:any={state:{
-      ruta:this.getRutaFromId(id),
+      ruta:await this.db.leerRutaPorId(id),
       viewType:"view"
     }}
     this.router.navigate(['/ver-ruta'],ne)

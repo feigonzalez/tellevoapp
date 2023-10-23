@@ -4,5 +4,6 @@ export class Ruta {
     origen="";
     destino="";
     tarifa="";
+    hora_salida="";
     id_usuario="";
 }

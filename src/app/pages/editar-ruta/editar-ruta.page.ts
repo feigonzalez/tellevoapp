@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
+import { BdserviceService } from 'src/app/services/bdservice.service';
 
 @Component({
   selector: 'app-editar-ruta',
@@ -17,7 +18,7 @@ export class EditarRutaPage implements OnInit {
   formErrors : any = {};
 
   constructor(private location:Location,private router: Router, private activatedRoute: ActivatedRoute,
-      private alertController: AlertController,private toastController: ToastController) {
+      private alertController: AlertController,private toastController: ToastController, private db: BdserviceService) {
     this.activatedRoute.queryParams.subscribe(params=>{
       if(this.router.getCurrentNavigation()?.extras.state){
         this.ruta=this.router.getCurrentNavigation()?.extras?.state?.['ruta']
@@ -67,8 +68,8 @@ export class EditarRutaPage implements OnInit {
   }
 
   ngAfterContentInit(){
-    this.salidaHora=this.ruta.horaSalida.substring(0,this.ruta.horaSalida.indexOf(":"));
-    this.salidaMinuto=this.ruta.horaSalida.substring(this.ruta.horaSalida.indexOf(":")+1);
+    this.salidaHora=this.ruta.hora_salida.substring(0,this.ruta.hora_salida.indexOf(":"));
+    this.salidaMinuto=this.ruta.hora_salida.substring(this.ruta.hora_salida.indexOf(":")+1);
   }
 
   actualizarRuta(){
@@ -79,19 +80,21 @@ export class EditarRutaPage implements OnInit {
     valid=valid&&this.validarTarifa();
     valid=valid&&this.validarHora();
     valid=valid&&this.validarMinuto();
-    if(this.ruta.nombre.trim()==""){
-      this.showToast("Nombre de la Ruta no puede estar vacío","danger");
-    } else {
-      if(valid){
-        //actualizar datos en la db
-        this.showToast("Ruta actualizada","success");
-        let ne:any={state:{
-          ruta:this.ruta,
-          viewType:"view"
-        }}
-        ne.state.ruta.horaSalida=String(this.salidaHora).padStart(2,"0")+":"+String(this.salidaMinuto).padStart(2,"0");
-        this.router.navigate(['/ver-ruta'],ne)
-      }
+    if(valid){
+      //actualizar datos en la db
+      //recalcular tiempo estimado
+      this.ruta.hora_salida=this.salidaHora.toString().padStart(2,'0')+":"+this.salidaMinuto.toString().padStart(2,'0');
+      this.db.actualizarRuta(this.ruta.id_ruta, this.ruta.tiempo_estimado, this.ruta.origen, this.ruta.destino, this.ruta.tarifa, this.ruta.hora_salida, this.ruta.id_usuario)
+      this.showToast("Ruta actualizada","success");
+      //actualiza la lista de rutas para la vista de inicio-conductor
+      let uID=localStorage.getItem("uID");
+      if(uID) this.db.leerRutasPorUsuario(uID)
+      let ne:any={state:{
+        ruta:this.ruta,
+        viewType:"view"
+      }}
+      ne.state.ruta.horaSalida=String(this.salidaHora).padStart(2,"0")+":"+String(this.salidaMinuto).padStart(2,"0");
+      this.router.navigate(['/ver-ruta'],ne)
     }
   }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BdserviceService } from 'src/app/services/bdservice.service';
 
 @Component({
   selector: 'app-ver-ruta',
@@ -11,7 +12,7 @@ export class VerRutaPage implements OnInit {
   ruta? : any;
   viewType : string="";
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private db: BdserviceService) {
     this.activatedRoute.queryParams.subscribe(params=>{
       if(this.router.getCurrentNavigation()?.extras.state){
         this.ruta=this.router.getCurrentNavigation()?.extras.state?.['ruta']

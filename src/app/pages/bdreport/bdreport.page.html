@@ -55,9 +55,9 @@
     </ion-card-header>
     <ion-card-content style="overflow:scroll">
       <table style="width:600px">
-        <tr><th>ID</th><th>Tiempo Est.</th><th>Origen</th><th>Destino</th><th>Tarifa</th><th>ID Usuario</th>
+        <tr><th>ID</th><th>Tiempo Est.</th><th>Origen</th><th>Destino</th><th>Tarifa</th><th>Hora Salida</th><th>ID Usuario</th>
         <tr *ngFor="let r of rutas">
-          <td>{{r.id_ruta}}</td><td>{{r.tiempo_estimado}}</td><td>{{r.origen}}</td><td>{{r.destino}}</td><td>{{r.tarifa}}</td><td>{{r.id_usuario}}</td>
+          <td>{{r.id_ruta}}</td><td>{{r.tiempo_estimado}}</td><td>{{r.origen}}</td><td>{{r.destino}}</td><td>{{r.tarifa}}</td><td>{{r.hora_salida}}</td><td>{{r.id_usuario}}</td>
         </tr>
       </table>
     </ion-card-content>

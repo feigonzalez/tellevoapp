@@ -30,9 +30,12 @@
       <ion-list lines="full">
         <!-- esta lista debe tener una altura fija, cosa que el botón de "añadir ruta"
           salga al fondo de la pagina siempre-->
-        <ion-item *ngFor="let ruta of rutas" (click)="verRuta(ruta.id)">
-          <ion-label style="--padding-start:1rem">{{ruta.nombre}}</ion-label>
-          <ion-label class="ion-text-right">{{ruta.longitud}}Km / {{ruta.duracion}}min</ion-label>
+        <ion-item *ngFor="let ruta of rutas" (click)="verRuta(ruta.id_ruta)">
+          <ion-label style="--padding-start:1rem;overflow:scroll;white-space:nowrap">
+            <div>{{ruta.origen}}</div>
+            <div>→ {{ruta.destino}}</div>
+          </ion-label>
+          <ion-label class="ion-text-right" style="max-width:70px">{{ruta.hora_salida}}</ion-label>
         </ion-item>
       </ion-list>
       <div style="text-align: center;"><ion-button color="grey" (click)="crearRuta()">Añadir Ruta</ion-button></div>

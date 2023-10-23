@@ -50,6 +50,7 @@ export class HomePage implements OnInit{
   async login(){
     if(this.username.trim()=="bdreport" && this.password.trim()=="bdreport"){
       this.navCtrl.navigateForward('/bdreport');
+      return;
     }
     this.showErrorMessage = false;
     if(this.username.trim()==""){

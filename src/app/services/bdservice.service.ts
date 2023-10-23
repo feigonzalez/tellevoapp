@@ -33,7 +33,7 @@ export class BdserviceService {
   tablaRolesStmt="CREATE TABLE IF NOT EXISTS roles (id_rol INTEGER PRIMARY KEY, nombre_rol VARCHAR(25) NOT NULL);";
   tablaUsuariosStmt="CREATE TABLE IF NOT EXISTS usuarios (id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL, correo VARCHAR(100) NOT NULL, password VARCHAR(100) NOT NULL, numero_cel VARCHAR(25) NOT NULL, imagen VARCHAR(50) NOT NULL, id_rol INTEGER NOT NULL, FOREIGN KEY(id_rol) REFERENCES roles(id_rol));";
   tablaVehiculosStmt="CREATE TABLE IF NOT EXISTS vehiculos (id_vehiculo INTEGER PRIMARY KEY AUTOINCREMENT, patente VARCHAR(10) NOT NULL, color VARCHAR(25) NOT NULL, n_asientos INTEGER NOT NULL, id_usuario INTEGER NOT NULL, FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario));";
-  tablaRutasStmt="CREATE TABLE IF NOT EXISTS rutas(id_ruta INTEGER PRIMARY KEY AUTOINCREMENT, tiempo_estimado INTEGER NOT NULL, origen VARCHAR(100), destino VARCHAR(100) NOT NULL, tarifa INTEGER NOT NULL, id_usuario INTEGER NOT NULL, FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario))";
+  tablaRutasStmt="CREATE TABLE IF NOT EXISTS rutas(id_ruta INTEGER PRIMARY KEY AUTOINCREMENT, tiempo_estimado INTEGER NOT NULL, origen VARCHAR(100), destino VARCHAR(100) NOT NULL, tarifa INTEGER NOT NULL, hora_salida VARCHAR(8) NOT NULL, id_usuario INTEGER NOT NULL, FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario))";
   tablaViajesStmt="CREATE TABLE IF NOT EXISTS viajes(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, tarifa INTEGER NOT NULL, fecha TIMESTAMP NOT NULL, id_ruta INTEGER NOT NULL, id_pasajero INTEGER NOT NULL, FOREIGN KEY(id_ruta) REFERENCES rutas(id_ruta), FOREIGN KEY(id_pasajero) REFERENCES usuarios(id_pasajero))";
   tablaCalificacionesStmt="CREATE TABLE IF NOT EXISTS calificaciones (id_calificacion INTEGER PRIMARY KEY AUTOINCREMENT, calificacion FLOAT NOT NULL, id_viaje INTEGER NOT NULL, FOREIGN KEY (id_viaje) REFERENCES viajes(id_viaje));";
   tablaMensajesStmt="CREATE TABLE IF NOT EXISTS mensajes (id_mensaje INTEGER PRIMARY KEY AUTOINCREMENT, id_remitente INTEGER NOT NULL, id_destinatario INTEGER NOT NULL, fecha TIMESTAMP, texto VARCHAR(1000) NOT NULL);";
@@ -49,9 +49,9 @@ export class BdserviceService {
     "INSERT OR IGNORE INTO usuarios (id_usuario, nombre, correo, password, numero_cel, imagen, id_rol) VALUES (4, 'Freddy Turbina', 'fturbina@aplaplac.com', 'pass', '+56900000004', 'user_freddy.jpg', 1)"
   ];
   poblarRutasStmts=[
-    "INSERT OR IGNORE INTO rutas (id_ruta, tiempo_estimado, origen, destino, tarifa, id_usuario) VALUES (1, 0, 'Calle Nueva 1660, Huechuraba', 'Pedro Fontova 6426, Huechuraba', 800, 1)",
-    "INSERT OR IGNORE INTO rutas (id_ruta, tiempo_estimado, origen, destino, tarifa, id_usuario) VALUES (2, 0, 'Calle Nueva 1660, Huechuraba', 'Rigoberto Jara 0278, Quilicura', 2000, 1)",
-    "INSERT OR IGNORE INTO rutas (id_ruta, tiempo_estimado, origen, destino, tarifa, id_usuario) VALUES (3, 0, 'Antonio Varas 666, Providencia', 'Clemente Fabres 1025, Providencia', 3500, 5)"
+    "INSERT OR IGNORE INTO rutas (id_ruta, tiempo_estimado, origen, destino, tarifa, hora_salida, id_usuario) VALUES (1, 0, 'Calle Nueva 1660, Huechuraba', 'Pedro Fontova 6426, Huechuraba', 800, '14:30', 1)",
+    "INSERT OR IGNORE INTO rutas (id_ruta, tiempo_estimado, origen, destino, tarifa, hora_salida, id_usuario) VALUES (2, 0, 'Calle Nueva 1660, Huechuraba', 'Rigoberto Jara 0278, Quilicura', 2000, '16:30', 1)",
+    "INSERT OR IGNORE INTO rutas (id_ruta, tiempo_estimado, origen, destino, tarifa, hora_salida, id_usuario) VALUES (3, 0, 'Antonio Varas 666, Providencia', 'Clemente Fabres 1025, Providencia', 3500, '17:00', 5)"
   ];
   poblarViajesStmts=[
     "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, id_ruta) VALUES (1, 800, '2023-09-20 16:44:21', 1)",
@@ -142,6 +142,8 @@ export class BdserviceService {
       for(var stmt of this.poblarUsuariosStmts){ await this.database.executeSql(stmt,[]); }
       status="populated Usuarios";
       for(var stmt of this.poblarRutasStmts){ await this.database.executeSql(stmt,[]); }
+      status="populated Rutas";
+      for(var stmt of this.poblarViajesStmts){ await this.database.executeSql(stmt,[]); }
       status="populated Viajes";
       for(var stmt of this.poblarCalificacionesStmts){ await this.database.executeSql(stmt,[]); }
       status="populated Calificaciones";
@@ -414,6 +416,7 @@ Retorna una lista de objetos con la siguiente estructura:
             origen:item.origen,
             destino:item.destino,
             tarifa:item.tarifa,
+            hora_salida:item.hora_salida,
             id_usuario:item.id_usuario
           });
         }
@@ -421,6 +424,18 @@ Retorna una lista de objetos con la siguiente estructura:
       this.tablaRutas.next(items as any)
     }).catch(e=>{
       this.presentAlert("ERROR al obtener Rutas: " + (e as Error).message);
+    })
+  }
+
+  leerRutaPorId(id:string){
+    return this.database.executeSql("SELECT * FROM rutas WHERE id_ruta = ?",[id]).then(res=>{
+      if(res.rows.length==1){
+        return res.rows.item(0);
+      }
+      return null;
+    }).catch(e=>{
+      this.presentAlert("ERROR al obtener Ruta (ID:"+id+"): " + (e as Error).message);
+      return null;
     })
   }
 
@@ -436,6 +451,7 @@ Retorna una lista de objetos con la siguiente estructura:
             origen:item.origen,
             destino:item.destino,
             tarifa:item.tarifa,
+            hora_salida:item.hora_salida,
             id_usuario:item.id_usuario
           });
         }
@@ -448,7 +464,6 @@ Retorna una lista de objetos con la siguiente estructura:
   
   crearRuta(tiempo_estimado:number, origen:string, destino:string, tarifa:number, id_usuario:number){
     return this.database.executeSql("INSERT INTO rutas (tiempo_estimado, origen, destino, tarifa, id_usuario) VALUES (0, ?, ?, ?, ?)",[tiempo_estimado, origen, destino, tarifa, id_usuario]).then((res)=>{
-      this.leerRutas();
     }).catch((e)=>{
       this.presentAlert("ERROR al crear nueva Ruta: "+ (e as Error).message);
     })
@@ -456,15 +471,13 @@ Retorna una lista de objetos con la siguiente estructura:
   
   eliminarRuta(id:number){
     return this.database.executeSql("DELETE FROM rutas WHERE id_ruta = ?;",[id]).then((res)=>{
-      this.leerRutas();
     }).catch((e)=>{
       this.presentAlert("ERROR al eliminar Ruta (ID:"+id+"): "+ (e as Error).message);
     })
   }
   
-  actualizarRuta(id:number, tiempo_estimado:number, origen:string, destino:string, tarifa:number, id_usuario:number){
-    return this.database.executeSql("UPDATE rutas SET tiempo_estimado = ?, origen=?, destino = ?, tarifa = ?, id_usuario = ? WHERE id_viaje = ?;",[tiempo_estimado, origen, destino, tarifa, id_usuario, id]).then((res)=>{
-      this.leerRutas();
+  actualizarRuta(id:number, tiempo_estimado:number, origen:string, destino:string, tarifa:number, hora_salida:string, id_usuario:number){
+    return this.database.executeSql("UPDATE rutas SET tiempo_estimado = ?, origen=?, destino = ?, tarifa = ?, hora_salida = ?, id_usuario = ? WHERE id_ruta = ?;",[tiempo_estimado, origen, destino, tarifa, hora_salida, id_usuario, id]).then((res)=>{
     }).catch((e)=>{
       this.presentAlert("ERROR al actualizar Ruta (ID:"+id+"): "+ (e as Error).message);
     })
