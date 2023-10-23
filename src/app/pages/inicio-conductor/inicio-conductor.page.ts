@@ -9,7 +9,7 @@ import { BdserviceService } from 'src/app/services/bdservice.service';
 })
 export class InicioConductorPage implements OnInit {
 
-  rutas : any = [
+/*  rutas : any = [
     {id:1,
      nombre:"Nombre de la ruta",
      longitud:13.7,
@@ -23,7 +23,9 @@ export class InicioConductorPage implements OnInit {
      tarifa:4000,
      horaSalida:"14:00"},
   ]
+*/
 
+  rutas : any={}
   usuario : any={}
 
   constructor(private router: Router, private db:BdserviceService) { }
@@ -32,6 +34,7 @@ export class InicioConductorPage implements OnInit {
     this.db.dbState().subscribe(res=>{
       if(res){
         this.loadUsuario();
+        this.loadRutas();
       }
     })
   }
@@ -39,6 +42,11 @@ export class InicioConductorPage implements OnInit {
   async loadUsuario(){
     let uID=localStorage.getItem("uID");
     if(uID) this.usuario=await this.db.leerUsuarioPorID(uID);
+  }
+
+  async loadRutas(){
+    let uID=localStorage.getItem("uID");
+    if(uID) this.rutas=await this.db.leerRutasPorUsuario(uID);
   }
 
   crearRuta(){

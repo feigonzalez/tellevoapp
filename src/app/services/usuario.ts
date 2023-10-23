@@ -4,5 +4,6 @@ export class Usuario {
     correo="";
     password="";
     numero_cel="";
+    imagen="";
     id_rol="";
 }
