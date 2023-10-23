@@ -252,11 +252,36 @@ this.presentAlert("ERROR al crear nuevo Usuario: "+ (e as Error).message);
   actualizarUsuario2( nombre:string, correo:string,  numero_cel:string){
     return this.database.executeSql("UPDATE usuarios SET nombre = ?, correo = ?, numero_cel = ? WHERE id_usuario = ?;",[nombre, correo,  numero_cel]).then((res)=>{
       this.leerUsuarios();
-    }).catch((e)=>{
+    }).catch((error) => {
+      console.error("Error al actualizar usuario:", error);
     })
   }
 
 
+
+
+
+// otra vez tratando de cambiar la wea de edición sin exito, round 5 
+updateUsuario(usuario: any) {
+  return this.sqlite.create({
+    name: 'bdtellevo.db',
+    location: 'default',
+  }).then((db: SQLiteObject) => {
+    return db.executeSql(
+      'UPDATE usuarios SET nombre = ?, correo = ?, numero_cel = ? WHERE id_usuario = ?',
+      [usuario.nombre, usuario.correo, usuario.numero_cel, usuario.id_usuario]
+    );
+  }).then((data) => {
+    if (data.rowsAffected > 0) {
+      return "Usuario actualizado exitosamente";
+    } else {
+      throw new Error("No se pudo actualizar el usuario");
+    }
+  }).catch(error => {
+    console.error('Error al actualizar datos:', error);
+    throw new Error("Error al actualizar el usuario: " + error.message);
+  });
+}
 
 // BD: Mensajes
 
