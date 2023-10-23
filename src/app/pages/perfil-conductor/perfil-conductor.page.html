@@ -2,64 +2,37 @@
   <ion-toolbar color="#1e1e1e">
     <ion-buttons slot="start">
       <ion-back-button style="color: white;" defaultHref="/inicio-conductor" text="Volver"></ion-back-button>
-      </ion-buttons>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-content padding class="background">
+<ion-content [fullscreen]="true" class="background">
   <ion-card>
     <ion-card-header>
       <ion-card-title class="ion-text-center">
-        <ion-thumbnail id="perfil-imagen" (click)="editarImagenPerfil()"><img src="{{usuario.imagen}}"></ion-thumbnail>
-        <ion-label>{{usuario.nombre}} </ion-label><br>
-        <ion-label>{{usuario.correo}} </ion-label><br>
-        <ion-label>{{usuario.numero_cel}} </ion-label>
+        <ion-thumbnail id="perfil-imagen"><img [src]="usuario.imagen"></ion-thumbnail>
+        <ion-label>{{usuario.nombre}}</ion-label><br>
+        <ion-label>{{usuario.correo}}</ion-label><br>
+        <ion-label>{{usuario.numero_cel}}</ion-label>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
 
-      <form (ngSubmit)="actualizarUsuario2( nombre, correo, numero_cel)" >
-
- <!-- Formulario -->
-        <!-- Nombre [(ngModel)]="usuario.nombre" -->
+      <ion-list>
         <ion-item>
-          <ion-label position="floating"><ion-icon name="person-outline"></ion-icon>Nombre</ion-label> <br>
-
-          <ion-input id="nombre" type="text" [(ngModel)]="nombre" required  placeholder="{{usuario.nombre}}"></ion-input>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input [(ngModel)]="usuario.nombre" type="text"></ion-input>
         </ion-item>
-
-
-
-
-
-        <!-- Correo Electrónico [(ngModel)]="usuario.correo"  -->
         <ion-item>
-          <ion-label name="mail-outline" position="floating"> <ion-icon name="mail-outline">  </ion-icon>Correo</ion-label> <br>
-          <ion-input name="correo" id="correo" type="text" [(ngModel)]="correo" placeholder="{{usuario.correo}}"></ion-input>
+          <ion-label position="floating">Correo</ion-label>
+          <ion-input [(ngModel)]="usuario.correo" type="email"></ion-input>
         </ion-item>
-
-        <!-- Teléfono [(ngModel)]="usuario.numero_cel"  -->
         <ion-item>
-          <ion-label name="call-outline" position="floating"> <ion-icon name="call-outline"></ion-icon>Teléfono</ion-label> <br>
-          <ion-input name="numero_cel" id="numero_cel" type="text" [(ngModel)]="numero_cel" placeholder="{{usuario.numero_cel}}"></ion-input>
+          <ion-label position="floating">Número de Celular</ion-label>
+          <ion-input [(ngModel)]="usuario.numero_cel" type="tel"></ion-input>
         </ion-item>
-   
-
-       
-
-
-
-
-        <div style="text-align: center;">
-          <ion-button (click)="actualizarUsuario2( nombre, correo, numero_cel)" type="submit" color="grey"     [routerLink]="['/inicio-conductor']"     >Actualizar datos</ion-button>
-        </div>
-        
-      </form>
+      </ion-list>
+      <ion-button expand="full" (click)="guardarCambios()">Guardar Cambios</ion-button>
     </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-
   </ion-card>
 </ion-content>
