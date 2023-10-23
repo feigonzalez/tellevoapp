@@ -37,6 +37,9 @@ export class InicioPasajeroPage implements OnInit {
   ngOnInit() {
     this.db.dbState().subscribe(res=>{
       if(res){
+        this.db.fetchRutas().subscribe(items=>{
+          this.rutas = items;
+        })
         this.loadUsuario();
         this.loadRutas();
       }
@@ -49,21 +52,13 @@ export class InicioPasajeroPage implements OnInit {
   }
 
   async loadRutas(){
-    this.rutas=await this.db.leerRutas();
+    this.db.leerRutas();
   }
 
-  getRutaFromId(id:number){
-    let res:any=null;
-    this.rutas.forEach((r:any)=>{
-      if(r.id==id) res = r;
-    })
-    return res;
-  }
-
-  verRuta(id:number){
+  async verRuta(id:string){
     console.log("!:verRutaPasajero("+id+")")
     let ne:any={state:{
-      ruta:this.getRutaFromId(id),
+      ruta:await this.db.leerRutaPorId(id),
       viewType:"view"
     }}
     this.router.navigate(['/ver-ruta-pasajero'],ne)

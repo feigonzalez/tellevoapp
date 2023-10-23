@@ -34,7 +34,7 @@ export class BdserviceService {
   tablaUsuariosStmt="CREATE TABLE IF NOT EXISTS usuarios (id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(100) NOT NULL, correo VARCHAR(100) NOT NULL, password VARCHAR(100) NOT NULL, numero_cel VARCHAR(25) NOT NULL, imagen VARCHAR(50) NOT NULL, id_rol INTEGER NOT NULL, FOREIGN KEY(id_rol) REFERENCES roles(id_rol));";
   tablaVehiculosStmt="CREATE TABLE IF NOT EXISTS vehiculos (id_vehiculo INTEGER PRIMARY KEY AUTOINCREMENT, patente VARCHAR(10) NOT NULL, color VARCHAR(25) NOT NULL, n_asientos INTEGER NOT NULL, id_usuario INTEGER NOT NULL, FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario));";
   tablaRutasStmt="CREATE TABLE IF NOT EXISTS rutas(id_ruta INTEGER PRIMARY KEY AUTOINCREMENT, tiempo_estimado INTEGER NOT NULL, origen VARCHAR(100), destino VARCHAR(100) NOT NULL, tarifa INTEGER NOT NULL, hora_salida VARCHAR(8) NOT NULL, id_usuario INTEGER NOT NULL, FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario))";
-  tablaViajesStmt="CREATE TABLE IF NOT EXISTS viajes(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, tarifa INTEGER NOT NULL, fecha TIMESTAMP NOT NULL, id_ruta INTEGER NOT NULL, id_pasajero INTEGER NOT NULL, FOREIGN KEY(id_ruta) REFERENCES rutas(id_ruta), FOREIGN KEY(id_pasajero) REFERENCES usuarios(id_pasajero))";
+  tablaViajesStmt="CREATE TABLE IF NOT EXISTS viajes(id_viaje INTEGER PRIMARY KEY AUTOINCREMENT, tarifa INTEGER NOT NULL, fecha TIMESTAMP NOT NULL, estado VARCHAR(16) NOT NULL, id_ruta INTEGER NOT NULL, id_pasajero INTEGER NOT NULL, FOREIGN KEY(id_ruta) REFERENCES rutas(id_ruta), FOREIGN KEY(id_pasajero) REFERENCES usuarios(id_pasajero))";
   tablaCalificacionesStmt="CREATE TABLE IF NOT EXISTS calificaciones (id_calificacion INTEGER PRIMARY KEY AUTOINCREMENT, calificacion FLOAT NOT NULL, id_viaje INTEGER NOT NULL, FOREIGN KEY (id_viaje) REFERENCES viajes(id_viaje));";
   tablaMensajesStmt="CREATE TABLE IF NOT EXISTS mensajes (id_mensaje INTEGER PRIMARY KEY AUTOINCREMENT, id_remitente INTEGER NOT NULL, id_destinatario INTEGER NOT NULL, fecha TIMESTAMP, texto VARCHAR(1000) NOT NULL);";
 
@@ -54,9 +54,9 @@ export class BdserviceService {
     "INSERT OR IGNORE INTO rutas (id_ruta, tiempo_estimado, origen, destino, tarifa, hora_salida, id_usuario) VALUES (3, 0, 'Antonio Varas 666, Providencia', 'Clemente Fabres 1025, Providencia', 3500, '17:00', 5)"
   ];
   poblarViajesStmts=[
-    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, id_ruta) VALUES (1, 800, '2023-09-20 16:44:21', 1)",
-    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, id_ruta) VALUES (2, 800, '2023-09-20 19:34:51', 1)",
-    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, id_ruta) VALUES (3, 2000, '2023-10-17 17:21:11', 2)"
+    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (1, 800, '2023-09-20 16:44:21', 'completado', 1, 2)",
+    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (2, 800, '2023-09-20 19:34:51', 'completado', 1, 2)",
+    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (3, 2000, '2023-10-17 17:21:11', 'completado', 2, 3)"
   ]
   poblarCalificacionesStmts=[
     "INSERT OR IGNORE INTO calificaciones (id_calificacion, calificacion, id_viaje) VALUES (1, 3, 1)",
@@ -94,6 +94,11 @@ export class BdserviceService {
       buttons: ['OK'],
     });
     await alert.present();
+  }
+
+  getCurrentDatestring(){
+    let d = new Date();
+    return d.getFullYear()+"-"+d.getMonth().toString().padStart(2,'0')+"-"+d.getDate().toString().padStart(2,'0')+" "+d.getHours().toString().padStart(2,'0')+":"+d.getMinutes().toString().padStart(2,'0')+":"+d.getSeconds().toString().padStart(2,'0');
   }
 
   dbState(){ return this.isDBReady.asObservable(); }
@@ -523,6 +528,7 @@ Retorna una lista de objetos con la siguiente estructura:
             id_viaje:item.id_viaje,
             fecha:item.fecha,
             tarifa:item.tarifa,
+            estado:item.estado,
             id_ruta:item.id_ruta,
             id_pasajero:item.id_pasajero
           });
@@ -534,9 +540,8 @@ Retorna una lista de objetos con la siguiente estructura:
     })
   }
   
-  crearViaje(tarifa:number, id_ruta:string, id_pasajero:number){
-    return this.database.executeSql("INSERT INTO viajes (tarifa, id_ruta, id_pasajero) VALUES (?, ?, ?, ?);",[tarifa, id_ruta, id_pasajero]).then((res)=>{
-      this.leerViajes();
+  crearViaje(tarifa:number, fecha:string, estado:string, id_ruta:string, id_pasajero:number){
+    return this.database.executeSql("INSERT INTO viajes (tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (?, ?, ?, ?);",[tarifa, fecha, estado, id_ruta, id_pasajero]).then((res)=>{
     }).catch((e)=>{
       this.presentAlert("ERROR al crear nuevo Viaje: "+ (e as Error).message);
     })

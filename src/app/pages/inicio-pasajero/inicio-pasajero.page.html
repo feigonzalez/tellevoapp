@@ -9,7 +9,7 @@
       <ion-label>{{usuario.nombre}}</ion-label>
       <ion-button class="round-icon">
         <ion-thumbnail class="userIcon">
-          <img src="../assets/icon/{{usuario.imagen}}">
+          <img src="{{usuario.imagen}}">
         </ion-thumbnail>
       </ion-button>
     </ion-item>
@@ -20,6 +20,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content [fullscreen]="true" padding class="background">
   <ion-card>
     <ion-card-header>
@@ -29,9 +30,12 @@
       <ion-list lines="full">
         <!-- esta lista debe tener una altura fija, cosa que el botón de "añadir ruta"
           salga al fondo de la pagina siempre-->
-        <ion-item *ngFor="let ruta of rutas" (click)="verRuta(ruta.id)">
-          <ion-label style="--padding-start:1rem">{{ruta.nombre}}</ion-label>
-          <ion-label class="ion-text-right">{{ruta.longitud}}Km. / {{ruta.duracion}}Min.</ion-label>
+        <ion-item *ngFor="let ruta of rutas" (click)="verRuta(ruta.id_ruta)">
+          <ion-label style="--padding-start:1rem;overflow:scroll;white-space:nowrap">
+            <div>{{ruta.origen}}</div>
+            <div>→ {{ruta.destino}}</div>
+          </ion-label>
+          <ion-label class="ion-text-right" style="max-width:70px">{{ruta.hora_salida}}</ion-label>
         </ion-item>
       </ion-list>
       

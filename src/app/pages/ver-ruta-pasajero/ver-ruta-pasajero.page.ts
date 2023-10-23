@@ -38,8 +38,10 @@ export class VerRutaPasajeroPage implements OnInit {
     this.router.navigate(['/editar-ruta-pasajero'], ne); 
   }
 
-  comenzarViaje() {
-    console.log("!:comenzarViaje()");
+  solicitarViaje() {
+    console.log("!:solicitarViaje()");
+    //insert new VIAJE, with values ID_VIAJE:AUTO, TARIFA:RUTA.TARIFA, FECHA:NOW(), ESTADO:'solicitado', ID_RUTA:RUTA.ID_RUTA, ID_PASAJERO:UID
+    
     let ne: any = {
       state: {
         ruta: this.ruta,
