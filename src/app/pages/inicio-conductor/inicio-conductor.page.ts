@@ -51,7 +51,7 @@ export class InicioConductorPage implements OnInit {
       viewType:"new"
       }
     }
-    this.router.navigate(['/ver-ruta'],ne)
+    this.router.navigate(['/editar-ruta'],ne)
   }
 
   async verRuta(id:string){

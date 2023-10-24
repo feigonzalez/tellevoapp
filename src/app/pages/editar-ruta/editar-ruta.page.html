@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="#1e1e1e">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/inicio-conductor" text="Cancelar"></ion-back-button>
+      <ion-back-button *ngIf="!newRuta" defaultHref="/inicio-conductor" text="Cancelar"></ion-back-button>
       </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -23,7 +23,7 @@
     <ion-row class="display-labels"><ion-col>
       <ion-item lines="none">
         <span class="display-label">Salida</span>
-        <ion-select [(ngModel)]="ruta.origen">
+        <ion-select [(ngModel)]="ruta.origen" (input)="validarOrigen()">
           <ion-select-option value="Av. España 8, Santiago Centro">DuocUC Sede Alameda</ion-select-option>
           <ion-select-option value="Padre Alonso de Ovalle 1586, Santiago Centro">DuocUC Sede Padre Alonso de Ovalle</ion-select-option>
           <ion-select-option value="Antonio Varas 666, Providencia">DuocUC Sede Antonio Varas</ion-select-option>
@@ -45,6 +45,7 @@
           <ion-select-option value="Egaña 651, Puerto Montt">DuocUC Sede Puerto Montt</ion-select-option>
         </ion-select>
       </ion-item>
+      <div class="formErrorMessage" *ngIf="formErrors['origen_empty']">Seleccione un lugar de origen</div>
     </ion-col></ion-row>
     <ion-row class="display-labels"><ion-col>
       <ion-item lines="none">

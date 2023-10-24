@@ -23,7 +23,7 @@ ion-content.background{
 }
 
 ion-button {
-    border-radius: 10px;
+    border-radius: 20px;
     background-color: #1e1e1e;;
     color: white;
     width: 80%;
@@ -33,3 +33,8 @@ ion-button {
 ion-content.background{
     --background: url(/assets/fondo.jpg) 0 0/100% 100% no-repeat;
   }
+
+ion-footer.footer{
+  position:absolute;
+  bottom:0;
+}

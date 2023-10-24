@@ -22,7 +22,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" padding class="background">
-  <ion-card>
+  <ion-card style="margin-bottom:94px">
     <ion-card-header>
       <ion-card-title style="color: #1e1e1e;" class="ion-text-center">Rutas</ion-card-title>
     </ion-card-header>
@@ -38,7 +38,10 @@
           <ion-label class="ion-text-right" style="max-width:70px">{{ruta.hora_salida}}</ion-label>
         </ion-item>
       </ion-list>
-      <div style="text-align: center;"><ion-button color="grey" (click)="crearRuta()">Añadir Ruta</ion-button></div>
     </ion-card-content>
   </ion-card>
 </ion-content>
+
+<ion-footer class="footer" style="background:#fff">
+  <div style="text-align: center;"><ion-button style="display:inline-block;margin:1rem" expand="block" size="large" (click)="crearRuta()">Añadir Ruta</ion-button></div>
+</ion-footer>

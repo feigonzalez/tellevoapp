@@ -12,6 +12,7 @@ import { BdserviceService } from 'src/app/services/bdservice.service';
 export class EditarRutaPage implements OnInit {
 
   ruta? : any;
+  newRuta:boolean=false;
   viewType : string = "";
   salidaHora : number = 0;
   salidaMinuto : number = 0;
@@ -24,15 +25,18 @@ export class EditarRutaPage implements OnInit {
         this.ruta=this.router.getCurrentNavigation()?.extras?.state?.['ruta']
         this.viewType=this.router.getCurrentNavigation()?.extras?.state?.['viewType']
         console.log("SM2:["+this.salidaMinuto+"]")
+        if(this.ruta.id_ruta==-1){
+          this.newRuta=true;
+        }
       }
     })
     console.log("@EDI:["+this.viewType+"]")
   }
 
-  async alertaEliminar(newRuta?:boolean) {
+  async alertaEliminar(){
     const alert = await this.alertController.create({
-      header: newRuta?'¿Cancelar creación de ruta?':'¿Desea eliminar esta ruta?',
-      subHeader:newRuta?'':'Esto no se puede deshacer',
+      header: this.newRuta?'¿Cancelar creación de ruta?':'¿Desea eliminar esta ruta?',
+      subHeader:this.newRuta?'':'Esto no se puede deshacer',
       buttons: [{
           text:'Volver',
           role:"cancel",
@@ -41,14 +45,14 @@ export class EditarRutaPage implements OnInit {
           role:"confirm",
           cssClass:"color-danger",
           handler:()=>{
-            if(!newRuta){
+            if(!this.newRuta){
               this.db.eliminarRuta(this.ruta.id_ruta);
               //actualiza la lista de rutas para la vista de inicio-conductor
               let uID=localStorage.getItem("uID");
               if(uID) this.db.leerRutasPorUsuario(uID)
               this.db.showToast("Ruta eliminada","success");
+              this.location.back();
             }
-            this.location.back();
             this.location.back();
           }
         }
@@ -73,6 +77,7 @@ export class EditarRutaPage implements OnInit {
     valid=this.validarTarifa()&&valid;
     valid=this.validarHora()&&valid;
     valid=this.validarMinuto()&&valid;
+    valid=this.validarOrigen()&&valid;
     valid=this.validarDestino()&&valid;
     if(valid){
       this.ruta.hora_salida=this.salidaHora.toString().padStart(2,'0')+":"+this.salidaMinuto.toString().padStart(2,'0');
@@ -95,7 +100,7 @@ export class EditarRutaPage implements OnInit {
         ruta:this.ruta,
         viewType:"view"
       }}
-      this.router.navigate(['/ver-ruta'],ne)
+      this.location.back();
     }
   }
 
@@ -132,19 +137,29 @@ export class EditarRutaPage implements OnInit {
     return valid;
   }
 
+  validarOrigen(){
+    let valid=true;
+    this.formErrors["origen_empty"]=false;
+    this.formErrors["origen_notExists"]=false;
+    if(this.ruta.origen.trim()==""){
+      this.formErrors["origen_empty"]=true; valid=false;}
+    //falta validar que el origen sea una dirección válida
+    return valid;
+  }
+
   validarDestino(){
     let valid=true;
     this.formErrors["destino_empty"]=false;
     this.formErrors["destino_notExists"]=false;
     if(this.ruta.destino.trim()==""){
       this.formErrors["destino_empty"]=true; valid=false;}
-    //falta validar que el origen sea una dirección válida
+    //falta validar que el destino sea una dirección válida
     return valid;
   }
 
   eliminarRuta(){
     console.log("!:eliminarRuta()");
-    this.alertaEliminar(this.ruta.id_ruta==-1);
+    this.alertaEliminar();
   }
 
 }
