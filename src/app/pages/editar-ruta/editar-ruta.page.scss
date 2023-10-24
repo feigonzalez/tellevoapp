@@ -1,6 +1,7 @@
 ion-button.round-icon{--border-radius:50%;height:40px;width:40px;font-size:1rem}
-.display-labels span{display:block;font-size:1rem;color:gray;padding:0.2rem;
-    text-align:center;width:100%}
-.display-label{display:inline-block;font-size:1rem;color:gray;width:100px}
+ion-select{overflow:hidden;overflow:clip}
+.display-labels span{display:block;font-size:1rem;color:gray;padding:0.2rem;width:100%}
+.display-label{display:inline-block;font-size:1rem;color:gray;min-width:100px;max-width:100px}
+.display-value-text{display:inline-block;overflow:auto}
 .display-values ion-input{display:block;font-size:2rem;padding:0.2rem;text-align:center;
     width:100%}

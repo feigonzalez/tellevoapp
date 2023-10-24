@@ -43,6 +43,9 @@ export class EditarRutaPage implements OnInit {
           handler:()=>{
             if(!newRuta){
               this.db.eliminarRuta(this.ruta.id_ruta);
+              //actualiza la lista de rutas para la vista de inicio-conductor
+              let uID=localStorage.getItem("uID");
+              if(uID) this.db.leerRutasPorUsuario(uID)
               this.db.showToast("Ruta eliminada","success");
             }
             this.location.back();
@@ -67,11 +70,10 @@ export class EditarRutaPage implements OnInit {
     //guarda los datos de la ruta en la db
     this.formErrors={};
     let valid:boolean=true;
-    valid=valid&&this.validarTarifa();
-    valid=valid&&this.validarHora();
-    valid=valid&&this.validarMinuto();
-    valid=valid&&this.validarOrigen();
-    valid=valid&&this.validarDestino();
+    valid=this.validarTarifa()&&valid;
+    valid=this.validarHora()&&valid;
+    valid=this.validarMinuto()&&valid;
+    valid=this.validarDestino()&&valid;
     if(valid){
       this.ruta.hora_salida=this.salidaHora.toString().padStart(2,'0')+":"+this.salidaMinuto.toString().padStart(2,'0');
       //recalcular tiempo estimado
@@ -130,23 +132,13 @@ export class EditarRutaPage implements OnInit {
     return valid;
   }
 
-  validarOrigen(){
-    let valid=true;
-    this.formErrors["origen_empty"]=false;
-    this.formErrors["origen_notExists"]=false;
-    if(this.ruta.destino.trim()==""){
-      this.formErrors["origen_empty"]=true; valid=false;}
-    //falta validar que el origen sea una dirección válida
-    return valid;
-  }
-
   validarDestino(){
     let valid=true;
     this.formErrors["destino_empty"]=false;
     this.formErrors["destino_notExists"]=false;
     if(this.ruta.destino.trim()==""){
       this.formErrors["destino_empty"]=true; valid=false;}
-    //falta validar que el destino sea una dirección válida
+    //falta validar que el origen sea una dirección válida
     return valid;
   }
 

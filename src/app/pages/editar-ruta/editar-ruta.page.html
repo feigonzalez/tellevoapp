@@ -20,20 +20,39 @@
 
 <ion-footer>
   <ion-grid>
-    <ion-row class="display-labels"><ion-col><ion-item lines="none" class="ion-text-center">
-      <span class="display-label">Salida</span>
-      <ion-select [(ngModel)]="ruta.origen" (input)="validarOrigen()">
-        <ion-select-option value="Av. España 8, Santiago Centro">DuocUC Sede Alameda</ion-select-option>
-        <ion-select-option value="Padre Alonso de Ovalle 1586, Santiago Centro">DuocUC Sede Padre Alonso de Ovalle</ion-select-option>
-        <ion-select-option value="Calle Nueva 1660, Huechuraba">DuocUC Sede Plaza Norte</ion-select-option>
-      </ion-select>
-      <div class="formErrorMessage" *ngIf="formErrors['origen_empty']">Ingrese una dirección</div>
-    </ion-item></ion-col></ion-row>
-    <ion-row class="display-labels"><ion-col><ion-item lines="none" class="ion-text-center">
-      <span class="display-label">Destino</span>
-      <ion-input [(ngModel)]="ruta.destino" (input)="validarDestino()"></ion-input>
-      <div class="formErrorMessage" *ngIf="formErrors['destino_empty']">Ingrese una dirección</div>
-    </ion-item></ion-col></ion-row>
+    <ion-row class="display-labels"><ion-col>
+      <ion-item lines="none">
+        <span class="display-label">Salida</span>
+        <ion-select [(ngModel)]="ruta.origen">
+          <ion-select-option value="Av. España 8, Santiago Centro">DuocUC Sede Alameda</ion-select-option>
+          <ion-select-option value="Padre Alonso de Ovalle 1586, Santiago Centro">DuocUC Sede Padre Alonso de Ovalle</ion-select-option>
+          <ion-select-option value="Antonio Varas 666, Providencia">DuocUC Sede Antonio Varas</ion-select-option>
+          <ion-select-option value="Miguel Claro 337, Providencia">DuocUC Sede Educación Continua</ion-select-option>
+          <ion-select-option value="Av. Esquina Blanca 501, Maipú">DuocUC Sede Maipú</ion-select-option>
+          <ion-select-option value="Serrano 1105, Melipilla">DuocUC Sede Melipilla</ion-select-option>
+          <ion-select-option value="Calle Nueva 1660, Huechuraba">DuocUC Sede Plaza Norte</ion-select-option>
+          <ion-select-option value="Av. Américo Vespucio 1501, Cerrillos">DuocUC Sede Plaza Oeste</ion-select-option>
+          <ion-select-option value="Froilán Roa 7107, La Florida">DuocUC Sede Plaza Vespucio</ion-select-option>
+          <ion-select-option value="Av. Concha y Toro 1340, Puente Alto">DuocUC Sede Puente Alto</ion-select-option>
+          <ion-select-option value="Freire 857, San Bernardo">DuocUC Sede San Bernardo</ion-select-option>
+          <ion-select-option value="Av. Vicuña Mackenna 4917, San Joaquín">DuocUC Sede San Joaquín</ion-select-option>
+          <ion-select-option value="Av. Brasil 2021, Valparaíso">DuocUC Sede Valparaíso</ion-select-option>
+          <ion-select-option value="Álvarez 2366, Chorrillos, Viña del Mar">DuocUC Sede Viña del Mar</ion-select-option>
+          <ion-select-option value="Camino a Carampangue 1060, Arauco">DuocUC Sede Arauco</ion-select-option>
+          <ion-select-option value="Julio Hemmelmann 200, Nacimiento">DuocUC Sede Nacimiento</ion-select-option>
+          <ion-select-option value="Paicaví 3280, Concepción">DuocUC Sede Andrés de Concepción</ion-select-option>
+          <ion-select-option value="Anfión Muñoz 51, Villarrica">DuocUC Sede Villarrica</ion-select-option>
+          <ion-select-option value="Egaña 651, Puerto Montt">DuocUC Sede Puerto Montt</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col></ion-row>
+    <ion-row class="display-labels"><ion-col>
+      <ion-item lines="none">
+        <span class="display-label">Destino</span>
+        <ion-input [(ngModel)]="ruta.destino" (input)="validarDestino()"></ion-input>
+      </ion-item>
+        <div class="formErrorMessage" *ngIf="formErrors['destino_empty']">Ingrese una dirección de destino</div>
+    </ion-col></ion-row>
     <ion-row class="display-labels">
       <ion-col>
         <ion-item lines="none" class="ion-text-center">
