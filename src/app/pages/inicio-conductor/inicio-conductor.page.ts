@@ -41,12 +41,13 @@ export class InicioConductorPage implements OnInit {
     //se crea una ruta nueva, y se redirige a la interfaz "editar-ruta"
     let ne:any={state:{
       ruta:{
-         id:-1,
-         nombre:"Nueva Ruta",
-         longitud:0,
-         duracion:0,
+         id_ruta:-1,
+         origen:"",
+         destino:"",
          tarifa:0,
-         horaSalida:"00:00"},
+         hora_salida:"00:00",
+         id_usuario:localStorage.getItem("uID")
+        },
       viewType:"new"
       }
     }

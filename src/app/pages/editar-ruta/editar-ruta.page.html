@@ -20,6 +20,20 @@
 
 <ion-footer>
   <ion-grid>
+    <ion-row class="display-labels"><ion-col><ion-item lines="none" class="ion-text-center">
+      <span class="display-label">Salida</span>
+      <ion-select [(ngModel)]="ruta.origen" (input)="validarOrigen()">
+        <ion-select-option value="Av. España 8, Santiago Centro">DuocUC Sede Alameda</ion-select-option>
+        <ion-select-option value="Padre Alonso de Ovalle 1586, Santiago Centro">DuocUC Sede Padre Alonso de Ovalle</ion-select-option>
+        <ion-select-option value="Calle Nueva 1660, Huechuraba">DuocUC Sede Plaza Norte</ion-select-option>
+      </ion-select>
+      <div class="formErrorMessage" *ngIf="formErrors['origen_empty']">Ingrese una dirección</div>
+    </ion-item></ion-col></ion-row>
+    <ion-row class="display-labels"><ion-col><ion-item lines="none" class="ion-text-center">
+      <span class="display-label">Destino</span>
+      <ion-input [(ngModel)]="ruta.destino" (input)="validarDestino()"></ion-input>
+      <div class="formErrorMessage" *ngIf="formErrors['destino_empty']">Ingrese una dirección</div>
+    </ion-item></ion-col></ion-row>
     <ion-row class="display-labels">
       <ion-col>
         <ion-item lines="none" class="ion-text-center">

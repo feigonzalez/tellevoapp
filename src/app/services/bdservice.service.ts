@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { InjectSetupWrapper } from '@angular/core/testing';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController, Platform, ToastController } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Rol } from './rol';
 import { Usuario } from './usuario';
@@ -83,7 +83,7 @@ export class BdserviceService {
     "INSERT OR IGNORE INTO mensajes (id_mensaje, id_remitente, id_destinatario, fecha, texto) VALUES (14, 3, 4, '2023-09-13 17:16:43', 'En la entrada principal')"
   ];
   
-  constructor(private sqlite:SQLite, private platform: Platform,private alertController:AlertController) { 
+  constructor(private sqlite:SQLite, private platform: Platform,private alertController:AlertController, private toastController:ToastController) { 
     this.crearDB();
   }
 
@@ -94,6 +94,20 @@ export class BdserviceService {
       buttons: ['OK'],
     });
     await alert.present();
+  }
+
+  async showToast(text:string,type:string) {
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 5000,
+      position: 'bottom',
+      color: type,
+      buttons:[{
+        icon:"close",
+        role:"cancel"
+      }]
+    });
+    await toast.present();
   }
 
   getCurrentDatestring(){
@@ -128,32 +142,33 @@ export class BdserviceService {
   async crearTablas(){
     let status:string="INIT";
     try{
+      status="creating Roles";
       await this.database.executeSql(this.tablaRolesStmt,[]);
-      status="created Roles";
+      status="creating Usuarios";
       await this.database.executeSql(this.tablaUsuariosStmt,[]);
-      status="created Usuarios";
+      status="creating Vehiculos";
       await this.database.executeSql(this.tablaVehiculosStmt,[]);
-      status="created Vehiculos";
+      status="creating Rutas";
       await this.database.executeSql(this.tablaRutasStmt,[]);
-      status="created Rutas";
+      status="creating Viajes";
       await this.database.executeSql(this.tablaViajesStmt,[]);
-      status="created Viajes";
+      status="creating Calificaciones";
       await this.database.executeSql(this.tablaCalificacionesStmt,[]);
-      status="created Calificaciones";
+      status="creating Mensajes";
       await this.database.executeSql(this.tablaMensajesStmt,[]);
-      status="created Mensajes";
+      status="populating Roles";
       for(var stmt of this.poblarRolesStmts){ await this.database.executeSql(stmt,[]); }
-      status="populated Roles";
+      status="populating Usuarios";
       for(var stmt of this.poblarUsuariosStmts){ await this.database.executeSql(stmt,[]); }
-      status="populated Usuarios";
+      status="populating Rutas";
       for(var stmt of this.poblarRutasStmts){ await this.database.executeSql(stmt,[]); }
-      status="populated Rutas";
+      status="populating Viajes";
       for(var stmt of this.poblarViajesStmts){ await this.database.executeSql(stmt,[]); }
-      status="populated Viajes";
+      status="populating Calificaciones";
       for(var stmt of this.poblarCalificacionesStmts){ await this.database.executeSql(stmt,[]); }
-      status="populated Calificaciones";
+      status="populating Mensajes";
       for(var stmt of this.poblarMensajesStmts){ await this.database.executeSql(stmt,[]); }
-      status="populated Mensajes";
+      status="DONE";
       this.isDBReady.next(true)
     } catch(e){
       this.presentAlert("[@"+status+"] ERROR al crear tablas: "+ (e as Error).message);
@@ -492,8 +507,8 @@ Retorna una lista de objetos con la siguiente estructura:
     })
   }
   
-  crearRuta(tiempo_estimado:number, origen:string, destino:string, tarifa:number, id_usuario:number){
-    return this.database.executeSql("INSERT INTO rutas (tiempo_estimado, origen, destino, tarifa, id_usuario) VALUES (0, ?, ?, ?, ?)",[tiempo_estimado, origen, destino, tarifa, id_usuario]).then((res)=>{
+  crearRuta(tiempo_estimado:number, origen:string, destino:string, tarifa:number, hora_salida:string, id_usuario:number){
+    return this.database.executeSql("INSERT INTO rutas (tiempo_estimado, origen, destino, tarifa, hora_salida, id_usuario) VALUES (0, ?, ?, ?, ?, ?)",[origen, destino, tarifa, hora_salida, id_usuario]).then((res)=>{
     }).catch((e)=>{
       this.presentAlert("ERROR al crear nueva Ruta: "+ (e as Error).message);
     })

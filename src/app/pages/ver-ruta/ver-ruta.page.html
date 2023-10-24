@@ -18,6 +18,14 @@
 <ion-footer>
   <ion-button expand="block" size="large" style="margin:1rem" (click)="comenzarViaje()">Comenzar viaje</ion-button>
   <ion-grid>
+    <ion-row><ion-col><ion-item lines="none">
+      <span class="display-value">Salida</span>
+      <span>{{ruta.origen}}</span>
+    </ion-item></ion-col></ion-row>
+    <ion-row><ion-col><ion-item lines="none">
+      <span class="display-value">Destino</span>
+      <span>{{ruta.destino}}</span>
+    </ion-item></ion-col></ion-row>
     <ion-row class="display-labels">
       <ion-col>
         <ion-item lines="none" class="ion-text-center">

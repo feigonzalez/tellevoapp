@@ -29,32 +29,22 @@ export class EditarRutaPage implements OnInit {
     console.log("@EDI:["+this.viewType+"]")
   }
 
-  async showToast(text:string,type:string) {
-    const toast = await this.toastController.create({
-      message: text,
-      duration: 5000,
-      position: 'bottom',
-      color: type,
-      buttons:[{
-        icon:"close",
-        role:"cancel"
-      }]
-    });
-    await toast.present();
-  }
-
-  async alertaEliminar() {
+  async alertaEliminar(newRuta?:boolean) {
     const alert = await this.alertController.create({
-      header: '¿Desea eliminar esta ruta?',
-      subHeader:'Esto no se puede deshacer',
+      header: newRuta?'¿Cancelar creación de ruta?':'¿Desea eliminar esta ruta?',
+      subHeader:newRuta?'':'Esto no se puede deshacer',
       buttons: [{
-          text:'Cancelar',
+          text:'Volver',
           role:"cancel",
         },{
-          text:'Confirmar',
+          text:'Aceptar',
           role:"confirm",
           cssClass:"color-danger",
           handler:()=>{
+            if(!newRuta){
+              this.db.eliminarRuta(this.ruta.id_ruta);
+              this.db.showToast("Ruta eliminada","success");
+            }
             this.location.back();
             this.location.back();
           }
@@ -80,20 +70,29 @@ export class EditarRutaPage implements OnInit {
     valid=valid&&this.validarTarifa();
     valid=valid&&this.validarHora();
     valid=valid&&this.validarMinuto();
+    valid=valid&&this.validarOrigen();
+    valid=valid&&this.validarDestino();
     if(valid){
-      //actualizar datos en la db
-      //recalcular tiempo estimado
       this.ruta.hora_salida=this.salidaHora.toString().padStart(2,'0')+":"+this.salidaMinuto.toString().padStart(2,'0');
-      this.db.actualizarRuta(this.ruta.id_ruta, this.ruta.tiempo_estimado, this.ruta.origen, this.ruta.destino, this.ruta.tarifa, this.ruta.hora_salida, this.ruta.id_usuario)
-      this.showToast("Ruta actualizada","success");
+      //recalcular tiempo estimado
+
+      //si el id de ruta es -1, es una ruta nueva que debe crearse en la base de datos
+      if(this.ruta.id_ruta==-1){
+        this.db.crearRuta(0, this.ruta.origen, this.ruta.destino, this.ruta.tarifa, this.ruta.hora_salida, this.ruta.id_usuario);
+        this.db.showToast("Ruta creada","success");
+      } else {
+        //actualizar datos en la db
+        this.db.actualizarRuta(this.ruta.id_ruta, this.ruta.tiempo_estimado, this.ruta.origen, this.ruta.destino, this.ruta.tarifa, this.ruta.hora_salida, this.ruta.id_usuario)
+        this.db.showToast("Ruta actualizada","success");
+      }
       //actualiza la lista de rutas para la vista de inicio-conductor
       let uID=localStorage.getItem("uID");
       if(uID) this.db.leerRutasPorUsuario(uID)
+
       let ne:any={state:{
         ruta:this.ruta,
         viewType:"view"
       }}
-      ne.state.ruta.horaSalida=String(this.salidaHora).padStart(2,"0")+":"+String(this.salidaMinuto).padStart(2,"0");
       this.router.navigate(['/ver-ruta'],ne)
     }
   }
@@ -131,9 +130,29 @@ export class EditarRutaPage implements OnInit {
     return valid;
   }
 
+  validarOrigen(){
+    let valid=true;
+    this.formErrors["origen_empty"]=false;
+    this.formErrors["origen_notExists"]=false;
+    if(this.ruta.destino.trim()==""){
+      this.formErrors["origen_empty"]=true; valid=false;}
+    //falta validar que el origen sea una dirección válida
+    return valid;
+  }
+
+  validarDestino(){
+    let valid=true;
+    this.formErrors["destino_empty"]=false;
+    this.formErrors["destino_notExists"]=false;
+    if(this.ruta.destino.trim()==""){
+      this.formErrors["destino_empty"]=true; valid=false;}
+    //falta validar que el destino sea una dirección válida
+    return valid;
+  }
+
   eliminarRuta(){
     console.log("!:eliminarRuta()");
-    this.alertaEliminar();
+    this.alertaEliminar(this.ruta.id_ruta==-1);
   }
 
 }

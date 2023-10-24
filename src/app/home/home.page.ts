@@ -45,7 +45,6 @@ export class HomePage implements OnInit{
       this.dummyData = r;
       this.db.presentAlert(this.dummyData[0]["id"]+": "+this.dummyData[0]["name"]);
     })
-    this.db.presentAlert(this.db.getCurrentDatestring());
   }
 
   async login(){
