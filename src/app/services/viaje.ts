@@ -1,10 +1,10 @@
 export class Viaje {
-    id_viaje="";
-    tarifa="";
+    id_viaje=0;
+    tarifa=0;
     fecha="";
     estado="";
-    id_ruta="";
-    id_pasajero="";
+    id_ruta=0;
+    id_pasajero=0;
 }
 
 /*

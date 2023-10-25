@@ -78,7 +78,11 @@ const routes: Routes = [
   {
     path: 'bdreport',
     loadChildren: () => import('./pages/bdreport/bdreport.module').then( m => m.BdreportPageModule)
+  },  {
+    path: 'administrar-viaje',
+    loadChildren: () => import('./pages/administrar-viaje/administrar-viaje.module').then( m => m.AdministrarViajePageModule)
   },
+
 ];
 
 @NgModule({

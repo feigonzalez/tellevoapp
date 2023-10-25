@@ -38,12 +38,11 @@ export class VerRutaPage implements OnInit {
     this.router.navigate(['/editar-ruta'],ne)
   }
 
-  comenzarViaje(){
-    console.log("!:comenzarViaje()");
+  administrarViaje(){
+    console.log("!:administrarViaje()");
     let ne:any={state:{
-      ruta:this.ruta,
-      viewType:this.viewType
+      ruta:this.ruta
     }}
-    this.router.navigate(['/viaje-conductor'],ne)
+    this.router.navigate(['/administrar-viaje'],ne)
   }
 }

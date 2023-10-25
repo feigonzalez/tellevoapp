@@ -69,9 +69,9 @@
     </ion-card-header>
     <ion-card-content style="overflow:scroll">
       <table style="width:600px">
-        <tr><th>ID</th><th>Tarifa</th><th>Fecha</th><th>ID Ruta</th><th>ID Conductor</th><th>ID Pasajero</th>
+        <tr><th>ID</th><th>Tarifa</th><th>Fecha</th><th>Estado</th><th>ID Ruta</th><th>ID Pasajero</th>
         <tr *ngFor="let v of viajes">
-          <td>{{v.id_viaje}}</td><td>{{v.tarifa}}</td><td>{{v.fecha}}</td><td>{{v.id_ruta}}</td><td>{{v.id_conductor}}</td><td>{{v.id_pasajero}}</td>
+          <td>{{v.id_viaje}}</td><td>{{v.tarifa}}</td><td>{{v.fecha}}</td><td>{{v.estado}}</td><td>{{v.id_ruta}}</td><td>{{v.id_pasajero}}</td>
         </tr>
       </table>
     </ion-card-content>
