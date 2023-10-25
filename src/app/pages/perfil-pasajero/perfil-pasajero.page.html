@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="#1e1e1e">
     <ion-buttons slot="start">
-      <ion-back-button style="color: white;" defaultHref="/inicio-conductor" text="Volver"></ion-back-button>
+      <ion-back-button style="color: white;" defaultHref="/inicio-pasajero" text="Volver"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -17,9 +17,7 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-thumbnail id="perfil-imagen">
-        <img [src]="usuario.imagen">
-      </ion-thumbnail>
+
       <ion-list>
         <ion-item>
           <ion-label position="stacked">Imagen de Perfil</ion-label>
@@ -51,8 +49,9 @@
         </ion-item>
       </ion-list>
       <div style="text-align: center;">
-        <ion-button color="grey" (click)="guardarCambios()">Guardar Cambios</ion-button>
-        <ion-button color="grey" (click)="guardarCambios1()">Cambiar Contraseña</ion-button>
+        <ion-button color="grey" (click)="guardarCambios()"  [routerLink]="['/']">Actualizar Perfil </ion-button>
+
+        <ion-button color="grey" (click)="guardarCambios1()" [routerLink]="['/']">Cambiar Contraseña</ion-button>
       </div>
     </ion-card-content>
     
