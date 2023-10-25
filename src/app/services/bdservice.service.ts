@@ -48,6 +48,10 @@ export class BdserviceService {
     "INSERT OR IGNORE INTO usuarios (id_usuario, nombre, correo, password, numero_cel, imagen, id_rol) VALUES (3, 'Tulio Triviño', 'ttrivino@aplaplac.com', 'pass', '+56900000003', 'user_tulio.jpg', 2)",
     "INSERT OR IGNORE INTO usuarios (id_usuario, nombre, correo, password, numero_cel, imagen, id_rol) VALUES (4, 'Freddy Turbina', 'fturbina@aplaplac.com', 'pass', '+56900000004', 'user_freddy.jpg', 1)"
   ];
+  poblarVehiculosStmts=[
+    "INSERT OR IGNORE INTO vehiculos (id_vehiculo, patente, color, n_asientos, id_usuario) VALUES (1, 'JB1234', 'rojo', 3, 1)",
+    "INSERT OR IGNORE INTO vehiculos (id_vehiculo, patente, color, n_asientos, id_usuario) VALUES (2, 'FT1234', 'naranjo', 1, 4)",
+  ];
   poblarRutasStmts=[
     "INSERT OR IGNORE INTO rutas (id_ruta, tiempo_estimado, origen, destino, tarifa, hora_salida, id_usuario) VALUES (1, 0, 'Calle Nueva 1660, Huechuraba', 'Pedro Fontova 6426, Huechuraba', 800, '14:30', 1)",
     "INSERT OR IGNORE INTO rutas (id_ruta, tiempo_estimado, origen, destino, tarifa, hora_salida, id_usuario) VALUES (2, 0, 'Calle Nueva 1660, Huechuraba', 'Rigoberto Jara 0278, Quilicura', 2000, '16:30', 1)",
@@ -55,8 +59,13 @@ export class BdserviceService {
   ];
   poblarViajesStmts=[
     "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (1, 800, '2023-09-20 16:44:21', 'completado', 1, 2)",
-    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (2, 800, '2023-09-20 19:34:51', 'completado', 1, 2)",
-    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (3, 2000, '2023-10-17 17:21:11', 'completado', 2, 3)"
+    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (2, 800, '2023-09-20 19:34:51', 'solicitado', 1, 2)",
+    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (3, 2000, '2023-10-17 17:21:11', 'completado', 2, 3)",
+    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (4, 800, '2023-09-20 19:34:51', 'solicitado', 1, 2)",
+    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (5, 800, '2023-09-20 19:34:51', 'solicitado', 1, 2)",
+    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (6, 800, '2023-09-20 19:34:51', 'solicitado', 1, 2)",
+    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (7, 800, '2023-09-20 19:34:51', 'solicitado', 1, 2)",
+    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (8, 800, '2023-09-20 19:34:51', 'solicitado', 1, 2)"
   ]
   poblarCalificacionesStmts=[
     "INSERT OR IGNORE INTO calificaciones (id_calificacion, calificacion, id_viaje) VALUES (1, 3, 1)",
@@ -160,6 +169,8 @@ export class BdserviceService {
       for(var stmt of this.poblarRolesStmts){ await this.database.executeSql(stmt,[]); }
       status="populating Usuarios";
       for(var stmt of this.poblarUsuariosStmts){ await this.database.executeSql(stmt,[]); }
+      status="populating Vehiculos";
+      for(var stmt of this.poblarVehiculosStmts){ await this.database.executeSql(stmt,[]); }
       status="populating Rutas";
       for(var stmt of this.poblarRutasStmts){ await this.database.executeSql(stmt,[]); }
       status="populating Viajes";
@@ -471,6 +482,18 @@ Retorna una lista de objetos con la siguiente estructura:
     })
   }
 
+  leerVehiculoPorUsuario(uID:string){
+    return this.database.executeSql("SELECT * FROM vehiculos WHERE id_usuario = ?",[uID]).then(res=>{
+      if(res.rows.length==1){
+        return res.rows.item(0);
+      }
+      return null;
+    }).catch(e=>{
+      this.presentAlert("ERROR al obtener Vehiculo de Usuario (ID:"+uID+"): " + (e as Error).message);
+      return null;
+    })
+  }
+
   crearVehiculo(patente:string, color:string, n_asientos:number, id_usuario:number){
     return this.database.executeSql("INSERT INTO vehiculos (patente, color, n_asientos, id_usuario) VALUES (?, ?, ?, ?);",[patente, color, n_asientos, id_usuario]).then((res)=>{
       this.leerVehiculos();
@@ -607,10 +630,50 @@ Retorna una lista de objetos con la siguiente estructura:
     })
   }
   
+  leerViajesPorRutaYEstado(rID:string,estado:string){
+    return this.database.executeSql("SELECT * FROM viajes WHERE id_ruta = ? AND estado = ?",[rID,estado]).then(res=>{
+      let items:Viaje[] = [];
+      if(res.rows.length>0){
+        for(var i=0;i<res.rows.length;i++){
+          let item=res.rows.item(i);
+          items.push({
+            id_viaje:item.id_viaje,
+            fecha:item.fecha,
+            tarifa:item.tarifa,
+            estado:item.estado,
+            id_ruta:item.id_ruta,
+            id_pasajero:item.id_pasajero
+          });
+        }
+      }
+      this.tablaViajes.next(items as any)
+    }).catch(e=>{
+      this.presentAlert("ERROR al obtener Viajes de Ruta ("+rID+") y Estado ("+estado+"): " + (e as Error).message);
+    })
+  }
+
+  contarViajesPorRutaYEstado(rID:string,estado:string){
+    return this.database.executeSql("SELECT COUNT(id_viaje) AS count FROM viajes WHERE id_ruta = ? AND estado = ?",[rID,estado]).then(res=>{
+      if(res.rows.length==1){
+        return res.rows.item(0).count;
+      }
+      return 0;
+    }).catch(e=>{
+      this.presentAlert("ERROR al contar Viajes de Ruta ("+rID+") y Estado ("+estado+"): " + (e as Error).message);
+    })
+  }
+  
   crearViaje(tarifa:number, fecha:string, estado:string, id_ruta:string, id_pasajero:number){
     return this.database.executeSql("INSERT INTO viajes (tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (?, ?, ?, ?);",[tarifa, fecha, estado, id_ruta, id_pasajero]).then((res)=>{
     }).catch((e)=>{
       this.presentAlert("ERROR al crear nuevo Viaje: "+ (e as Error).message);
+    })
+  }
+  
+  actualizarViaje(id_viaje:number, tarifa:number, fecha:string, estado:string, id_ruta:number, id_pasajero:number){
+    return this.database.executeSql("UPDATE viajes SET tarifa = ?, fecha = ?, estado = ?, id_ruta = ?, id_pasajero = ? WHERE id_viaje = ?;",[tarifa, fecha, estado, id_ruta, id_pasajero, id_viaje]).then((res)=>{
+    }).catch((e)=>{
+      this.presentAlert("ERROR al actualizar Viaje (id "+id_viaje+"): "+ (e as Error).message);
     })
   }
 

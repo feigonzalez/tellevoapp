@@ -1,0 +1,44 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="#1e1e1e">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: white;" defaultHref="/ver-ruta" text="Volver"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" padding class="background">
+  <ion-card style="margin-bottom:94px">
+    <ion-card-header>
+      <ion-card-title style="color: #1e1e1e;" class="ion-text-center">Solicitudes de Pasaje</ion-card-title>
+      <ion-card-subtitle style="color: #1e1e1e;" class="ion-text-center">{{asResv}} / {{asDisp}} asientos reservados</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row *ngFor="let v of viajes" class="ion-align-items-center">
+          <ion-col size="auto">
+            <ion-thumbnail class="user-icon round">
+              <img src="{{v.pasajero.imagen}}">
+            </ion-thumbnail>
+          </ion-col>
+          <ion-col>
+            <div class="pasajeroNombre">{{v.pasajero.nombre}}</div>
+          </ion-col>
+          <ion-col size="auto">
+            <ion-item lines="none" style="margin-right:calc(0px - var(--ion-safe-area-right, 0px) - var(--inner-padding-end))">
+                <ion-button class="round-icon" color="success" (click)="aceptarPasaje(v)">
+                  <ion-icon slot="icon-only" name="checkmark-sharp"></ion-icon>
+                </ion-button>
+                <ion-button class="round-icon" color="danger" (click)="rechazarPasaje(v)">
+                  <ion-icon name="close-sharp"></ion-icon>
+                </ion-button>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer class="footer" style="background:#fff">
+  <div style="text-align: center;"><ion-button style="display:inline-block;margin:1rem" expand="block" size="large" (click)="comenzarViaje()">Comenzar Viaje</ion-button></div>
+</ion-footer>

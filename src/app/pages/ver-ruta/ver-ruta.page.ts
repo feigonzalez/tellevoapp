@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BdserviceService } from 'src/app/services/bdservice.service';
+import { Usuario } from 'src/app/services/usuario';
 
 @Component({
   selector: 'app-ver-ruta',
@@ -22,10 +23,10 @@ export class VerRutaPage implements OnInit {
     })
   }
 
-  ngOnInit() {
+  async ngOnInit() {
   }
 
-  ngAfterContentInit(){
+  async ngAfterContentInit(){
   }
 
   editarRuta(viewType?:string){
@@ -37,12 +38,11 @@ export class VerRutaPage implements OnInit {
     this.router.navigate(['/editar-ruta'],ne)
   }
 
-  comenzarViaje(){
-    console.log("!:comenzarViaje()");
+  administrarViaje(){
+    console.log("!:administrarViaje()");
     let ne:any={state:{
-      ruta:this.ruta,
-      viewType:this.viewType
+      ruta:this.ruta
     }}
-    this.router.navigate(['/viaje-conductor'],ne)
+    this.router.navigate(['/administrar-viaje'],ne)
   }
 }
