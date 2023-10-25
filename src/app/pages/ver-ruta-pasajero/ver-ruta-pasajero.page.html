@@ -7,23 +7,38 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
- 
-  
   <app-map [viewType]="viewType"></app-map>
 </ion-content>
 
 <ion-footer>
-  <ion-button expand="block" size="large" style="margin:1rem" (click)="solicitarViaje()">Tomar viaje</ion-button>
+  <ion-button expand="block" size="large" style="margin:1rem" (click)="solicitarViaje()">Solicitar Pasaje</ion-button>
   <ion-grid>
+    <ion-row><ion-col><ion-item lines="none">
+      <span class="display-label">Conductor</span>
+      <span class="display-value-text">{{conductor.nombre}}</span>
+      <ion-buttons slot="end">
+        <ion-button class="round-icon" (click)="abrirChat(conductor.id_usuario)">
+          <ion-icon name="chatbubbles-sharp"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item></ion-col></ion-row>
+    <ion-row><ion-col><ion-item lines="none">
+      <span class="display-label">Salida</span>
+      <span class="display-value-text">{{ruta.origen}}</span>
+    </ion-item></ion-col></ion-row>
+    <ion-row><ion-col><ion-item lines="none">
+      <span class="display-label">Destino</span>
+      <span class="display-value-text">{{ruta.destino}}</span>
+    </ion-item></ion-col></ion-row>
     <ion-row class="display-labels">
       <ion-col>
         <ion-item lines="none" class="ion-text-center">
-          <span>Tarifa.</span>
+          <span>Tarifa</span>
         </ion-item>
       </ion-col> 
       <ion-col>
         <ion-item lines="none">
-          <span>Hora de Salida.</span>
+          <span>Hora de Salida</span>
         </ion-item>
       </ion-col> 
     </ion-row>

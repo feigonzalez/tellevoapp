@@ -9,26 +9,6 @@ import { BdserviceService } from 'src/app/services/bdservice.service';
 })
 export class InicioPasajeroPage implements OnInit {
 
-  /*rutas : any = [
-    {
-      id: 1,
-        nombre: "Viaje 1",
-        distancia: 13.7,
-        duracion: 18,
-        tarifa: 3000,
-        horaSalida: "18:30"
-      },
-      {
-        id: 2,
-        nombre: "Viaje 2",
-        distancia: 16.3,
-        duracion: 21,
-        tarifa: 4000,
-        horaSalida: "14:00"
-      }
-    ]
-    */
-
     rutas: any = {}
     usuario: any = {}
 
@@ -57,8 +37,10 @@ export class InicioPasajeroPage implements OnInit {
 
   async verRuta(id:string){
     console.log("!:verRutaPasajero("+id+")")
+    let ruta=await this.db.leerRutaPorId(id);
     let ne:any={state:{
-      ruta:await this.db.leerRutaPorId(id),
+      ruta:ruta,
+      conductor:await this.db.leerUsuarioPorID(ruta.id_usuario),
       viewType:"view"
     }}
     this.router.navigate(['/ver-ruta-pasajero'],ne)

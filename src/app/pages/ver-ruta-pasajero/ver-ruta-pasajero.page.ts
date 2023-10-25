@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BdserviceService } from 'src/app/services/bdservice.service';
+import { Usuario } from 'src/app/services/usuario';
 
 @Component({
   selector: 'app-ver-ruta-pasajero', // Cambia el selector del componente
@@ -8,34 +10,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class VerRutaPasajeroPage implements OnInit {
 
+  conductor!:Usuario;
   ruta?: any;
   viewType: string = "";
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private db:BdserviceService) {
     this.activatedRoute.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.ruta = this.router.getCurrentNavigation()?.extras.state?.['ruta']
+        this.conductor = this.router.getCurrentNavigation()?.extras.state?.['conductor']
         this.viewType = this.router.getCurrentNavigation()?.extras?.state?.['viewType']
-        if (this.viewType == "new") this.editarRuta("new")
       }
     })
   }
 
-  ngOnInit() {
+  async ngOnInit() {
   }
 
-  ngAfterContentInit() {
-  }
-
-  editarRuta(viewType?: string) {
-    console.log("!:editarRuta()");
-    let ne: any = {
-      state: {
-        ruta: this.ruta,
-        viewType: viewType ? viewType : "edit",
-      }
-    }
-    this.router.navigate(['/editar-ruta-pasajero'], ne); 
+  async ngAfterContentInit() {
   }
 
   solicitarViaje() {
@@ -49,5 +41,12 @@ export class VerRutaPasajeroPage implements OnInit {
       }
     }
     this.router.navigate(['/viaje-pasajero'], ne); 
+  }
+
+  abrirChat(uID:string){
+    let ne={state:{
+      id_pareja:uID
+    }}
+    this.router.navigate(['/mensaje-pasajero'],ne)
   }
 }
