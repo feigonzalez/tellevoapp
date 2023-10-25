@@ -25,7 +25,7 @@ export class RegistropPage implements OnInit {
   
   imagen: string | null = null;
 
-  id_rol: number = 0;
+  id_rol: number = 2;
 
 
     contactForm!: FormGroup;
