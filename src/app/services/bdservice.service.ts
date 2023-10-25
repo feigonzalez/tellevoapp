@@ -324,6 +324,27 @@ updateImagenUsuario(idUsuario: number, imagen: string) {
     throw new Error("Error al actualizar la imagen de perfil: " + error.message);
   });
 }
+// 
+actualizarContrasena(idUsuario: number, nuevaContrasena: string) {
+  return this.sqlite.create({
+    name: 'bdtellevo.db',
+    location: 'default',
+  }).then((db: SQLiteObject) => {
+    return db.executeSql(
+      'UPDATE usuarios SET password = ? WHERE id_usuario = ?',
+      [nuevaContrasena, idUsuario]
+    );
+  }).then((data) => {
+    if (data.rowsAffected > 0) {
+      return "Contraseña actualizada exitosamente";
+    } else {
+      throw new Error("No se pudo actualizar la contraseña");
+    }
+  }).catch(error => {
+    console.error('Error al actualizar la contraseña:', error);
+    throw new Error("Error al actualizar la contraseña: " + error.message);
+  });
+}
 // BD: Mensajes
 guardarMensaje(id_remitente: number, id_destinatario: number, texto: string) {
   const fecha = this.getCurrentDatestring();

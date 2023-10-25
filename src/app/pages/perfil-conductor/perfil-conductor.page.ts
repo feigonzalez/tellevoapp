@@ -12,16 +12,18 @@ import { BdserviceService } from 'src/app/services/bdservice.service';
 export class PerfilConductorPage implements OnInit {
   usuario: any = {};
   imagen: string | null = null;
+  contrasenaActual: string = '';
+  nuevaContrasena: string = '';
+  confirmarNuevaContrasena: string = '';
 
-constructor(
-  private router: Router,
-  private fb: FormBuilder,
-  private toastController: ToastController,
-  private db: BdserviceService
-) {
-  this.usuario.imagen = null; // Inicializa la propiedad imagen en null
-}
-
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private toastController: ToastController,
+    private db: BdserviceService
+  ) {
+    this.usuario.imagen = null; // Inicializa la propiedad imagen en null
+  }
 
   ngOnInit() {
     this.db.dbState().subscribe((res) => {
@@ -68,7 +70,85 @@ constructor(
       this.usuario.imagen = URL.createObjectURL(file); // Almacena la ruta de la imagen en el usuario
     }
   }
-  
+
+  cambiarContrasena() {
+    // Validar que la contraseña actual sea correcta
+    if (!this.validarContrasenaActual()) {
+      this.showToast('La contraseña actual es incorrecta', 'danger');
+      return;
+    }
+
+    // Validar que la nueva contraseña y la confirmación coincidan
+    if (this.nuevaContrasena !== this.confirmarNuevaContrasena) {
+      this.showToast('Las contraseñas nuevas no coinciden', 'danger');
+      return;
+    }
+
+    // Validar que la nueva contraseña cumple con tus requisitos de seguridad
+    if (!this.validarNuevaContrasena()) {
+      this.showToast('La nueva contraseña no cumple con los requisitos de seguridad', 'danger');
+      return;
+    }
+
+    // Actualizar la contraseña en la base de datos
+    this.db.actualizarContrasena(this.usuario.id_usuario, this.nuevaContrasena)
+      .then(() => {
+        this.showToast('Contraseña actualizada exitosamente', 'success');
+        // Limpiar campos de contraseña
+        this.contrasenaActual = '';
+        this.nuevaContrasena = '';
+        this.confirmarNuevaContrasena = '';
+      })
+      .catch(error => {
+        this.showToast('Error al actualizar la contraseña: ' + error.message, 'danger');
+      });
+  }
+
+  async validarContrasenaActual(): Promise<boolean> {
+    const contrasenaAlmacenada = await this.obtenerContrasenaAlmacenada(this.usuario.id_usuario);
+    return this.contrasenaActual === contrasenaAlmacenada;
+  }
+
+  async obtenerContrasenaAlmacenada(idUsuario: number): Promise<string> {
+    try {
+      const usuario = await this.db.leerUsuarioPorID(idUsuario.toString());
+      if (usuario) {
+        return usuario.password;
+      }
+      return '';
+    } catch (error) {
+      // Maneja errores aquí
+      console.error('Error al obtener contraseña almacenada:', error);
+      return '';
+    }
+  }
+
+  validarNuevaContrasena(): boolean {
+    // Añade tus criterios de validación aquí
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(this.nuevaContrasena);
+  }
+
+  guardarCambios1() {
+    // Validaciones de contraseña actual y nueva contraseña
+    if (!this.validarContrasenaActual()) {
+      this.showToast("La contraseña actual es incorrecta", "danger");
+      return;
+    }
+
+    if (!this.validarNuevaContrasena()) {
+      this.showToast("La nueva contraseña no cumple con los requisitos de seguridad", "danger");
+      return;
+    }
+
+    // Cambiar la contraseña en la base de datos
+    this.db.actualizarContrasena(this.usuario.id_usuario, this.nuevaContrasena)
+      .then(() => {
+        this.showToast("Contraseña cambiada exitosamente", "success");
+      })
+      .catch((error) => {
+        this.showToast("Error al cambiar la contraseña: " + error.message, "danger");
+      });
+  }
 
   guardarCambios() {
     this.db.updateUsuario(this.usuario).then((message) => {
