@@ -302,7 +302,28 @@ updateUsuario(usuario: any) {
     throw new Error("Error al actualizar el usuario: " + error.message);
   });
 }
+// IMAGEN CAMBIAR IMAGEN
 
+updateImagenUsuario(idUsuario: number, imagen: string) {
+  return this.sqlite.create({
+    name: 'bdtellevo.db',
+    location: 'default',
+  }).then((db: SQLiteObject) => {
+    return db.executeSql(
+      'UPDATE usuarios SET imagen = ? WHERE id_usuario = ?',
+      [imagen, idUsuario]
+    );
+  }).then((data) => {
+    if (data.rowsAffected > 0) {
+      return "Imagen de perfil actualizada exitosamente";
+    } else {
+      throw new Error("No se pudo actualizar la imagen de perfil");
+    }
+  }).catch(error => {
+    console.error('Error al actualizar imagen de perfil:', error);
+    throw new Error("Error al actualizar la imagen de perfil: " + error.message);
+  });
+}
 // BD: Mensajes
 guardarMensaje(id_remitente: number, id_destinatario: number, texto: string) {
   const fecha = this.getCurrentDatestring();

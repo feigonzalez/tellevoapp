@@ -20,6 +20,11 @@
 
       <ion-list>
         <ion-item>
+          <ion-label position="stacked">Imagen de Perfil</ion-label>
+          <input type="file" accept="image/*" (change)="onFileSelected($event)" [(ngModel)]="usuario.imagen">
+        </ion-item>
+        
+        <ion-item>
           <ion-label position="floating">Nombre</ion-label>
           <ion-input [(ngModel)]="usuario.nombre" type="text"></ion-input>
         </ion-item>
@@ -32,7 +37,8 @@
           <ion-input [(ngModel)]="usuario.numero_cel" type="tel"></ion-input>
         </ion-item>
       </ion-list>
-      <ion-button expand="full" (click)="guardarCambios()">Guardar Cambios</ion-button>
+      <div style="text-align: center;"><ion-button color="grey" (click)="guardarCambios()" [routerLink]="['/']">Guardar Cambios</ion-button></div>
+
     </ion-card-content>
   </ion-card>
 </ion-content>
