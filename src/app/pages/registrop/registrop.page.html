@@ -7,19 +7,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-content padding class="background">
-    <ion-card-content style="margin-top: 2rem; text-align: center;">
-      <ion-card-content style="margin-top: 1rem; background-color: white;">
-        <div style="text-align: center;">
-          <ion-text style="font-size: 20px; font-weight: bold; color:#1e1e1e;">Crea tu cuenta como Pasajero</ion-text>
-        </div>
-      </ion-card-content>
+<ion-content padding class="background">
+  <ion-card-content style="margin-top: 2rem; text-align: center;">
+    <ion-card-content style="margin-top: 1rem; background-color: white;">
+      <ion-text style="font-size: 20px; font-weight: bold; color:#1e1e1e;">Crea tu cuenta como Pasajero</ion-text>
     </ion-card-content>
+  </ion-card-content>
 
-    <ion-card-content style="margin-top: 1rem;">
-      <ion-card-content style="margin-top: -2rem; background-color: white;">
-             <!-- foto de perfil -->
+
+  
+  <ion-card-content style="margin-top: 1rem;">
+    <ion-card-content style="margin-top: -2rem; background-color: white;">
+      <!-- foto de perfil -->
       <ion-card-content>
         <br>
         <br>
@@ -39,26 +38,19 @@
             <ion-card-content>
               <ion-card-title class="ion-text-center">Foto de perfil</ion-card-title>
             </ion-card-content>
-        <!-- foto de perfil --> 
-
-
-
-
-
-
+        <!-- inicio forma -->
 
       <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
 
-        <input
-        name="imagen"
-        type="file"
-        id="imagen"
         
-        />
+        <!-- foto de perfil -->
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" id="imagen"   />
+
+
 
         <!-- Nombre Completo -->
         <ion-item>
-          <ion-input name="nombre" type="text" placeholder="Nombre Completo" id="nombre" required formControlName="nombre" [(ngModel)]="nombre" >
+          <ion-input name="nombre" type="text" placeholder="Nombre Completo" id="nombre" required formControlName="nombre" required [(ngModel)]="nombre" >
             <ion-icon name="person-outline"></ion-icon>
           </ion-input>
         </ion-item>
@@ -126,7 +118,7 @@
         </div>
 
         <div class="sign-btn-wrap">
-          <ion-button (click)="crearUsuario(nombre, correo, pass, telefono, id_rol, imagen)" fill="solid" shape="round" class="recuperar" type="submit" [disabled]="contactForm.invalid" [routerLink]="'/'" (click)="openSnackBar('Ya puedes iniciar sesión','Cerrar')" matRipple [matRippleCentered]="false" [matRippleRadius]="30" [matRippleColor]="'#1e1e1e'">Registrarse</ion-button>
+          <ion-button (click)="crearUsuario(nombre, correo, pass, telefono, id_rol, imagen)" fill="solid" shape="round" class="recuperar" [disabled]="imagen === null || contactForm.invalid" [routerLink]="'/'">Registrarse</ion-button>
         </div>
       </form>
   </ion-card-content>
