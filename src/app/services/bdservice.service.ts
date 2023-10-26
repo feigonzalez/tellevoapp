@@ -58,14 +58,9 @@ export class BdserviceService {
     "INSERT OR IGNORE INTO rutas (id_ruta, tiempo_estimado, origen, destino, tarifa, hora_salida, id_usuario) VALUES (3, 0, 'Antonio Varas 666, Providencia', 'Clemente Fabres 1025, Providencia', 3500, '17:00', 4)"
   ];
   poblarViajesStmts=[
-    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (1, 800, '2023-09-20 16:44:21', 'completado', 1, 2)",
+    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (1, 800, '2023-09-20 16:44:21', 'solicitado', 1, 2)",
     "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (2, 800, '2023-09-20 19:34:51', 'solicitado', 1, 2)",
-    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (3, 2000, '2023-10-17 17:21:11', 'completado', 2, 3)",
-    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (4, 800, '2023-09-20 19:34:51', 'solicitado', 1, 2)",
-    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (5, 800, '2023-09-20 19:34:51', 'solicitado', 1, 2)",
-    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (6, 800, '2023-09-20 19:34:51', 'solicitado', 1, 2)",
-    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (7, 800, '2023-09-20 19:34:51', 'solicitado', 1, 2)",
-    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (8, 800, '2023-09-20 19:34:51', 'solicitado', 1, 2)"
+    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (3, 2000, '2023-10-17 17:21:11', 'solicitado', 2, 3)",
   ]
   poblarCalificacionesStmts=[
     "INSERT OR IGNORE INTO calificaciones (id_calificacion, calificacion, id_viaje) VALUES (1, 3, 1)",
@@ -584,6 +579,8 @@ Retorna una lista de objetos con la siguiente estructura:
   
   crearRuta(tiempo_estimado:number, origen:string, destino:string, tarifa:number, hora_salida:string, id_usuario:number){
     return this.database.executeSql("INSERT INTO rutas (tiempo_estimado, origen, destino, tarifa, hora_salida, id_usuario) VALUES (0, ?, ?, ?, ?, ?)",[origen, destino, tarifa, hora_salida, id_usuario]).then((res)=>{
+      this.presentAlert("inserted Ruta ["+res+"]")
+      this.presentAlert("inserted Ruta with id ["+res.insertId+"]")
     }).catch((e)=>{
       this.presentAlert("ERROR al crear nueva Ruta: "+ (e as Error).message);
     })
@@ -664,7 +661,7 @@ Retorna una lista de objetos con la siguiente estructura:
   }
   
   crearViaje(tarifa:number, fecha:string, estado:string, id_ruta:string, id_pasajero:number){
-    return this.database.executeSql("INSERT INTO viajes (tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (?, ?, ?, ?);",[tarifa, fecha, estado, id_ruta, id_pasajero]).then((res)=>{
+    return this.database.executeSql("INSERT INTO viajes (tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (?, ?, ?, ?, ?);",[tarifa, fecha, estado, id_ruta, id_pasajero]).then((res)=>{
     }).catch((e)=>{
       this.presentAlert("ERROR al crear nuevo Viaje: "+ (e as Error).message);
     })
@@ -674,6 +671,32 @@ Retorna una lista de objetos con la siguiente estructura:
     return this.database.executeSql("UPDATE viajes SET tarifa = ?, fecha = ?, estado = ?, id_ruta = ?, id_pasajero = ? WHERE id_viaje = ?;",[tarifa, fecha, estado, id_ruta, id_pasajero, id_viaje]).then((res)=>{
     }).catch((e)=>{
       this.presentAlert("ERROR al actualizar Viaje (id "+id_viaje+"): "+ (e as Error).message);
+    })
+  }
+  
+  actualizarViajesPorTermino(id_ruta:number){
+    return this.database.executeSql("UPDATE viajes SET estado = 'completado' WHERE id_ruta = ? AND estado = 'comenzado';",[id_ruta]).then((res)=>{
+    }).catch((e)=>{
+      this.presentAlert("ERROR al Terminar Viajes por Ruta (rID "+id_ruta+"): "+ (e as Error).message);
+    })
+  }
+
+  actualizarViajesPorInicio(id_ruta:number){
+    this.actualizarViajesAceptadosPorInicio(id_ruta);
+    this.actualizarViajesRechazadosPorInicio(id_ruta);
+  }
+  
+  actualizarViajesAceptadosPorInicio(id_ruta:number){
+    return this.database.executeSql("UPDATE viajes SET estado = 'comenzado' WHERE id_ruta = ? AND estado = 'aceptado';",[id_ruta]).then((res)=>{
+    }).catch((e)=>{
+      this.presentAlert("ERROR al Iniciar Viajes por Ruta (rID "+id_ruta+"): "+ (e as Error).message);
+    })
+  }
+  
+  actualizarViajesRechazadosPorInicio(id_ruta:number){
+    return this.database.executeSql("UPDATE viajes SET estado = 'rechazado' WHERE id_ruta = ? AND estado = 'solicitado';",[id_ruta]).then((res)=>{
+    }).catch((e)=>{
+      this.presentAlert("ERROR al Rechazar Viajes por Ruta (rID "+id_ruta+"): "+ (e as Error).message);
     })
   }
 

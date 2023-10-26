@@ -33,7 +33,8 @@ export class VerRutaPasajeroPage implements OnInit {
   solicitarViaje() {
     console.log("!:solicitarViaje()");
     //insert new VIAJE, with values ID_VIAJE:AUTO, TARIFA:RUTA.TARIFA, FECHA:NOW(), ESTADO:'solicitado', ID_RUTA:RUTA.ID_RUTA, ID_PASAJERO:UID
-    
+    let uID=localStorage.getItem("uID");
+    if(uID) this.db.crearViaje(this.ruta.tarifa, this.db.getCurrentDatestring(), 'solicitado', this.ruta.id_ruta, parseInt(uID))
     let ne: any = {
       state: {
         ruta: this.ruta,

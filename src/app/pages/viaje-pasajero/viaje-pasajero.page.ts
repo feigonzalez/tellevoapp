@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { AlertController } from '@ionic/angular';
+import { Viaje } from 'src/app/services/viaje';
 
 @Component({
   selector: 'app-viaje-pasajero',
@@ -13,6 +14,7 @@ export class ViajePasajeroPage implements OnInit {
   ruta? : any;
   viewType : string="";
   countdown : any;
+  viaje:any;
 
   constructor(private location: Location, private router: Router, private activatedRoute: ActivatedRoute,
       private alertController: AlertController) {

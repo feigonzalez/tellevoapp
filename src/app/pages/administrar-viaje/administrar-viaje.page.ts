@@ -77,8 +77,16 @@ export class AdministrarViajePage implements OnInit {
     this.loadViajes();
   }
 
-  comenzarViaje(){
-
+  async comenzarViaje(){
+    if(this.ruta){
+      await this.db.actualizarViajesPorInicio(this.ruta.id_ruta)
+      this.loadViajes();
+    }
+    let ne={state:{
+      ruta:this.ruta,
+      viewType:"view"
+    }}
+    this.router.navigate(['/viaje-conductor'],ne)
   }
 
 }
