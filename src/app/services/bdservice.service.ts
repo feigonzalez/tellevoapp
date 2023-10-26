@@ -357,11 +357,12 @@ actualizarContrasena(idUsuario: number, nuevaContrasena: string) {
   });
 }
 // BD: Mensajes
+
 guardarMensaje(id_remitente: number, id_destinatario: number, texto: string) {
   const fecha = this.getCurrentDatestring();
   this.database.executeSql("INSERT INTO mensajes (id_remitente, id_destinatario, fecha, texto) VALUES (?, ?, ?, ?);", [id_remitente, id_destinatario, fecha, texto])
     .then((res) => {
-      this.leerMensajes();
+      this.leerMensajes(); // Llama a la función para actualizar la lista de mensajes
     })
     .catch((e) => {
       this.presentAlert("ERROR al crear nuevo Mensaje: " + (e as Error).message);
