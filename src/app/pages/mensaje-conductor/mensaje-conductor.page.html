@@ -15,10 +15,14 @@
       <ion-grid id="mensajesContainer">
         <ion-row *ngFor="let m of chat" class="ion-align-items-center">
           <ion-col *ngIf="m.sent" size="12" class="enviado">
-            <span class="mensaje">({{m.fecha}}) {{m.texto}}</span>
+            <span class="mensaje">
+              <span class="hora">({{m.fecha}})</span> {{m.texto}}
+            </span>
           </ion-col>
           <ion-col *ngIf="!m.sent" class="recibido" size="12">
-            <span class="mensaje">({{m.fecha}}) {{m.texto}}</span>
+            <span class="mensaje">
+              <span class="hora">({{m.fecha}})</span> {{m.texto}}
+            </span>
           </ion-col>
         </ion-row>
       </ion-grid>
