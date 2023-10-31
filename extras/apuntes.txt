@@ -1,0 +1,24 @@
+= Pruebas Unitarias =
+
+Para las pruebas unitarias d eIonic, se usan los módulos Jasmine y Karma. Éstos módulos vienen
+incluídos por defecto en el proyecto.
+Las descripciones de las pruebas unitarias de definen dentro de los archivos .spec.ts
+
+Para ejecutar las pruebas definidas, se debe ejecutar, en la carpeta raíz,
+  npm run test
+
+= Configuración de App =
+
+== Splash Screen & App Icon ==
+
+Para diseñar un splash screen complejo, se requiere el módulo SplashScreen de Ionic.
+Dentro de Visual Studio Code, con la extensión Ionic instalada, se pueden configurar estos
+elementos mediante la pestaña Configuración > Splash Screen & Icon. Las imágenes requeridas deben
+tener un tamaño específico.
+
+== Firmas Digitales / APK ==
+
+Una firma digital verifica el autor de una aplicación, y es necesaria para publicar la aplicación
+en tiendas digitales.
+Dentro de Android Studio, se puede crear una llave digital para firmar la aplicación, mediante
+Herramientas > ...
