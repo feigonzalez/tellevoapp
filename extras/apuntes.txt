@@ -7,6 +7,11 @@ Las descripciones de las pruebas unitarias de definen dentro de los archivos .sp
 Para ejecutar las pruebas definidas, se debe ejecutar, en la carpeta raíz,
   npm run test
 
+Es necesario corregir la función beforeEach() de cada página: donde dice
+  async(() => {...})
+debería decir
+  async () => {...}
+
 = Configuración de App =
 
 == Splash Screen & App Icon ==
@@ -21,4 +26,9 @@ tener un tamaño específico.
 Una firma digital verifica el autor de una aplicación, y es necesaria para publicar la aplicación
 en tiendas digitales.
 Dentro de Android Studio, se puede crear una llave digital para firmar la aplicación, mediante
-Herramientas > ...
+Build > Generate Signed Bundle / APK
+
+= APK =
+
+En Android Studio, para crear el APK de la apliación, ir a Build > Build Bundle(s) / APK > Build
+APK
