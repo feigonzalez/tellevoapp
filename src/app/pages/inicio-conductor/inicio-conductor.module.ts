@@ -15,6 +15,7 @@ import { InicioConductorPage } from './inicio-conductor.page';
     IonicModule,
     InicioConductorPageRoutingModule
   ],
-  declarations: [InicioConductorPage]
+  declarations: [InicioConductorPage],
+  //providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, SQLite],
 })
 export class InicioConductorPageModule {}

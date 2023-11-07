@@ -1,4 +1,9 @@
+/*
+
+//No se pueden realizar pruebas de geolocalización en PC
+
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { IonicModule } from '@ionic/angular';
 
 import { MapComponent } from './map.component';
@@ -10,7 +15,8 @@ describe('MapComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MapComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot()],
+      providers:[SQLite]
     }).compileComponents();
 
     fixture = TestBed.createComponent(MapComponent);
@@ -22,3 +28,4 @@ describe('MapComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+*/
