@@ -17,7 +17,7 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-
+      <!-- Formulario de datos del usuario -->
       <ion-list>
         <ion-item>
           <ion-label position="stacked">Imagen de Perfil</ion-label>
@@ -43,17 +43,32 @@
           <ion-label position="stacked">Nueva Contraseña</ion-label>
           <ion-input type="password" [(ngModel)]="nuevaContrasena"></ion-input>
         </ion-item>
+      </ion-list>
+      <!-- Botón para guardar los cambios -->
+      <div style="text-align: center;">
+        <ion-button color="grey" (click)="guardarCambios()" [routerLink]="['/']">Actualizar perfil</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Contraseña</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Nueva Contraseña</ion-label>
+          <ion-input type="password" [(ngModel)]="nuevaContrasena"></ion-input>
+        </ion-item>
         <ion-item>
           <ion-label position="stacked">Confirmar Nueva Contraseña</ion-label>
           <ion-input type="password" [(ngModel)]="confirmarNuevaContrasena"></ion-input>
         </ion-item>
       </ion-list>
       <div style="text-align: center;">
-        <ion-button color="grey" (click)="guardarCambios()"  [routerLink]="['/']">Actualizar Perfil </ion-button>
-
         <ion-button color="grey" (click)="guardarCambios1()" [routerLink]="['/']">Cambiar Contraseña</ion-button>
       </div>
     </ion-card-content>
-    
   </ion-card>
 </ion-content>
