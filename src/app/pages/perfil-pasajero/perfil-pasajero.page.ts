@@ -150,6 +150,7 @@ export class PerfilPasajeroPage implements OnInit {
   }
 
   guardarCambios() {
+    window.location.reload();
     this.db.updateUsuario(this.usuario).then((message) => {
       // Guarda la imagen en la base de datos
       if (this.usuario.imagen) {

@@ -36,18 +36,11 @@
           <ion-label position="stacked">Número de Celular</ion-label>
           <ion-input [(ngModel)]="usuario.numero_cel" type="tel"></ion-input>
         </ion-item>
-        <ion-item>
-          <ion-label position="stacked">Contraseña Actual</ion-label>
-          <ion-input type="password" [(ngModel)]="contrasenaActual"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="stacked">Nueva Contraseña</ion-label>
-          <ion-input type="password" [(ngModel)]="nuevaContrasena"></ion-input>
-        </ion-item>
+
       </ion-list>
       <!-- Botón para guardar los cambios -->
       <div style="text-align: center;">
-        <ion-button color="grey" (click)="guardarCambios()" [routerLink]="['/']">Actualizar perfil</ion-button>
+        <ion-button color="grey" (click)="guardarCambios()">Actualizar perfil</ion-button>
       </div>
     </ion-card-content>
   </ion-card>
@@ -72,4 +65,30 @@
       </div>
     </ion-card-content>
   </ion-card>
+
+
+
+
+
+
+
+<!-- Asegúrate de agregar [(ngModel)]="city" en la etiqueta ion-input -->
+<ion-item>
+  <ion-label position="floating">Ciudad</ion-label>
+  <ion-input [(ngModel)]="city"></ion-input>
+</ion-item>
+
+<!-- Asegúrate de pasar el valor de city a la función getWeather al hacer clic -->
+<ion-button expand="full" (click)="getWeather(city)">Obtener Clima</ion-button>
+
+<ion-card *ngIf="weatherData">
+  <ion-card-header>
+    {{ weatherData.name }}
+  </ion-card-header>
+  <ion-card-content>
+    Temperatura: {{ weatherData.main.temp }}°C
+  </ion-card-content>
+</ion-card>
+
+  
 </ion-content>

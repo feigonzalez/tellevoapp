@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { BdserviceService } from 'src/app/services/bdservice.service';
+import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
   selector: 'app-perfil-conductor',
@@ -10,6 +11,11 @@ import { BdserviceService } from 'src/app/services/bdservice.service';
   styleUrls: ['./perfil-conductor.page.scss'],
 })
 export class PerfilConductorPage implements OnInit {
+  city: string = 'Santiago';
+  weatherData: any;
+  private apiKey = 'ffe31d51024efac03faf1902e771d2b4';
+  private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
+
   usuario: any = {};
   imagen: string | null = null;
   contrasenaActual: string = '';
@@ -20,7 +26,9 @@ export class PerfilConductorPage implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private toastController: ToastController,
-    private db: BdserviceService
+    private db: BdserviceService,
+    private weatherService: WeatherService,
+    // No necesitas HttpClient aquí ya que está en el servicio WeatherService
   ) {
     this.usuario.imagen = null; // Inicializa la propiedad imagen en null
   }
@@ -31,12 +39,20 @@ export class PerfilConductorPage implements OnInit {
         this.loadUsuario();
       }
     });
+  } 
+
+  getWeather(city: string) {
+    this.weatherService.getWeather(city).subscribe(data => {
+      this.weatherData = data;
+      console.log(this.weatherData);
+    });
   }
 
   async loadUsuario() {
     let uID = localStorage.getItem("uID");
     if (uID) this.usuario = await this.db.leerUsuarioPorID(uID);
   }
+  
 
   initForm(): FormGroup {
     return this.fb.group({
@@ -151,6 +167,7 @@ export class PerfilConductorPage implements OnInit {
   }
 
   guardarCambios() {
+    window.location.reload();
     this.db.updateUsuario(this.usuario).then((message) => {
       // Guarda la imagen en la base de datos
       if (this.usuario.imagen) {

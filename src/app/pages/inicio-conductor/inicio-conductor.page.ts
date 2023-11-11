@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { BdserviceService } from 'src/app/services/bdservice.service';
+import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
   selector: 'app-inicio-conductor',
@@ -8,11 +11,22 @@ import { BdserviceService } from 'src/app/services/bdservice.service';
   styleUrls: ['./inicio-conductor.page.scss'],
 })
 export class InicioConductorPage implements OnInit {
+  rutas: any = {}
+  usuario: any = {}
+  city: string = 'Santiago';
+  weatherData: any;
+  private apiKey = 'ffe31d51024efac03faf1902e771d2b4';
+  private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
-  rutas : any={}
-  usuario : any={}
-
-  constructor(private router: Router, private db:BdserviceService) { }
+  imagen: string | null = null;
+  contrasenaActual: string = '';
+  nuevaContrasena: string = '';
+  confirmarNuevaContrasena: string = '';
+constructor(    private router: Router,
+  private fb: FormBuilder,
+  private toastController: ToastController,
+  private weatherService: WeatherService, private db:BdserviceService) {    this.usuario.imagen = null; // Inicializa la propiedad imagen en null
+}
 
   ngOnInit() {
     this.db.dbState().subscribe(res=>{
@@ -25,7 +39,12 @@ export class InicioConductorPage implements OnInit {
       }
     })
   }
-
+  getWeather(city: string) {
+    this.weatherService.getWeather(city).subscribe(data => {
+      this.weatherData = data;
+      console.log(this.weatherData);
+    });
+  }
   async loadUsuario(){
     let uID=localStorage.getItem("uID");
     if(uID) this.usuario=await this.db.leerUsuarioPorID(uID);

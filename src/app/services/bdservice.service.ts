@@ -490,6 +490,10 @@ Retorna una lista de objetos con la siguiente estructura:
     })
   }
 
+
+
+  
+
   crearVehiculo(patente:string, color:string, n_asientos:number, id_usuario:number){
     return this.database.executeSql("INSERT INTO vehiculos (patente, color, n_asientos, id_usuario) VALUES (?, ?, ?, ?);",[patente, color, n_asientos, id_usuario]).then((res)=>{
       this.leerVehiculos();
@@ -497,6 +501,9 @@ Retorna una lista de objetos con la siguiente estructura:
       this.presentAlert("ERROR al crear nuevo Vehiculo: "+ (e as Error).message);
     })
   }
+
+
+
 
   eliminarVehiculo(id:number){
     return this.database.executeSql("DELETE FROM vehiculos WHERE id_vehiculo = ?;",[id]).then((res)=>{
