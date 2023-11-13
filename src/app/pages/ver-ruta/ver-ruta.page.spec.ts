@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { VerRutaPage } from './ver-ruta.page';
+import { RouterTestingModule } from '@angular/router/testing';
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
+import { CurrencyPipe } from '@angular/common';
 
 describe('VerRutaPage', () => {
   let component: VerRutaPage;
@@ -8,7 +11,8 @@ describe('VerRutaPage', () => {
 
   beforeEach(async() => {
     await TestBed.configureTestingModule({
-      providers:[ActivatedRoute]
+      imports:[RouterTestingModule, RouterModule, CurrencyPipe],
+      providers:[ SQLite ]
     }).compileComponents();
     fixture = TestBed.createComponent(VerRutaPage);
     component = fixture.componentInstance;

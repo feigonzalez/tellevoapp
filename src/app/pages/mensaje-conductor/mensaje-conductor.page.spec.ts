@@ -1,11 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MensajeConductorPage } from './mensaje-conductor.page';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 
 describe('MensajeConductorPage', () => {
   let component: MensajeConductorPage;
   let fixture: ComponentFixture<MensajeConductorPage>;
 
   beforeEach(async() => {
+    await TestBed.configureTestingModule({
+      imports:[RouterTestingModule, RouterModule, RouterModule.forRoot([])],
+      providers:[ SQLite ]
+    }).compileComponents();
     fixture = TestBed.createComponent(MensajeConductorPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
