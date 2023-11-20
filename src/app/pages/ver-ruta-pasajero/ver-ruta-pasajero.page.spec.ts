@@ -3,7 +3,6 @@ import { RouterModule } from '@angular/router';
 import { VerRutaPasajeroPage } from './ver-ruta-pasajero.page';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
-import { CurrencyPipe } from '@angular/common';
 
 describe('VerRutaPasajeroPage', () => {
   let component: VerRutaPasajeroPage;
@@ -11,8 +10,7 @@ describe('VerRutaPasajeroPage', () => {
 
   beforeEach(async() => {
     await TestBed.configureTestingModule({
-      imports:[RouterTestingModule, RouterModule, CurrencyPipe],
-      //declarations:[CurrencyPipe],
+      imports:[RouterTestingModule, RouterModule],
       providers:[SQLite]
     }).compileComponents();
 

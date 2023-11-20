@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BdserviceService } from 'src/app/services/bdservice.service';
+import { Ruta } from 'src/app/services/ruta';
 import { Usuario } from 'src/app/services/usuario';
 
 @Component({
@@ -20,6 +21,9 @@ export class VerRutaPasajeroPage implements OnInit {
         this.ruta = this.router.getCurrentNavigation()?.extras.state?.['ruta']
         this.conductor = this.router.getCurrentNavigation()?.extras.state?.['conductor']
         this.viewType = this.router.getCurrentNavigation()?.extras?.state?.['viewType']
+      } else {
+        this.ruta= new Ruta();
+        this.conductor= new Usuario();
       }
     })
   }

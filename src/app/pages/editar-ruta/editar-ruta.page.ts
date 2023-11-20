@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { BdserviceService } from 'src/app/services/bdservice.service';
+import { Ruta } from 'src/app/services/ruta';
 
 @Component({
   selector: 'app-editar-ruta',
@@ -19,7 +20,7 @@ export class EditarRutaPage implements OnInit {
   formErrors : any = {};
 
   constructor(private location:Location,private router: Router, private activatedRoute: ActivatedRoute,
-      private alertController: AlertController,private toastController: ToastController, private db: BdserviceService) {
+      private alertController: AlertController, private db: BdserviceService) {
     this.activatedRoute.queryParams.subscribe(params=>{
       if(this.router.getCurrentNavigation()?.extras.state){
         this.ruta=this.router.getCurrentNavigation()?.extras?.state?.['ruta']
@@ -28,6 +29,8 @@ export class EditarRutaPage implements OnInit {
         if(this.ruta.id_ruta==-1){
           this.newRuta=true;
         }
+      } else {
+        this.ruta=new Ruta();
       }
     })
     console.log("@EDI:["+this.viewType+"]")
@@ -65,15 +68,17 @@ export class EditarRutaPage implements OnInit {
   }
 
   ngAfterContentInit(){
-    this.salidaHora=this.ruta.hora_salida.substring(0,this.ruta.hora_salida.indexOf(":"));
-    this.salidaMinuto=this.ruta.hora_salida.substring(this.ruta.hora_salida.indexOf(":")+1);
+    if(this.ruta && this.ruta.hora_salida){
+      this.salidaHora=this.ruta.hora_salida.substring(0,this.ruta.hora_salida.indexOf(":"));
+      this.salidaMinuto=this.ruta.hora_salida.substring(this.ruta.hora_salida.indexOf(":")+1);
+    }
   }
 
   actualizarRuta(){
     console.log("!:actualizarRuta()");
     //guarda los datos de la ruta en la db
     this.formErrors={};
-    let valid:boolean=true;
+    let valid:boolean=true
     valid=this.validarTarifa()&&valid;
     valid=this.validarHora()&&valid;
     valid=this.validarMinuto()&&valid;
@@ -141,7 +146,7 @@ export class EditarRutaPage implements OnInit {
     let valid=true;
     this.formErrors["origen_empty"]=false;
     this.formErrors["origen_notExists"]=false;
-    if(this.ruta.origen.trim()==""){
+    if(this.ruta && this.ruta.origen.trim()==""){
       this.formErrors["origen_empty"]=true; valid=false;}
     //falta validar que el origen sea una dirección válida
     return valid;

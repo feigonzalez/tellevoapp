@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BdserviceService } from 'src/app/services/bdservice.service';
-import { Usuario } from 'src/app/services/usuario';
-
+import { Ruta } from 'src/app/services/ruta';
 @Component({
   selector: 'app-ver-ruta',
   templateUrl: './ver-ruta.page.html',
@@ -19,6 +18,8 @@ export class VerRutaPage implements OnInit {
         this.ruta=this.router.getCurrentNavigation()?.extras.state?.['ruta']
         this.viewType=this.router.getCurrentNavigation()?.extras?.state?.['viewType']
         if(this.viewType=="new") this.editarRuta("new")
+      } else {
+        this.ruta = new Ruta();
       }
     })
   }

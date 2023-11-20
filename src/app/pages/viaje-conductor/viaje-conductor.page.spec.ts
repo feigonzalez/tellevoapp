@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ViajeConductorPage } from './viaje-conductor.page';
-import { ActivatedRoute, RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
+import { RouterModule } from '@angular/router';
 
 describe('ViajeConductorPage', () => {
   let component: ViajeConductorPage;
@@ -10,7 +10,7 @@ describe('ViajeConductorPage', () => {
 
   beforeEach(async() => {
     await TestBed.configureTestingModule({
-      imports:[RouterTestingModule, RouterModule],
+      imports:[ RouterTestingModule, RouterModule ],
       providers:[ SQLite ]
     }).compileComponents();
     fixture = TestBed.createComponent(ViajeConductorPage);

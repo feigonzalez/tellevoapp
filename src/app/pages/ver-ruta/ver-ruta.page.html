@@ -41,7 +41,8 @@
     <ion-row class="display-values">
       <ion-col>
         <ion-item lines="none">
-          <span>{{ruta.tarifa | currency:'CLP':'$':"1.0-0"}}</span>
+          <!--span>{{ruta.tarifa | currency:'CLP':'$':"1.0-0"}}</span-->
+          <span>${{ruta.tarifa}}</span>
         </ion-item>
       </ion-col> 
       <ion-col>
