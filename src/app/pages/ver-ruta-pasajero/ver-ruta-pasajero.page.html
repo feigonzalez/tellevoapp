@@ -13,6 +13,14 @@
 <ion-footer>
   <ion-button expand="block" size="large" style="margin:1rem" (click)="solicitarViaje()">Solicitar Pasaje</ion-button>
   <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item lines="none">
+          <span class="display-label">Asientos disponibles</span>
+          <span class="display-value-text">{{asResv}}/{{asDisp}}</span>
+        </ion-item>
+      </ion-col>
+    </ion-row>
     <ion-row><ion-col><ion-item lines="none">
       <span class="display-label">Conductor</span>
       <span class="display-value-text">{{conductor.nombre}}</span>

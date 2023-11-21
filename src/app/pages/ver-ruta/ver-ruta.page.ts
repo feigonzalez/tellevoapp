@@ -19,7 +19,7 @@ export class VerRutaPage implements OnInit {
         this.viewType=this.router.getCurrentNavigation()?.extras?.state?.['viewType']
         if(this.viewType=="new") this.editarRuta("new")
       } else {
-        this.ruta = new Ruta();
+        if(!this.ruta) this.ruta = new Ruta();
       }
     })
   }

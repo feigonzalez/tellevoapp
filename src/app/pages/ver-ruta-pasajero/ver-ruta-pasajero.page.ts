@@ -14,6 +14,8 @@ export class VerRutaPasajeroPage implements OnInit {
   conductor!:Usuario;
   ruta?: any;
   viewType: string = "";
+  asResv=0;
+  asDisp=0;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private db:BdserviceService) {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -22,13 +24,24 @@ export class VerRutaPasajeroPage implements OnInit {
         this.conductor = this.router.getCurrentNavigation()?.extras.state?.['conductor']
         this.viewType = this.router.getCurrentNavigation()?.extras?.state?.['viewType']
       } else {
-        this.ruta= new Ruta();
-        this.conductor= new Usuario();
+        if(!this.ruta) this.ruta= new Ruta();
+        if(!this.conductor) this.conductor= new Usuario()
       }
     })
   }
 
   async ngOnInit() {
+    this.db.dbState().subscribe(res=>{
+      if(res){
+        this.readAsientosReservados()
+      }
+    })
+  }
+
+  async readAsientosReservados(){
+    this.asResv = await this.db.contarViajesPorRutaYEstado(this.ruta.id_ruta,"aceptado")
+    let vehiculo=await this.db.leerVehiculoPorUsuario(this.conductor.id_usuario);
+    this.asDisp=vehiculo.n_asientos;
   }
 
   async ngAfterContentInit() {

@@ -42,16 +42,16 @@ export class ViajePasajeroPage implements OnInit {
 
   async finViaje() {
     const alert = await this.alertController.create({
-      header: 'El viaje esta comenzando.',
+      header: 'Espere a que el conductor apruebe su reserva',
     
     });
 
     await alert.present();
 
     // Cierra la alerta automáticamente después de 5 segundos
-    setTimeout(() => {
+    /*setTimeout(() => {
       alert.dismiss();
     
-    }, 5000);
+    }, 5000);*/
   }
 }
