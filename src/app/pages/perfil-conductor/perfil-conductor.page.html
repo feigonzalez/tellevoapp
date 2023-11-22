@@ -66,29 +66,36 @@
     </ion-card-content>
   </ion-card>
 
-
-
-
-
-
-
-<!-- Asegúrate de agregar [(ngModel)]="city" en la etiqueta ion-input -->
-<ion-item>
-  <ion-label position="floating">Ciudad</ion-label>
-  <ion-input [(ngModel)]="city"></ion-input>
-</ion-item>
-
-<!-- Asegúrate de pasar el valor de city a la función getWeather al hacer clic -->
-<ion-button expand="full" (click)="getWeather(city)">Obtener Clima</ion-button>
-
-<ion-card *ngIf="weatherData">
+<!-- Sección para agregar vehículo -->
+<ion-card>
   <ion-card-header>
-    {{ weatherData.name }}
+    <ion-card-title>Agregar Vehículo</ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    Temperatura: {{ weatherData.main.temp }}°C
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Patente</ion-label>
+        <ion-input [(ngModel)]="usuario.patente" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Color</ion-label>
+        <ion-input [(ngModel)]="usuario.color" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Número de Asientos</ion-label>
+        <ion-input [(ngModel)]="usuario.n_asientos" type="number"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div style="text-align: center;">
+      <ion-button color="grey" (click)="guardarCambios()">Agregar Vehículo</ion-button>
+    </div>
   </ion-card-content>
 </ion-card>
+
+
+
+
+
 
   
 </ion-content>

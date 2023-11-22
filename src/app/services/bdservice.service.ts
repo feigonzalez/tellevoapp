@@ -587,8 +587,7 @@ Retorna una lista de objetos con la siguiente estructura:
   
   crearRuta(tiempo_estimado:number, origen:string, destino:string, tarifa:number, hora_salida:string, id_usuario:number){
     return this.database.executeSql("INSERT INTO rutas (tiempo_estimado, origen, destino, tarifa, hora_salida, id_usuario) VALUES (0, ?, ?, ?, ?, ?)",[origen, destino, tarifa, hora_salida, id_usuario]).then((res)=>{
-      this.presentAlert("inserted Ruta ["+res+"]")
-      this.presentAlert("inserted Ruta with id ["+res.insertId+"]")
+
     }).catch((e)=>{
       this.presentAlert("ERROR al crear nueva Ruta: "+ (e as Error).message);
     })

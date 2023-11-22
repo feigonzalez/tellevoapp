@@ -168,8 +168,7 @@ export class PerfilConductorPage implements OnInit {
 
   guardarCambios() {
     window.location.reload();
-    this.db.updateUsuario(this.usuario).then((message) => {
-      // Guarda la imagen en la base de datos
+    this.db.updateUsuario(this.usuario).then(() => {
       if (this.usuario.imagen) {
         this.db.updateImagenUsuario(this.usuario.id_usuario, this.usuario.imagen)
           .then(() => {
@@ -179,8 +178,17 @@ export class PerfilConductorPage implements OnInit {
             this.showToast("Error al guardar la imagen de perfil: " + error.message, "danger");
           });
       } else {
-        this.showToast(message, "success");
+        this.showToast("Usuario actualizado exitosamente", "success");
       }
+
+      // Agregar vehículo
+      this.db.crearVehiculo(this.usuario.patente, this.usuario.color, this.usuario.n_asientos, this.usuario.id_usuario)
+        .then(() => {
+          this.showToast("Vehículo agregado exitosamente", "success");
+        })
+        .catch((error) => {
+          this.showToast("Error al agregar vehículo: " + error.message, "danger");
+        });
     }).catch((error) => {
       console.error('Error al insertar datos:', error);
       let errorMessage = "Error al guardar cambios: ";
