@@ -82,3 +82,10 @@ justify-content:center;
     height: 100vh; /* Adjust to your desired height */
   }
  
+.input-icon{
+  margin-right:0.5rem
+}
+
+.input-error{
+  color:var(--ion-color-danger)
+}

@@ -15,7 +15,7 @@
   </ion-card-content>
 
 
-  
+
   <ion-card-content style="margin-top: 1rem;">
     <ion-card-content style="margin-top: -2rem; background-color: white;">
       <!-- foto de perfil -->
@@ -28,97 +28,136 @@
               <ion-icon name="camera"></ion-icon>
             </ion-fab-button>
           </ion-fab>
-    
-              <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
-                <ion-img [src]="photo.webviewPath"></ion-img>
-              </ion-col>
-      
+
+          <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+            <ion-img [src]="photo.webviewPath"></ion-img>
+          </ion-col>
+
         </ion-card-content>
-  
-            <ion-card-content>
-              <ion-card-title class="ion-text-center">Foto de perfil</ion-card-title>
-            </ion-card-content>
+
+        <ion-card-content>
+          <ion-card-title class="ion-text-center">Foto de perfil</ion-card-title>
+        </ion-card-content>
         <!-- inicio forma -->
 
-      <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
-
-        
-        <!-- foto de perfil -->
-        <input type="file" (change)="onFileSelected($event)" accept="image/*" id="imagen"   />
+        <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
 
 
+          <!-- foto de perfil -->
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" id="imagen" />
+          <div class="input-error" *ngIf="formErrors['imagen_empty']">Seleccione una imagen</div>
 
-        <!-- Nombre Completo -->
-        <ion-item>
-          <ion-input name="nombre" type="text" placeholder="Nombre Completo" id="nombre" required formControlName="nombre" required [(ngModel)]="nombre" >
-            <ion-icon name="person-outline"></ion-icon>
-          </ion-input>
-        </ion-item>
-        <div *ngIf="contactForm.get('nombre')?.touched && contactForm.get('nombre')?.errors?.['required']">Este campo es obligatorio</div>
-        <div *ngIf="contactForm.get('nombre')?.touched && contactForm.get('nombre')?.errors?.['minlength']">El campo tiene que tener un largo mayor a 3 caracteres</div>
+          <!-- Nombre Completo -->
+          <ion-item>
+            <ion-icon class="input-icon" name="person-outline"></ion-icon>
+            <ion-input name="nombre" type="text" placeholder="Nombre Completo" id="nombre" formControlName="nombre"
+              required [(ngModel)]="nombre" (input)="validarNombre()"></ion-input>
+          </ion-item>
+          <div class="input-error" *ngIf="formErrors['nombre_empty']">Este campo es obligatorio</div>
+          <div class="input-error" *ngIf="formErrors['nombre_short']">El campo tiene que tener un largo mayor a 3
+            caracteres</div>
 
-        <!-- Contraseña -->
-        <ion-item>
-          <ion-input name="pass" type="password" placeholder="Contraseña" id="pass" required formControlName="pass" [(ngModel)]="pass" required >
-            <ion-icon name="key-outline"></ion-icon>
-          </ion-input>
-        </ion-item>
-        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.errors?.['required']">Este campo es obligatorio</div>
-        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.errors?.['minlength']">La contraseña tiene que ser mayor a 6 caracteres</div>
-        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.errors?.['pattern']">La contraseña debe cumplir con los criterios de seguridad:</div>
-        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.hasError('pattern', ['(?=.*[A-Z])'])">Debe contener al menos una mayúscula</div>
-        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.hasError('pattern', ['(?=.*[a-z])'])">Debe contener al menos una minúscula</div>
-        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.hasError('pattern', ['(?=.*\d)'])">Debe contener al menos un número</div>
-        <div *ngIf="contactForm.get('pass')?.touched && contactForm.get('pass')?.hasError('pattern', ['(?=.*[@$!%*?&])'])">Debe contener al menos un carácter especial</div>
+          <!-- Contraseña -->
+          <ion-item>
+            <ion-icon class="input-icon" name="key-outline"></ion-icon>
+            <ion-input name="pass" type="password" placeholder="Contraseña" id="pass" formControlName="pass"
+              [(ngModel)]="pass" required (input)="validarPass1()"></ion-input>
+          </ion-item>
+          <div class="input-error" *ngIf="formErrors['password_empty']">Este campo es obligatorio</div>
+          <div class="input-error" *ngIf="formErrors['password_short']">La contraseña tiene que ser mayor a 6 caracteres
+          </div>
+          <div class="input-error" *ngIf="formErrors['password_needUppercase']">Debe contener al menos una mayúscula
+          </div>
+          <div class="input-error" *ngIf="formErrors['password_needLowercase']">Debe contener al menos una minúscula
+          </div>
+          <div class="input-error" *ngIf="formErrors['password_needNumber']">Debe contener al menos un número</div>
+          <div class="input-error" *ngIf="formErrors['password_needSpecial']">Debe contener al menos un carácter
+            especial</div>
 
+          <ion-item>
+            <small>
+              La contraseña debe cumplir con los siguientes requisitos de seguridad:
+              <ul>
+                <li>Debe tener una longitud mayor a 6</li>
+                <li>Debe contener al menos una letra mayúscula</li>
+                <li>Debe contener al menos una letra minúscula</li>
+                <li>Debe contener al menos un caracter especial ("!", "$", "%", "&", "?", "@", o "*")</li>
+              </ul>
+            </small>
+          </ion-item>
 
+          <!-- Repetir Contraseña -->
+          <ion-item>
+            <ion-icon class="input-icon" name="key-outline"></ion-icon>
+            <ion-input name="pass2" type="password" placeholder="Repita la contraseña" id="pass2" required
+              formControlName="pass2" (input)="validarPass2()" [(ngModel)]="pass2" [pattern]="pass"></ion-input>
+          </ion-item>
+          <div class="input-error" *ngIf="formErrors['pass2_empty']">Este campo es obligatorio</div>
+          <div class="input-error" *ngIf="formErrors['pass2_noMatch']">Las contraseñas no coinciden</div>
 
-        <!-- Repetir Contraseña -->
-        <ion-item>
-          <ion-input name="pass2" type="password" placeholder="Repita la contraseña" id="pass2" required formControlName="pass2" required 
-          [(ngModel)]="pass2" 
-          [pattern]="pass">
-                        <ion-icon name="key-outline"></ion-icon>
+          <!-- Número de Teléfono -->
+          <ion-item>
+            <ion-icon class="input-icon" name="call-outline"></ion-icon>
+            <ion-input name="telefono" type="number" placeholder="Numero de telefono" id="telefono" required
+              formControlName="telefono" [(ngModel)]="telefono" (input)="validarTelefono()">
+            </ion-input>
+          </ion-item>
+          <div class="input-error" *ngIf="formErrors['telefono_empty']">Este campo es obligatorio</div>
+          <div class="input-error" *ngIf="formErrors['telefono_short']">Ingrese un número de teléfono válido</div>
 
-          </ion-input>
-        </ion-item>
-        <div *ngIf="contactForm.get('pass2')?.touched && contactForm.get('pass2')?.errors?.['required']">Este campo es obligatorio</div>
-        <div *ngIf="contactForm.get('pass2')?.touched && contactForm.get('pass2')?.errors?.['minlength']">La contraseña tiene que ser mayor a 6 caracteres</div>
+          <!-- Correo Electrónico -->
+          <ion-item>
+            <ion-icon class="input-icon" name="mail-outline"></ion-icon>
+            <ion-input name="email" type="text" placeholder="nombre@belleduca.cl" id="email" required
+              formControlName="email" (input)="validarCorreo()" [(ngModel)]="correo"></ion-input>
+          </ion-item>
+          <div class="input-error" *ngIf="formErrors['correo_empty']">Este campo es obligatorio</div>
+          <div class="input-error" *ngIf="formErrors['correo_invalid']">Ingrese un correo válido</div>
 
-        <!-- Número de Teléfono -->
-        <ion-item>
-          <ion-input name="telefono" type="number" placeholder="Numero de telefono" id="telefono" required formControlName="telefono" [(ngModel)]="telefono" required>
-            <ion-icon name="call-outline"></ion-icon>
-          </ion-input>
-        </ion-item>
-        <div *ngIf="contactForm.get('telefono')?.touched && contactForm.get('telefono')?.errors?.['required']">Este campo es obligatorio</div>
-        <div *ngIf="contactForm.get('telefono')?.touched && contactForm.get('telefono')?.errors?.['minlength']">Ingrese un número de teléfono válido</div>
+          <br>
+          <div class="center-div">
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="id_rol">
+              <mat-radio-button [value]="1">Conductor</mat-radio-button>
+              <mat-radio-button [value]="2">Pasajero</mat-radio-button>
+            </mat-radio-group>
+          </div>
 
-        <!-- Correo Electrónico -->
-        <ion-item>
-          <ion-input name="email" type="text" placeholder="nombre@belleduca.cl" id="email" required formControlName="email" required [(ngModel)]="correo">
-            <ion-icon name="mail-outline"></ion-icon>
-          </ion-input>
-        </ion-item>
-        <div *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.errors?.['required']">Este campo es obligatorio</div>
-        <div *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.errors?.['email']">Ingrese un correo válido</div>
+          <!--div *ngIf="id_rol==1">
+            <ion-item>
+              <ion-icon class="input-icon" name="car-outline"></ion-icon>
+              <ion-input name="patente" type="text" placeholder="Patente del Vehículo" [(ngModel)]="patente"
+                (input)="validarPatente()"></ion-input>
+            </ion-item>
+            <div class="input-error" *ngIf="formErrors['patente_empty']">Este campo es obligatorio</div>
+            <div class="input-error" *ngIf="formErrors['patente_invalid']">Patente inválida</div>
 
-        <br>
-        <div class="center-div">
-          <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1">Femenino</mat-radio-button>
-            <mat-radio-button value="2">Masculino</mat-radio-button>
-          </mat-radio-group>
-        </div>
+            <ion-item>
+              <ion-icon class="input-icon" name="car-outline"></ion-icon>
+              <ion-input name="color" type="text" placeholder="Color" [(ngModel)]="color"
+                (input)="validarColor()"></ion-input>
+            </ion-item>
+            <div class="input-error" *ngIf="formErrors['color_empty']">Este campo es obligatorio</div>
 
-        <div style="text-align: center;">
-          <ion-card-content style="margin-top: 20px; background-color: white;">
-            <ion-text style="text-align: center; font-size: 12px; color: var(--ion-color-medium)">Al hacer clic en "Registrarse", aceptas nuestra <a href="#">Política de Privacidad</a> y nuestros <a href="#">Términos y Condiciones</a>.</ion-text>
-          </ion-card-content>
-        </div>
+            <ion-item>
+              <ion-icon class="input-icon" name="car-outline"></ion-icon>
+              <ion-input name="asientos" type="number" placeholder="N° de Asientos" [(ngModel)]="asientos"
+                (input)="validarAsientos()"></ion-input>
+            </ion-item>
+            <div class="input-error" *ngIf="formErrors['asientos_empty']">Este campo es obligatorio</div>
+            <div class="input-error" *ngIf="formErrors['asientos_low']">Debe ser mayor a 0</div>
+          </div-->
 
-        <div class="sign-btn-wrap">
-          <ion-button (click)="crearUsuario(nombre, correo, pass, telefono, id_rol, imagen)" fill="solid" shape="round" class="recuperar" [disabled]="imagen === null || contactForm.invalid" [routerLink]="'/'">Registrarse</ion-button>
-        </div>
-      </form>
-  </ion-card-content>
+          <div style="text-align: center;">
+            <ion-card-content style="margin-top: 20px; background-color: white;">
+              <ion-text style="text-align: center; font-size: 12px; color: var(--ion-color-medium)">Al hacer clic en
+                "Registrarse", aceptas nuestra <a href="#">Política de Privacidad</a> y nuestros <a href="#">Términos y
+                  Condiciones</a>.</ion-text>
+            </ion-card-content>
+          </div>
+
+          <div class="sign-btn-wrap">
+            <ion-button (click)="crearUsuario(nombre, correo, pass, telefono, id_rol, imagen)" fill="solid"
+              shape="round" class="recuperar" [disabled]="registering">Registrarse</ion-button>
+          </div>
+        </form>
+      </ion-card-content>

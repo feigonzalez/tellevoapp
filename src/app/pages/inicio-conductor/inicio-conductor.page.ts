@@ -83,6 +83,7 @@ constructor(    private router: Router,
   }
 
   salirCuenta(){
+    this.db.presentAlert("Salir de cuenta")
     localStorage.removeItem("loggedIn")
     localStorage.removeItem("uRole")
     localStorage.removeItem("uID")

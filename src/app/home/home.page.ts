@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { BdserviceService } from '../services/bdservice.service';
-import { DummyApiServiceService } from '../services/dummy-api-service.service';
 import { Usuario } from '../services/usuario';
 
 
@@ -19,10 +18,7 @@ export class HomePage implements OnInit{
 
   usuarios : any = [];
 
-  dummyData : any = [];
-
-  constructor(private navCtrl: NavController, private db:BdserviceService,
-      private api:DummyApiServiceService) {
+  constructor(private navCtrl: NavController, private db:BdserviceService) {
     if(localStorage.getItem("loggedIn")){
       if(localStorage.getItem("uRole")=="conductor")
         this.navCtrl.navigateForward('/inicio-conductor');
@@ -40,10 +36,6 @@ export class HomePage implements OnInit{
           this.usuarios = items;
         })
       }
-    })
-    this.api.getUsuarios().subscribe(r=>{
-      this.dummyData = r;
-      this.db.presentAlert(this.dummyData[0]["id"]+": "+this.dummyData[0]["name"]);
     })
   }
 
