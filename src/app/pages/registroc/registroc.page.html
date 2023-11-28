@@ -29,8 +29,8 @@
             </ion-fab-button>
           </ion-fab>
 
-          <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
-            <ion-img [src]="photo.webviewPath"></ion-img>
+          <ion-col size="6" *ngIf="photoService.photos.length>0">
+            <ion-img [src]="lastPicture"></ion-img>
           </ion-col>
 
         </ion-card-content>
@@ -98,7 +98,7 @@
           <!-- Número de Teléfono -->
           <ion-item>
             <ion-icon class="input-icon" name="call-outline"></ion-icon>
-            <ion-input name="telefono" type="number" placeholder="Numero de telefono" id="telefono" required
+            <ion-input name="telefono" type="text" placeholder="Numero de telefono" id="telefono" required
               formControlName="telefono" [(ngModel)]="telefono" (input)="validarTelefono()">
             </ion-input>
           </ion-item>
@@ -108,7 +108,7 @@
           <!-- Correo Electrónico -->
           <ion-item>
             <ion-icon class="input-icon" name="mail-outline"></ion-icon>
-            <ion-input name="email" type="text" placeholder="nombre@belleduca.cl" id="email" required
+            <ion-input name="email" type="text" placeholder="Correo" id="email" required
               formControlName="email" (input)="validarCorreo()" [(ngModel)]="correo"></ion-input>
           </ion-item>
           <div class="input-error" *ngIf="formErrors['correo_empty']">Este campo es obligatorio</div>
@@ -116,36 +116,37 @@
 
           <br>
           <div class="center-div">
-            <mat-radio-group aria-label="Select an option" [(ngModel)]="id_rol">
-              <mat-radio-button [value]="1">Conductor</mat-radio-button>
-              <mat-radio-button [value]="2">Pasajero</mat-radio-button>
+            <mat-radio-group aria-label="Select an option" formControlName="id_rol" [(ngModel)]="id_rol" (input)="validarRol(true)">
+              <mat-radio-button value="1">Conductor</mat-radio-button>
+              <mat-radio-button value="2">Pasajero</mat-radio-button>
             </mat-radio-group>
           </div>
+          <div class="input-error" *ngIf="formErrors['rol_empty']">Seleccione un tipo de usuario</div>
 
-          <!--div *ngIf="id_rol==1">
+          <div *ngIf="id_rol==1">
             <ion-item>
               <ion-icon class="input-icon" name="car-outline"></ion-icon>
               <ion-input name="patente" type="text" placeholder="Patente del Vehículo" [(ngModel)]="patente"
-                (input)="validarPatente()"></ion-input>
+                (input)="validarPatente()" formControlName="patente"></ion-input>
             </ion-item>
             <div class="input-error" *ngIf="formErrors['patente_empty']">Este campo es obligatorio</div>
             <div class="input-error" *ngIf="formErrors['patente_invalid']">Patente inválida</div>
 
             <ion-item>
               <ion-icon class="input-icon" name="car-outline"></ion-icon>
-              <ion-input name="color" type="text" placeholder="Color" [(ngModel)]="color"
+              <ion-input name="color" type="text" placeholder="Color" formControlName="color" [(ngModel)]="color"
                 (input)="validarColor()"></ion-input>
             </ion-item>
             <div class="input-error" *ngIf="formErrors['color_empty']">Este campo es obligatorio</div>
 
             <ion-item>
               <ion-icon class="input-icon" name="car-outline"></ion-icon>
-              <ion-input name="asientos" type="number" placeholder="N° de Asientos" [(ngModel)]="asientos"
+              <ion-input name="asientos" type="number" placeholder="N° de Asientos" formControlName="asientos" [(ngModel)]="asientos"
                 (input)="validarAsientos()"></ion-input>
             </ion-item>
             <div class="input-error" *ngIf="formErrors['asientos_empty']">Este campo es obligatorio</div>
             <div class="input-error" *ngIf="formErrors['asientos_low']">Debe ser mayor a 0</div>
-          </div-->
+          </div>
 
           <div style="text-align: center;">
             <ion-card-content style="margin-top: 20px; background-color: white;">

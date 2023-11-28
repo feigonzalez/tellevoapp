@@ -499,6 +499,7 @@ export class BdserviceService {
   crearVehiculo(patente: string, color: string, n_asientos: number, id_usuario: number) {
     return this.database.executeSql("INSERT INTO vehiculos (patente, color, n_asientos, id_usuario) VALUES (?, ?, ?, ?);", [patente, color, n_asientos, id_usuario]).then((res) => {
       this.leerVehiculos();
+      return res.insertId;
     }).catch((e) => {
       this.presentAlert("ERROR al crear nuevo Vehiculo: " + (e as Error).message);
     })
