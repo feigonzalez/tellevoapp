@@ -68,9 +68,10 @@ export class InicioPasajeroPage implements OnInit {
   }
 
   salirCuenta(){
+    this.db.presentAlert("Salir de cuenta")
     localStorage.removeItem("loggedIn")
     localStorage.removeItem("uRole")
     localStorage.removeItem("uID")
-    this.router.navigate(['/'])
+    this.router.navigate(['/home'])
   }
 }

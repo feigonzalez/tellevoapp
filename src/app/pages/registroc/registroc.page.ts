@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertController, MenuController, NavController, ToastController } from '@ionic/angular';
 import { PhotoService } from 'src/app/services/photo.service';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
 import { BdserviceService } from 'src/app/services/bdservice.service';
 
 
@@ -27,7 +25,7 @@ export class RegistrocPage implements OnInit {
   registering=false;
   imagen: string = '';
 
-  lastPicture:string='';
+  lastPicture?:string='';
 
   patente:string='';
   color:string='';
@@ -41,14 +39,16 @@ export class RegistrocPage implements OnInit {
 
   constructor(public menuCtrl: MenuController, public navCtrl: NavController, public toastController: ToastController,
     public alertController: AlertController, readonly fb: FormBuilder, private _snackBar: MatSnackBar, public photoService: PhotoService,
-    public BdserviceService: BdserviceService, private router: Router) { }
+    public BdserviceService: BdserviceService) { }
 
   ngOnInit(): void {
     this.contactForm = this.initForm();
   }
-  async crearUsuario(nombre: string, correo: string, pass: string, telefono: string, id_rol: number, imagen: string) {
+
+  async crearUsuario() {
     this.registering=true;
     this.formErrors={};
+    this.formErrors["has_empty_fields"]=false;
     let valid:boolean=true
     valid=this.validarImagen()&&valid;
     valid=this.validarNombre()&&valid;
@@ -56,6 +56,7 @@ export class RegistrocPage implements OnInit {
     valid=this.validarPass2()&&valid;
     valid=this.validarTelefono()&&valid;
     valid=this.validarCorreo()&&valid;
+    valid=(await this.validarCorreoExiste())&&valid;
     valid=this.validarRol(false)&&valid;
     if(this.id_rol==1){
       valid=this.validarPatente()&&valid;
@@ -63,18 +64,28 @@ export class RegistrocPage implements OnInit {
       valid=this.validarAsientos()&&valid;
     }
     if(valid){
-      let newUID:number = await this.BdserviceService.crearUsuario(nombre, correo, pass, telefono, id_rol, imagen);
+      let newUID:number = await this.BdserviceService.crearUsuario(this.nombre, this.correo, this.pass, this.telefono, this.id_rol, this.imagen);
       if(newUID!=-1){
-        let newVID = await this.BdserviceService.crearVehiculo(this.patente, this.color, this.asientos, newUID);
-        if(newVID!=-1){
+        let newVID=-1
+        if(this.id_rol==1){
+          newVID = await this.BdserviceService.crearVehiculo(this.patente, this.color, this.asientos, newUID);
+          if(newVID!=-1){
+            localStorage.setItem("loggedIn","true");
+            localStorage.setItem("uID",newUID.toString());
+            localStorage.setItem("uRole","conductor");
+            this.navCtrl.navigateForward(['/inicio-conductor'])
+          }
+        } else {
           localStorage.setItem("loggedIn","true");
           localStorage.setItem("uID",newUID.toString());
-          this.router.navigate(['/inicio-conductor'])
+          localStorage.setItem("uRole","pasajero");
+          this.navCtrl.navigateForward(['/inicio-pasajero'])
         }
       } else {
         this.registering=false;
       }
     } else {
+      this.formErrors["hasErrors"]=true;
       this.registering=false;
     }
   }
@@ -92,9 +103,10 @@ export class RegistrocPage implements OnInit {
     this._snackBar.open(message, action, { duration: 3000 });
   }
 
-  addPhotoToGallery() {
-    this.photoService.addNewToGallery();
-    this.lastPicture=this.photoService.photos[this.photoService.photos.length-1].webviewPath
+  async addPhotoToGallery() {
+    await this.photoService.addNewToGallery();
+    this.lastPicture=this.photoService.photos[0].webviewPath
+    this.validarImagen();
   }
 
   onFileSelected(event: any) {
@@ -107,12 +119,14 @@ export class RegistrocPage implements OnInit {
         reader.readAsDataURL(file);
         reader.onload = () => {
           this.imagen = reader.result as string; // Indica a TypeScript que es una cadena base64
+          this.lastPicture=this.imagen
         };
       } else {
         // Manejar el caso en que el archivo no sea una imagen
         this.imagen = '';
       }
     }
+    this.validarImagen();
   }
 
 
@@ -160,8 +174,10 @@ export class RegistrocPage implements OnInit {
     let valid=true;
     this.formErrors["imagen_empty"]=false;
     if(this.imagen === null || this.imagen.trim()==""){
-      if(this.photoService.photos.length!=1)
-      this.formErrors["imagen_empty"]=true; valid=false;}
+      if(this.photoService.photos.length!=1){
+        this.formErrors["has_empty_fields"]=true;
+        this.formErrors["imagen_empty"]=true; valid=false;}
+      }
     return valid;
   }
 
@@ -170,6 +186,7 @@ export class RegistrocPage implements OnInit {
     this.formErrors["nombre_empty"]=false;
     this.formErrors["nombre_short"]=false;
     if(this.nombre===null || this.nombre.trim()==""){
+      this.formErrors["has_empty_fields"]=true;
       this.formErrors["nombre_empty"]=true; valid=false;}
     else if(this.nombre.length<3){
       this.formErrors["nombre_short"]=true; valid=false;}
@@ -185,6 +202,7 @@ export class RegistrocPage implements OnInit {
     this.formErrors["password_needNumber"]=false;
     this.formErrors["password_needSpecial"]=false;
     if(this.pass===null || this.pass.trim()==""){
+      this.formErrors["has_empty_fields"]=true;
       this.formErrors["password_empty"]=true; valid=false;}
     else{
       if(this.pass.length<6){
@@ -206,6 +224,7 @@ export class RegistrocPage implements OnInit {
     this.formErrors["pass2_empty"]=false;
     this.formErrors["pass2_noMatch"]=false;
     if(this.pass2===null || this.pass2.trim()==""){
+      this.formErrors["has_empty_fields"]=true;
       this.formErrors["pass2_empty"]=true; valid=false;}
     else if(this.pass2!=this.pass){
       this.formErrors["pass2_noMatch"]=true; valid=false;}
@@ -217,6 +236,7 @@ export class RegistrocPage implements OnInit {
     this.formErrors["telefono_empty"]=false;
     this.formErrors["telefono_short"]=false;
     if(this.telefono===null || this.telefono.trim()==""){
+      this.formErrors["has_empty_fields"]=true;
       this.formErrors["telefono_empty"]=true; valid=false;}
     else if(this.telefono.toString().length<8){
       this.formErrors["telefono_short"]=true; valid=false;}
@@ -227,10 +247,19 @@ export class RegistrocPage implements OnInit {
     let valid=true;
     this.formErrors["correo_empty"]=false;
     this.formErrors["correo_invalid"]=false;
+    this.formErrors["correo_inUse"]=false;
     if(this.correo===null || this.correo.trim()==""){
+      this.formErrors["has_empty_fields"]=true;
       this.formErrors["correo_empty"]=true; valid=false;}
     else if(!this.correo.match(/[^@]+@[^@]+/)){
       this.formErrors["correo_invalid"]=true; valid=false;}
+    return valid;
+  }
+
+  async validarCorreoExiste(){
+    let valid=true;
+    if((await this.BdserviceService.existeUsuarioPorCorreo(this.correo))){
+      this.formErrors["correo_inUse"]=true; valid=false;}
     return valid;
   }
 
@@ -239,6 +268,7 @@ export class RegistrocPage implements OnInit {
     this.formErrors["rol_empty"]=false;
     if(fromInput) return true;
     if(this.id_rol==0){
+      this.formErrors["has_empty_fields"]=true;
       this.formErrors["rol_empty"]=true; valid=false;}
     return valid;
   }
@@ -248,6 +278,7 @@ export class RegistrocPage implements OnInit {
     this.formErrors["patente_empty"]=false;
     this.formErrors["patente_invalid"]=false;
     if(this.patente === null || this.patente.trim()==""){
+      this.formErrors["has_empty_fields"]=true;
       this.formErrors["patente_empty"]=true; valid=false;}
     else if(!this.patente.toUpperCase().match(/[A-Z]{2}[0-9]{4}|[BCDFGHJKLMNPRSTWXYZ]{4}[0-9]{2}/) || this.patente.length!=6){
       this.formErrors["patente_invalid"]=true; valid=false;}
@@ -258,6 +289,7 @@ export class RegistrocPage implements OnInit {
     let valid=true;
     this.formErrors["color_empty"]=false;
     if(this.color === null || this.color.trim()==""){
+      this.formErrors["has_empty_fields"]=true;
       this.formErrors["color_empty"]=true; valid=false;}
     return valid;
   }
@@ -267,6 +299,7 @@ export class RegistrocPage implements OnInit {
     this.formErrors["asientos_empty"]=false;
     this.formErrors["asientos_low"]=false;
     if(this.asientos === null || this.asientos === undefined){
+      this.formErrors["has_empty_fields"]=true;
       this.formErrors["asientos_empty"]=true; valid=false;}
     else if(this.asientos<1){
       this.formErrors["asientos_low"]=true; valid=false;}

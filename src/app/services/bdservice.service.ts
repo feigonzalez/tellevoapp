@@ -250,6 +250,15 @@ export class BdserviceService {
     })
   }
 
+  existeUsuarioPorCorreo(correo: string) {
+    return this.database.executeSql("SELECT * FROM usuarios WHERE LOWER(correo) = ?", [correo]).then(res => {
+      return res.rows.length == 1;
+    }).catch(e => {
+      this.presentAlert("ERROR al verificar Usuario (Correo:" + correo + "): " + (e as Error).message);
+      return null;
+    })
+  }
+
   crearUsuario(nombre: string, correo: string, pass: string, telefono: string, id_rol: number, imagen: string) {
     return this.database.executeSql("INSERT INTO usuarios (nombre, correo, password, numero_cel, id_rol, imagen) VALUES (?, ?, ?, ?, ?, ?);", [nombre, correo, pass, telefono, id_rol, imagen]).then((res) => {
       this.leerUsuarios();

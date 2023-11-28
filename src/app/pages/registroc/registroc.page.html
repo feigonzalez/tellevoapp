@@ -3,14 +3,14 @@
     <ion-buttons slot="start">
       <ion-back-button style="color: white;" defaultHref="/home" text="Volver"></ion-back-button>
     </ion-buttons>
-    <ion-title style="color: white;">Registro de Conductor</ion-title>
+    <ion-title style="color: white;">Registro</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding class="background">
   <ion-card-content style="margin-top: 2rem; text-align: center;">
     <ion-card-content style="margin-top: 1rem; background-color: white;">
-      <ion-text style="font-size: 20px; font-weight: bold; color:#1e1e1e;">Crea tu cuenta como Conductor</ion-text>
+      <ion-text style="font-size: 20px; font-weight: bold; color:#1e1e1e;">Crea tu cuenta</ion-text>
     </ion-card-content>
   </ion-card-content>
 
@@ -109,10 +109,11 @@
           <ion-item>
             <ion-icon class="input-icon" name="mail-outline"></ion-icon>
             <ion-input name="email" type="text" placeholder="Correo" id="email" required
-              formControlName="email" (input)="validarCorreo()" [(ngModel)]="correo"></ion-input>
+              formControlName="email" (input)="validarCorreo()" (change)="validarCorreoExiste()" [(ngModel)]="correo"></ion-input>
           </ion-item>
           <div class="input-error" *ngIf="formErrors['correo_empty']">Este campo es obligatorio</div>
           <div class="input-error" *ngIf="formErrors['correo_invalid']">Ingrese un correo válido</div>
+          <div class="input-error" *ngIf="formErrors['correo_inUse']">Este correo no está disponible</div>
 
           <br>
           <div class="center-div">
@@ -157,8 +158,9 @@
           </div>
 
           <div class="sign-btn-wrap">
-            <ion-button (click)="crearUsuario(nombre, correo, pass, telefono, id_rol, imagen)" fill="solid"
+            <ion-button (click)="crearUsuario()" fill="solid"
               shape="round" class="recuperar" [disabled]="registering">Registrarse</ion-button>
           </div>
+          <div class="input-error" *ngIf="formErrors['has_empty_fields']">Tiene campos sin rellenar</div>
         </form>
       </ion-card-content>

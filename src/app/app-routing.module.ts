@@ -40,10 +40,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/mensaje-pasajero/mensaje-pasajero.module').then( m => m.MensajePasajeroPageModule)
   },
   {
-    path: 'menure',
-    loadChildren: () => import('./pages/menure/menure.module').then( m => m.MenurePageModule)
-  },
-  {
     path: 'perfil-conductor',
     loadChildren: () => import('./pages/perfil-conductor/perfil-conductor.module').then( m => m.PerfilConductorPageModule)
   },
@@ -54,10 +50,6 @@ const routes: Routes = [
   {
     path: 'registroc',
     loadChildren: () => import('./pages/registroc/registroc.module').then( m => m.RegistrocPageModule)
-  },
-  {
-    path: 'registrop',
-    loadChildren: () => import('./pages/registrop/registrop.module').then( m => m.RegistropPageModule)
   },
   {
     path: 'ver-ruta',
@@ -78,7 +70,8 @@ const routes: Routes = [
   {
     path: 'bdreport',
     loadChildren: () => import('./pages/bdreport/bdreport.module').then( m => m.BdreportPageModule)
-  },  {
+  },
+  {
     path: 'administrar-viaje',
     loadChildren: () => import('./pages/administrar-viaje/administrar-viaje.module').then( m => m.AdministrarViajePageModule)
   },
