@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { BdserviceService } from 'src/app/services/bdservice.service';
 import { WeatherService } from 'src/app/services/weather.service';
 @Component({
@@ -24,6 +24,7 @@ export class InicioPasajeroPage implements OnInit {
     nuevaContrasena: string = '';
     confirmarNuevaContrasena: string = '';
   constructor(    private router: Router,
+    private navCtrl: NavController,
     private fb: FormBuilder,
     private toastController: ToastController,
     private weatherService: WeatherService, private db:BdserviceService) {    this.usuario.imagen = null; // Inicializa la propiedad imagen en null
@@ -68,10 +69,10 @@ export class InicioPasajeroPage implements OnInit {
   }
 
   salirCuenta(){
-    this.db.presentAlert("Salir de cuenta")
-    localStorage.removeItem("loggedIn")
-    localStorage.removeItem("uRole")
-    localStorage.removeItem("uID")
+    this.db.presentAlert("Salir de cuenta");
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("uRole");
+    localStorage.removeItem("uID");
     this.router.navigate(['/home'])
   }
 }

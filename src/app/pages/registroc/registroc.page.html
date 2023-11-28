@@ -29,7 +29,7 @@
             </ion-fab-button>
           </ion-fab>
 
-          <ion-col size="6" *ngIf="photoService.photos.length>0">
+          <ion-col size="6" *ngIf="lastPicture!=''">
             <ion-img [src]="lastPicture"></ion-img>
           </ion-col>
 
@@ -103,7 +103,7 @@
             </ion-input>
           </ion-item>
           <div class="input-error" *ngIf="formErrors['telefono_empty']">Este campo es obligatorio</div>
-          <div class="input-error" *ngIf="formErrors['telefono_short']">Ingrese un número de teléfono válido</div>
+          <div class="input-error" *ngIf="formErrors['telefono_invalid']">Ingrese un número de teléfono válido</div>
 
           <!-- Correo Electrónico -->
           <ion-item>

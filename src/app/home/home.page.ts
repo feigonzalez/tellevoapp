@@ -19,14 +19,6 @@ export class HomePage implements OnInit{
   usuarios : any = [];
 
   constructor(private navCtrl: NavController, private db:BdserviceService) {
-    if(localStorage.getItem("loggedIn")){
-      if(localStorage.getItem("uRole")=="conductor")
-        this.navCtrl.navigateForward('/inicio-conductor');
-      else if(localStorage.getItem("uRole")=="pasajero")
-        this.navCtrl.navigateForward('/inicio-pasajero');
-      else
-        this.db.presentAlert("Illegal state: Bad uRole");
-    }
   }
 
   ngOnInit(){
@@ -37,6 +29,14 @@ export class HomePage implements OnInit{
         })
       }
     })
+    if(localStorage.getItem("loggedIn")){
+      if(localStorage.getItem("uRole")=="conductor")
+        this.navCtrl.navigateForward('/inicio-conductor');
+      else if(localStorage.getItem("uRole")=="pasajero")
+        this.navCtrl.navigateForward('/inicio-pasajero');
+      else
+        this.db.presentAlert("Illegal state: Bad uRole");
+    }
   }
 
   async login(){

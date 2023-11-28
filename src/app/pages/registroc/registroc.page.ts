@@ -120,6 +120,7 @@ export class RegistrocPage implements OnInit {
         reader.onload = () => {
           this.imagen = reader.result as string; // Indica a TypeScript que es una cadena base64
           this.lastPicture=this.imagen
+          this.validarImagen();
         };
       } else {
         // Manejar el caso en que el archivo no sea una imagen
@@ -234,12 +235,13 @@ export class RegistrocPage implements OnInit {
   validarTelefono(){
     let valid=true;
     this.formErrors["telefono_empty"]=false;
-    this.formErrors["telefono_short"]=false;
+    this.formErrors["telefono_invalid"]=false;
     if(this.telefono===null || this.telefono.trim()==""){
       this.formErrors["has_empty_fields"]=true;
-      this.formErrors["telefono_empty"]=true; valid=false;}
-    else if(this.telefono.toString().length<8){
-      this.formErrors["telefono_short"]=true; valid=false;}
+      this.formErrors["telefono_empty"]=true; valid=false;
+    } else if(!this.telefono.match(/^\+?\d{8,}$/)){
+        this.formErrors["telefono_invalid"]=true;
+    }
     return valid;
   }
 
