@@ -64,17 +64,13 @@
               [(ngModel)]="pass" required (input)="validarPass1()"></ion-input>
           </ion-item>
           <div class="input-error" *ngIf="formErrors['password_empty']">Este campo es obligatorio</div>
-          <div class="input-error" *ngIf="formErrors['password_short']">La contraseña tiene que ser mayor a 6 caracteres
-          </div>
-          <div class="input-error" *ngIf="formErrors['password_needUppercase']">Debe contener al menos una mayúscula
-          </div>
-          <div class="input-error" *ngIf="formErrors['password_needLowercase']">Debe contener al menos una minúscula
-          </div>
+          <div class="input-error" *ngIf="formErrors['password_short']">La contraseña tiene que ser mayor a 6 caracteres</div>
+          <div class="input-error" *ngIf="formErrors['password_needUppercase']">Debe contener al menos una mayúscula</div>
+          <div class="input-error" *ngIf="formErrors['password_needLowercase']">Debe contener al menos una minúscula</div>
           <div class="input-error" *ngIf="formErrors['password_needNumber']">Debe contener al menos un número</div>
-          <div class="input-error" *ngIf="formErrors['password_needSpecial']">Debe contener al menos un carácter
-            especial</div>
+          <div class="input-error" *ngIf="formErrors['password_needSpecial']">Debe contener al menos un carácter especial</div>
 
-          <ion-item>
+          <ion-item lines="none">
             <small>
               La contraseña debe cumplir con los siguientes requisitos de seguridad:
               <ul>
@@ -98,7 +94,7 @@
           <!-- Número de Teléfono -->
           <ion-item>
             <ion-icon class="input-icon" name="call-outline"></ion-icon>
-            <ion-input name="telefono" type="text" placeholder="Numero de telefono" id="telefono" required
+            <ion-input name="telefono" type="text" placeholder="Número de telefono" id="telefono" required
               formControlName="telefono" [(ngModel)]="telefono" (input)="validarTelefono()">
             </ion-input>
           </ion-item>

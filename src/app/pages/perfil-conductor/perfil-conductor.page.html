@@ -25,22 +25,28 @@
           <input type="file" accept="image/*" (change)="onFileSelected($event)" [(ngModel)]="usuario.imagen">
         </ion-item>
         <ion-item>
-          <ion-label position="stacked">Nombre</ion-label>
-          <ion-input [(ngModel)]="usuario.nombre" type="text"></ion-input>
+          <ion-label position="stacked">
+            <ion-icon class="input-icon" name="person-outline"></ion-icon>
+            Nombre
+          </ion-label>
+          <ion-input [(ngModel)]="usuario.nombre" type="text" (input)="validarNombre()"></ion-input>
         </ion-item>
+        <div class="input-error" *ngIf="formErrors['nombre_empty']">Este campo es obligatorio</div>
+        <div class="input-error" *ngIf="formErrors['nombre_short']">El campo tiene que tener un largo mayor a 3</div>
         <ion-item>
-          <ion-label position="stacked">Correo</ion-label>
-          <ion-input [(ngModel)]="usuario.correo" type="email"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="stacked">Número de Celular</ion-label>
-          <ion-input [(ngModel)]="usuario.numero_cel" type="tel"></ion-input>
+          <ion-label position="stacked">
+            <ion-icon class="input-icon" name="call-outline"></ion-icon>
+            Número de Teléfono
+          </ion-label>
+          <ion-input [(ngModel)]="usuario.numero_cel" type="text" (input)="validarTelefono()"></ion-input>
+          <div class="input-error" *ngIf="formErrors['telefono_empty']">Este campo es obligatorio</div>
+          <div class="input-error" *ngIf="formErrors['telefono_invalid']">Ingrese un número de teléfono válido</div>
         </ion-item>
 
       </ion-list>
       <!-- Botón para guardar los cambios -->
       <div style="text-align: center;">
-        <ion-button color="grey" (click)="guardarCambios()">Actualizar perfil</ion-button>
+        <ion-button color="grey" (click)="actualizarDatos()">Actualizar perfil</ion-button>
       </div>
     </ion-card-content>
   </ion-card>
@@ -52,16 +58,53 @@
     <ion-card-content>
       <ion-list>
         <ion-item>
-          <ion-label position="stacked">Nueva Contraseña</ion-label>
-          <ion-input type="password" [(ngModel)]="nuevaContrasena"></ion-input>
+          <ion-label position="stacked">
+            <ion-icon class="input-icon" name="key-outline"></ion-icon>
+            Contraseña Actual
+          </ion-label>
+          <ion-input type="password" [(ngModel)]="passActual" (input)="validarPassActual()"></ion-input>
+        </ion-item>
+        <div class="input-error" *ngIf="formErrors['passMain_empty']">Este campo es obligatorio</div>
+        <div class="input-error" *ngIf="formErrors['passMain_wrong']">Contraseña incorrecta</div>
+
+        <ion-item>
+          <ion-label position="stacked">
+            <ion-icon class="input-icon" name="key-outline"></ion-icon>
+            Nueva Contraseña
+          </ion-label>
+          <ion-input type="password" [(ngModel)]="passNueva" (input)="validarPassNueva()"></ion-input>
+        </ion-item>
+        <div class="input-error" *ngIf="formErrors['password_empty']">Este campo es obligatorio</div>
+        <div class="input-error" *ngIf="formErrors['password_short']">La contraseña tiene que ser mayor a 6 caracteres</div>
+        <div class="input-error" *ngIf="formErrors['password_needUppercase']">Debe contener al menos una mayúscula</div>
+        <div class="input-error" *ngIf="formErrors['password_needLowercase']">Debe contener al menos una minúscula</div>
+        <div class="input-error" *ngIf="formErrors['password_needNumber']">Debe contener al menos un número</div>
+        <div class="input-error" *ngIf="formErrors['password_needSpecial']">Debe contener al menos un carácter especial</div>
+
+        <ion-item lines="none">
+          <small>
+            La contraseña debe cumplir con los siguientes requisitos de seguridad:
+            <ul>
+              <li>Debe tener una longitud mayor a 6</li>
+              <li>Debe contener al menos una letra mayúscula</li>
+              <li>Debe contener al menos una letra minúscula</li>
+              <li>Debe contener al menos un caracter especial ("!", "$", "%", "&", "?", "@", o "*")</li>
+            </ul>
+          </small>
         </ion-item>
         <ion-item>
-          <ion-label position="stacked">Confirmar Nueva Contraseña</ion-label>
-          <ion-input type="password" [(ngModel)]="confirmarNuevaContrasena"></ion-input>
+          <ion-label position="stacked">
+            <ion-icon class="input-icon" name="key-outline"></ion-icon>
+            Confirmar Nueva Contraseña
+          </ion-label>
+          <ion-input type="password" [(ngModel)]="passNuevaConfirm" (input)="validarPassConfirm()"></ion-input>
         </ion-item>
+        <div class="input-error" *ngIf="formErrors['pass2_empty']">Este campo es obligatorio</div>
+        <div class="input-error" *ngIf="formErrors['pass2_noMatch']">Las contraseñas no coinciden</div>
+
       </ion-list>
       <div style="text-align: center;">
-        <ion-button color="grey" (click)="guardarCambios1()" [routerLink]="['/']">Cambiar Contraseña</ion-button>
+        <ion-button color="grey" (click)="actualizarPass()">Cambiar Contraseña</ion-button>
       </div>
     </ion-card-content>
   </ion-card>
@@ -74,20 +117,37 @@
   <ion-card-content>
     <ion-list>
       <ion-item>
-        <ion-label position="stacked">Patente</ion-label>
-        <ion-input [(ngModel)]="usuario.patente" type="text"></ion-input>
+        <ion-label position="stacked">
+          <ion-icon class="input-icon" name="car-outline"></ion-icon>
+          Patente
+        </ion-label>
+        <ion-input [(ngModel)]="vehiculo.patente" type="text" (input)="validarPatente()"></ion-input>
       </ion-item>
+      <div class="input-error" *ngIf="formErrors['patente_empty']">Este campo es obligatorio</div>
+      <div class="input-error" *ngIf="formErrors['patente_invalid']">Patente inválida</div>
+
       <ion-item>
-        <ion-label position="stacked">Color</ion-label>
-        <ion-input [(ngModel)]="usuario.color" type="text"></ion-input>
+        <ion-label position="stacked">
+          <ion-icon class="input-icon" name="car-outline"></ion-icon>
+          Color
+        </ion-label>
+        <ion-input [(ngModel)]="vehiculo.color" type="text" (input)="validarColor()"></ion-input>
       </ion-item>
+      <div class="input-error" *ngIf="formErrors['color_empty']">Este campo es obligatorio</div>
+
       <ion-item>
-        <ion-label position="stacked">Número de Asientos</ion-label>
-        <ion-input [(ngModel)]="usuario.n_asientos" type="number"></ion-input>
+        <ion-label position="stacked">
+          <ion-icon class="input-icon" name="car-outline"></ion-icon>
+          Número de Asientos
+        </ion-label>
+        <ion-input [(ngModel)]="vehiculo.n_asientos" type="number" (input)="validarAsientos()"></ion-input>
       </ion-item>
+      <div class="input-error" *ngIf="formErrors['asientos_empty']">Este campo es obligatorio</div>
+      <div class="input-error" *ngIf="formErrors['asientos_low']">Debe ser mayor a 0</div>
+
     </ion-list>
     <div style="text-align: center;">
-      <ion-button color="grey" (click)="guardarCambios()">Agregar Vehículo</ion-button>
+      <ion-button color="grey" (click)="actualizarVehiculo()">Actualizar Vehículo</ion-button>
     </div>
   </ion-card-content>
 </ion-card>

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NavController, ToastController } from '@ionic/angular';
 import { BdserviceService } from 'src/app/services/bdservice.service';
+import { Usuario } from 'src/app/services/usuario';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -17,15 +18,17 @@ export class PerfilConductorPage implements OnInit {
   private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
   usuario: any = {};
+  vehiculo: any = {};
   imagen: string | null = null;
-  contrasenaActual: string = '';
-  nuevaContrasena: string = '';
-  confirmarNuevaContrasena: string = '';
+  passActual: string = '';
+  passNueva: string = '';
+  passNuevaConfirm: string = '';
+
+  formErrors:any = {};
 
   constructor(
-    private router: Router,
+    private navCtrl: NavController,
     private fb: FormBuilder,
-    private toastController: ToastController,
     private db: BdserviceService,
     private weatherService: WeatherService,
     // No necesitas HttpClient aquí ya que está en el servicio WeatherService
@@ -36,7 +39,7 @@ export class PerfilConductorPage implements OnInit {
   ngOnInit() {
     this.db.dbState().subscribe((res) => {
       if (res) {
-        this.loadUsuario();
+        this.loadUsuarioYVehiculo();
       }
     });
   } 
@@ -48,11 +51,13 @@ export class PerfilConductorPage implements OnInit {
     });
   }
 
-  async loadUsuario() {
+  async loadUsuarioYVehiculo() {
     let uID = localStorage.getItem("uID");
-    if (uID) this.usuario = await this.db.leerUsuarioPorID(uID);
+    if (uID){
+      this.usuario = await this.db.leerUsuarioPorID(uID);
+      this.vehiculo = await this.db.leerVehiculoPorUsuario(uID);
+    }
   }
-  
 
   initForm(): FormGroup {
     return this.fb.group({
@@ -64,22 +69,6 @@ export class PerfilConductorPage implements OnInit {
     });
   }
 
-  async showToast(text: string, type: string) {
-    const toast = await this.toastController.create({
-      message: text,
-      duration: 5000,
-      position: 'bottom',
-      color: type,
-      buttons: [
-        {
-          icon: "close",
-          role: "cancel",
-        },
-      ],
-    });
-    await toast.present();
-  }
-
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
@@ -87,117 +76,155 @@ export class PerfilConductorPage implements OnInit {
     }
   }
 
-  cambiarContrasena() {
-    // Validar que la contraseña actual sea correcta
-    if (!this.validarContrasenaActual()) {
-      this.showToast('La contraseña actual es incorrecta', 'danger');
-      return;
-    }
-
-    // Validar que la nueva contraseña y la confirmación coincidan
-    if (this.nuevaContrasena !== this.confirmarNuevaContrasena) {
-      this.showToast('Las contraseñas nuevas no coinciden', 'danger');
-      return;
-    }
-
-    // Validar que la nueva contraseña cumple con tus requisitos de seguridad
-    if (!this.validarNuevaContrasena()) {
-      this.showToast('La nueva contraseña no cumple con los requisitos de seguridad', 'danger');
-      return;
-    }
-
-    // Actualizar la contraseña en la base de datos
-    this.db.actualizarContrasena(this.usuario.id_usuario, this.nuevaContrasena)
-      .then(() => {
-        this.showToast('Contraseña actualizada exitosamente', 'success');
-        // Limpiar campos de contraseña
-        this.contrasenaActual = '';
-        this.nuevaContrasena = '';
-        this.confirmarNuevaContrasena = '';
-      })
-      .catch(error => {
-        this.showToast('Error al actualizar la contraseña: ' + error.message, 'danger');
-      });
+  validarNombre(){
+    let valid=true;
+    this.formErrors["nombre_empty"]=false;
+    this.formErrors["nombre_short"]=false;
+    if(this.usuario.nombre===null || this.usuario.nombre.trim()==""){
+      this.formErrors["has_empty_fields"]=true;
+      this.formErrors["nombre_empty"]=true; valid=false;}
+    else if(this.usuario.nombre.length<3){
+      this.formErrors["nombre_short"]=true; valid=false;}
+    return valid;
   }
 
-  async validarContrasenaActual(): Promise<boolean> {
-    const contrasenaAlmacenada = await this.obtenerContrasenaAlmacenada(this.usuario.id_usuario);
-    return this.contrasenaActual === contrasenaAlmacenada;
+  validarTelefono(){
+    let valid=true;
+    this.formErrors["telefono_empty"]=false;
+    this.formErrors["telefono_invalid"]=false;
+    if(this.usuario.numero_cel===null || this.usuario.numero_cel.trim()==""){
+      this.formErrors["has_empty_fields"]=true;
+      this.formErrors["telefono_empty"]=true; valid=false;
+    } else if(!this.usuario.numero_cel.match(/^\+?\d{8,}$/)){
+        this.formErrors["telefono_invalid"]=true;
+    }
+    return valid;
   }
 
-  async obtenerContrasenaAlmacenada(idUsuario: number): Promise<string> {
-    try {
-      const usuario = await this.db.leerUsuarioPorID(idUsuario.toString());
-      if (usuario) {
-        return usuario.password;
-      }
-      return '';
-    } catch (error) {
-      // Maneja errores aquí
-      console.error('Error al obtener contraseña almacenada:', error);
-      return '';
+  validarPassActual(){
+    let valid=true;
+    this.formErrors["passMain_empty"]=false;
+    this.formErrors["passMain_wrong"]=false;
+    if(this.passActual === null || this.passActual.trim() == ""){
+      this.formErrors["passMain_empty"]=true;valid=false}
+    return valid;
+  }
+
+  validarPassActualCorrecta(){
+    let valid=true;
+    this.formErrors["passMain_wrong"]=false;
+    if(this.usuario.password != this.passActual){
+      this.formErrors["passMain_wrong"]=true; valid=false;}
+    return valid;
+  }
+
+  validarPassNueva(){
+    let valid=true;
+    this.formErrors["password_empty"]=false;
+    this.formErrors["password_short"]=false;
+    this.formErrors["password_needUppercase"]=false;
+    this.formErrors["password_needLowercase"]=false;
+    this.formErrors["password_needNumber"]=false;
+    this.formErrors["password_needSpecial"]=false;
+    if(this.passNueva===null || this.passNueva.trim()==""){
+      this.formErrors["has_empty_fields"]=true;
+      this.formErrors["password_empty"]=true; valid=false;}
+    else{
+      if(this.passNueva.length<6){
+        this.formErrors["password_short"]=true; valid=false;}
+      if(!this.passNueva.match(/.*[A-Z].*/)){
+        this.formErrors["password_needUppercase"]=true; valid=false;}
+      if(!this.passNueva.match(/.*[a-z].*/)){
+        this.formErrors["password_needLowercase"]=true; valid=false;}
+      if(!this.passNueva.match(/.*\d.*/)){
+        this.formErrors["password_needNumber"]=true; valid=false;}
+      if(!this.passNueva.match(/.*[!$%&?@*].*/)){
+        this.formErrors["password_needSpecial"]=true; valid=false;}
+    }
+    return valid;
+  }
+
+  validarPassConfirm(){
+    let valid=true;
+    this.formErrors["pass2_empty"]=false;
+    this.formErrors["pass2_noMatch"]=false;
+    if(this.passNuevaConfirm===null || this.passNuevaConfirm.trim()==""){
+      this.formErrors["has_empty_fields"]=true;
+      this.formErrors["pass2_empty"]=true; valid=false;}
+    else if(this.passNuevaConfirm!=this.passNueva){
+      this.formErrors["pass2_noMatch"]=true; valid=false;}
+    return valid;
+  }
+
+  validarPatente(){
+    let valid=true;
+    this.formErrors["patente_empty"]=false;
+    this.formErrors["patente_invalid"]=false;
+    if(this.vehiculo.patente === null || this.vehiculo.patente.trim()==""){
+      this.formErrors["has_empty_fields"]=true;
+      this.formErrors["patente_empty"]=true; valid=false;}
+    else if(!this.vehiculo.patente.toUpperCase().match(/[A-Z]{2}[0-9]{4}|[BCDFGHJKLMNPRSTWXYZ]{4}[0-9]{2}/) || this.vehiculo.patente.length!=6){
+      this.formErrors["patente_invalid"]=true; valid=false;}
+    return valid;
+  }
+
+  validarColor(){
+    let valid=true;
+    this.formErrors["color_empty"]=false;
+    if(this.vehiculo.color === null || this.vehiculo.color.trim()==""){
+      this.formErrors["has_empty_fields"]=true;
+      this.formErrors["color_empty"]=true; valid=false;}
+    return valid;
+  }
+
+  validarAsientos(){
+    let valid=true;
+    this.formErrors["asientos_empty"]=false;
+    this.formErrors["asientos_low"]=false;
+    if(this.vehiculo.n_asientos=== null || this.vehiculo.n_asientos === undefined){
+      this.formErrors["has_empty_fields"]=true;
+      this.formErrors["asientos_empty"]=true; valid=false;}
+    else if(this.vehiculo.n_asientos<1){
+      this.formErrors["asientos_low"]=true; valid=false;}
+    return valid;
+  }
+
+  actualizarDatos(){
+    this.formErrors={};
+    let valid:boolean=true
+    valid=this.validarNombre()&&valid;
+    valid=this.validarTelefono()&&valid;
+    if(valid){
+      this.db.actualizarUsuarioDatos(this.usuario.id_usuario,this.usuario.nombre,this.usuario.numero_cel,this.usuario.imagen);
+      this.db.showToast("Datos actualizados","success");
+      this.navCtrl.navigateBack('/inicio-conductor',{state:{"updateUser":true}});
     }
   }
 
-  validarNuevaContrasena(): boolean {
-    // Añade tus criterios de validación aquí
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(this.nuevaContrasena);
+  actualizarPass(){
+    this.formErrors={};
+    let valid:boolean=true
+    valid=this.validarPassActual()&&valid;
+    valid=this.validarPassActualCorrecta()&&valid;
+    valid=this.validarPassNueva()&&valid;
+    valid=this.validarPassConfirm()&&valid;
+    if(valid){
+      this.db.actualizarUsuarioPass(this.usuario.id_usuario,this.passNueva);
+      this.db.showToast("Contraseña actualizada","success");
+      this.navCtrl.navigateBack('/inicio-conductor');
+    }
   }
 
-  guardarCambios1() {
-    // Validaciones de contraseña actual y nueva contraseña
-    if (!this.validarContrasenaActual()) {
-      this.showToast("La contraseña actual es incorrecta", "danger");
-      return;
+  actualizarVehiculo(){
+    this.formErrors={};
+    let valid:boolean=true
+    valid=this.validarPatente()&&valid;
+    valid=this.validarColor()&&valid;
+    valid=this.validarAsientos()&&valid;
+    if(valid){
+      this.db.actualizarVehiculo(this.vehiculo.id_vehiculo,this.vehiculo.patente,this.vehiculo.color,this.vehiculo.n_asientos,this.usuario.id_usuario);
+      this.db.showToast("Vehículo actualizado","success");
+      this.navCtrl.navigateBack('/inicio-conductor');
     }
-
-    if (!this.validarNuevaContrasena()) {
-      this.showToast("La nueva contraseña no cumple con los requisitos de seguridad", "danger");
-      return;
-    }
-
-    // Cambiar la contraseña en la base de datos
-    this.db.actualizarContrasena(this.usuario.id_usuario, this.nuevaContrasena)
-      .then(() => {
-        this.showToast("Contraseña cambiada exitosamente", "success");
-      })
-      .catch((error) => {
-        this.showToast("Error al cambiar la contraseña: " + error.message, "danger");
-      });
-  }
-
-  guardarCambios() {
-    window.location.reload();
-    this.db.updateUsuario(this.usuario).then(() => {
-      if (this.usuario.imagen) {
-        this.db.updateImagenUsuario(this.usuario.id_usuario, this.usuario.imagen)
-          .then(() => {
-            this.showToast("Usuario actualizado exitosamente", "success");
-          })
-          .catch((error) => {
-            this.showToast("Error al guardar la imagen de perfil: " + error.message, "danger");
-          });
-      } else {
-        this.showToast("Usuario actualizado exitosamente", "success");
-      }
-
-      // Agregar vehículo
-      this.db.crearVehiculo(this.usuario.patente, this.usuario.color, this.usuario.n_asientos, this.usuario.id_usuario)
-        .then(() => {
-          this.showToast("Vehículo agregado exitosamente", "success");
-        })
-        .catch((error) => {
-          this.showToast("Error al agregar vehículo: " + error.message, "danger");
-        });
-    }).catch((error) => {
-      console.error('Error al insertar datos:', error);
-      let errorMessage = "Error al guardar cambios: ";
-      if (error.message) {
-        errorMessage += error.message;
-      } else {
-        errorMessage += "Detalles específicos del error no disponibles.";
-      }
-      this.showToast(errorMessage, "danger");
-    });
   }
 }

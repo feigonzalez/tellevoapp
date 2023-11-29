@@ -146,35 +146,20 @@ export class BdserviceService {
   async crearTablas() {
     let status: string = "INIT";
     try {
-      status = "creating Roles";
-      await this.database.executeSql(this.tablaRolesStmt, []);
-      status = "creating Usuarios";
-      await this.database.executeSql(this.tablaUsuariosStmt, []);
-      status = "creating Vehiculos";
-      await this.database.executeSql(this.tablaVehiculosStmt, []);
-      status = "creating Rutas";
-      await this.database.executeSql(this.tablaRutasStmt, []);
-      status = "creating Viajes";
-      await this.database.executeSql(this.tablaViajesStmt, []);
-      status = "creating Calificaciones";
-      await this.database.executeSql(this.tablaCalificacionesStmt, []);
-      status = "creating Mensajes";
-      await this.database.executeSql(this.tablaMensajesStmt, []);
-      status = "populating Roles";
-      for (var stmt of this.poblarRolesStmts) { await this.database.executeSql(stmt, []); }
-      status = "populating Usuarios";
-      for (var stmt of this.poblarUsuariosStmts) { await this.database.executeSql(stmt, []); }
-      status = "populating Vehiculos";
-      for (var stmt of this.poblarVehiculosStmts) { await this.database.executeSql(stmt, []); }
-      status = "populating Rutas";
-      for (var stmt of this.poblarRutasStmts) { await this.database.executeSql(stmt, []); }
-      status = "populating Viajes";
-      for (var stmt of this.poblarViajesStmts) { await this.database.executeSql(stmt, []); }
-      status = "populating Calificaciones";
-      for (var stmt of this.poblarCalificacionesStmts) { await this.database.executeSql(stmt, []); }
-      status = "populating Mensajes";
-      for (var stmt of this.poblarMensajesStmts) { await this.database.executeSql(stmt, []); }
-      status = "DONE";
+      await this.database.executeSql(this.tablaRolesStmt, []);          status = "MADE roles";
+      await this.database.executeSql(this.tablaUsuariosStmt, []);       status = "MADE usuarios";
+      await this.database.executeSql(this.tablaVehiculosStmt, []);      status = "MAKE vehiculos";
+      await this.database.executeSql(this.tablaRutasStmt, []);          status = "MAKE rutas";
+      await this.database.executeSql(this.tablaViajesStmt, []);         status = "MAKE viajes";
+      await this.database.executeSql(this.tablaCalificacionesStmt, []); status = "MAKE calificaciones";
+      await this.database.executeSql(this.tablaMensajesStmt, []);       status = "MAKE mensajes";
+      for (var stmt of this.poblarRolesStmts) { await this.database.executeSql(stmt, []); }          status = "FILL roles";
+      for (var stmt of this.poblarUsuariosStmts) { await this.database.executeSql(stmt, []); }       status = "FILL usuarios";
+      for (var stmt of this.poblarVehiculosStmts) { await this.database.executeSql(stmt, []); }      status = "FILL vehiculos";
+      for (var stmt of this.poblarRutasStmts) { await this.database.executeSql(stmt, []); }          status = "FILL viajes";
+      for (var stmt of this.poblarViajesStmts) { await this.database.executeSql(stmt, []); }         status = "FILL calificaciones";
+      for (var stmt of this.poblarCalificacionesStmts) { await this.database.executeSql(stmt, []); } status = "FILL mensajes";
+      for (var stmt of this.poblarMensajesStmts) { await this.database.executeSql(stmt, []); }       status = "DONE";
       this.isDBReady.next(true)
     } catch (e) {
       this.presentAlert("[@" + status + "] ERROR al crear tablas: " + (e as Error).message);
@@ -285,18 +270,21 @@ export class BdserviceService {
     })
   }
 
-  // actualizar usuario sin actualizar contraseña
-  actualizarUsuario2(nombre: string, correo: string, numero_cel: string) {
-    return this.database.executeSql("UPDATE usuarios SET nombre = ?, correo = ?, numero_cel = ? WHERE id_usuario = ?;", [nombre, correo, numero_cel]).then((res) => {
+  actualizarUsuarioDatos(id:number, nombre:string, numero_cel:string, imagen:string){
+    return this.database.executeSql("UPDATE usuarios SET nombre = ?, numero_cel = ?, imagen = ? WHERE id_usuario = ?;", [nombre, numero_cel, imagen, id]).then((res) => {
       this.leerUsuarios();
-    }).catch((error) => {
-      console.error("Error al actualizar usuario:", error);
+    }).catch((e) => {
+      this.presentAlert("ERROR al actualizar datos de Usuario (ID:" + id + "): " + (e as Error).message);
     })
   }
 
-
-
-
+  actualizarUsuarioPass(id:number, password:string){
+    return this.database.executeSql("UPDATE usuarios SET password = ? WHERE id_usuario = ?;", [password, id]).then((res) => {
+      this.leerUsuarios();
+    }).catch((e) => {
+      this.presentAlert("ERROR al actualizar password de Usuario (ID:" + id + "): " + (e as Error).message);
+    })
+  }
 
   // otra vez tratando de cambiar la wea de edición sin exito, round 5 
   updateUsuario(usuario: any) {
