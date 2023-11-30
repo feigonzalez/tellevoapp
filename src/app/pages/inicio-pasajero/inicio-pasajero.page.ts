@@ -11,30 +11,27 @@ import { WeatherService } from 'src/app/services/weather.service';
 })
 export class InicioPasajeroPage implements OnInit {
 
-    rutas: any = {}
-    usuario: any = {}
-    city: string = 'Santiago';
-    weatherData: any;
+  rutas: any = {}
+  usuario: any = {}
+  city: string = 'Santiago';
+  weatherData: any;
 
-    private apiKey = 'ffe31d51024efac03faf1902e771d2b4';
-    private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
+  private apiKey = 'ffe31d51024efac03faf1902e771d2b4';
+  private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
-    imagen: string | null = null;
-    contrasenaActual: string = '';
-    nuevaContrasena: string = '';
-    confirmarNuevaContrasena: string = '';
-  constructor(    private router: Router,
-    private navCtrl: NavController,
-    private fb: FormBuilder,
-    private toastController: ToastController,
-    private weatherService: WeatherService, private db:BdserviceService) {    this.usuario.imagen = null; // Inicializa la propiedad imagen en null
+  imagen: string | null = null;
+  contrasenaActual: string = '';
+  nuevaContrasena: string = '';
+  confirmarNuevaContrasena: string = '';
+
+  constructor(private router: Router, private navCtrl:NavController, private weatherService: WeatherService, private db: BdserviceService) {
+    this.usuario.imagen = null; // Inicializa la propiedad imagen en null
   }
-    
-  
+
   ngOnInit() {
-    this.db.dbState().subscribe(res=>{
-      if(res){
-        this.db.fetchRutas().subscribe(items=>{
+    this.db.dbState().subscribe(res => {
+      if (res) {
+        this.db.fetchRutas().subscribe(items => {
           this.rutas = items;
         })
         this.loadUsuario();
@@ -42,37 +39,39 @@ export class InicioPasajeroPage implements OnInit {
       }
     })
   }
+
   getWeather(city: string) {
     this.weatherService.getWeather(city).subscribe(data => {
       this.weatherData = data;
       console.log(this.weatherData);
     });
   }
-  async loadUsuario(){
-    let uID=localStorage.getItem("uID");
-    if(uID) this.usuario=await this.db.leerUsuarioPorID(uID);
+  async loadUsuario() {
+    let uID = localStorage.getItem("uID");
+    if (uID) this.usuario = await this.db.leerUsuarioPorID(uID);
   }
 
-  async loadRutas(){
+  async loadRutas() {
     this.db.leerRutas();
   }
 
-  async verRuta(id:string){
-    console.log("!:verRutaPasajero("+id+")")
-    let ruta=await this.db.leerRutaPorId(id);
-    let ne:any={state:{
-      ruta:ruta,
-      conductor:await this.db.leerUsuarioPorID(ruta.id_usuario),
-      viewType:"view"
-    }}
-    this.router.navigate(['/ver-ruta-pasajero'],ne)
+  async verRuta(id: string) {
+    console.log("!:verRutaPasajero(" + id + ")")
+    let ruta = await this.db.leerRutaPorId(id);
+    let ne: any = {
+      state: {
+        ruta: ruta,
+        conductor: await this.db.leerUsuarioPorID(ruta.id_usuario),
+        viewType: "view"
+      }
+    }
+    this.router.navigate(['/ver-ruta-pasajero'], ne)
   }
 
-  salirCuenta(){
-    this.db.presentAlert("Salir de cuenta");
+  salirCuenta() {
+    this.navCtrl.navigateRoot(['/login'])
     localStorage.removeItem("loggedIn");
     localStorage.removeItem("uRole");
     localStorage.removeItem("uID");
-    this.router.navigate(['/home'])
   }
 }

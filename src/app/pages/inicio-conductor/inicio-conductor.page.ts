@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { BdserviceService } from 'src/app/services/bdservice.service';
 import { WeatherService } from 'src/app/services/weather.service';
 
@@ -22,7 +22,7 @@ export class InicioConductorPage implements OnInit {
   contrasenaActual: string = '';
   nuevaContrasena: string = '';
   confirmarNuevaContrasena: string = '';
-constructor(private router: Router, private activatedRoute: ActivatedRoute ,private weatherService: WeatherService, private db:BdserviceService) {
+constructor(private router: Router, private navCtrl:NavController, private activatedRoute: ActivatedRoute, private weatherService: WeatherService, private db:BdserviceService) {
     this.usuario.imagen = null; // Inicializa la propiedad imagen en null
     this.activatedRoute.queryParams.subscribe(params=>{
       if(this.router.getCurrentNavigation()?.extras.state){
@@ -88,10 +88,9 @@ constructor(private router: Router, private activatedRoute: ActivatedRoute ,priv
   }
 
   salirCuenta(){
-    this.db.presentAlert("Salir de cuenta")
+    this.navCtrl.navigateRoot(['/login'])
     localStorage.removeItem("loggedIn")
     localStorage.removeItem("uRole")
     localStorage.removeItem("uID")
-    this.router.navigate(['/'])
   }
 }

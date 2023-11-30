@@ -39,7 +39,7 @@
     {{ weatherData.name }}
   </ion-card-header>
   <ion-card-content>
-    Temperatura: {{ weatherData.main.temp }}°K
+    Temperatura: {{ weatherData.main.temp + 273.15 }}°C
   </ion-card-content>
 </ion-card>
 

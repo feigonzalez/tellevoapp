@@ -74,7 +74,11 @@ const routes: Routes = [
   {
     path: 'administrar-viaje',
     loadChildren: () => import('./pages/administrar-viaje/administrar-viaje.module').then( m => m.AdministrarViajePageModule)
+  },  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
+
 
 ];
 
