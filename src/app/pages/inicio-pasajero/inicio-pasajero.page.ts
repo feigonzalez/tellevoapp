@@ -15,6 +15,7 @@ export class InicioPasajeroPage implements OnInit {
   usuario: any = {}
   city: string = 'Santiago';
   weatherData: any;
+  tempInC?:number;
 
   private apiKey = 'ffe31d51024efac03faf1902e771d2b4';
   private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
@@ -44,6 +45,7 @@ export class InicioPasajeroPage implements OnInit {
     this.weatherService.getWeather(city).subscribe(data => {
       this.weatherData = data;
       console.log(this.weatherData);
+	  this.tempInC=Math.round(this.weatherData.main.temp - 273.15)
     });
   }
   async loadUsuario() {

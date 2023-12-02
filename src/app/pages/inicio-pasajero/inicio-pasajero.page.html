@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="#1e1e1e">
     <ion-buttons slot="start">
-      <ion-button class="round-icon" (click)="salirCuenta()" [routerLink]="['/']">
+      <ion-button class="round-icon" (click)="salirCuenta()">
         <ion-icon name="power"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -30,21 +30,15 @@
 
 <!-- Asegúrate de pasar el valor de city a la función getWeather al hacer clic -->
 
-<div style="text-align: center;"><ion-button style="display:inline-block;margin:1rem" expand="block" size="large" expand="full" (click)="getWeather(city)">Obtener Clima</ion-button></div>
+<div style="text-align: center;">
+	<ion-button style="display:inline-block;margin:1rem" expand="block" size="large" expand="full" (click)="getWeather(city)">Obtener Clima</ion-button>
+</div>
 
-<ion-card *ngIf="weatherData">
+<ion-card *ngIf="tempInC">
   <ion-card-header>
-    {{ weatherData.name }}
+    Temperatura en {{ weatherData.name }}: {{ tempInC }}°C
   </ion-card-header>
-  <ion-card-content>
-    Temperatura: {{ weatherData.main.temp }}°K
-  </ion-card-content>
 </ion-card>
-
-
-
-
-
 
   <ion-card>
     <ion-card-header>

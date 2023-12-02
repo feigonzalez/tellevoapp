@@ -17,6 +17,7 @@ export class InicioConductorPage implements OnInit {
   weatherData: any;
   private apiKey = 'ffe31d51024efac03faf1902e771d2b4';
   private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
+  tempInC?:number;
 
   imagen: string | null = null;
   contrasenaActual: string = '';
@@ -48,6 +49,7 @@ constructor(private router: Router, private navCtrl:NavController, private activ
     this.weatherService.getWeather(city).subscribe(data => {
       this.weatherData = data;
       console.log(this.weatherData);
+	  this.tempInC = Math.round(data.main.temp - 273.15)
     });
   }
   async loadUsuario(){
