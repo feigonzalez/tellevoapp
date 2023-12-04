@@ -50,9 +50,11 @@ export class VerRutaPasajeroPage implements OnInit {
 
   async checkRequested(){
     let uID=localStorage.getItem("uID");
-    if(uID) this.requested = await this.db.leerViajeSolicitado(this.ruta.id_ruta,uID);
-    if(this.requested) this.btnMssg="Ver Solicitud";
-    
+    if(uID){
+      this.requested = await this.db.leerViajeSolicitado(this.ruta.id_ruta,uID);
+      if(this.requested) this.btnMssg="Ver Solicitud";
+      else this.btnMssg="Solicitar Pasaje";
+    }
   }
 
   async solicitarViaje() {
@@ -61,7 +63,7 @@ export class VerRutaPasajeroPage implements OnInit {
     //insert new VIAJE, with values ID_VIAJE:AUTO, TARIFA:RUTA.TARIFA, FECHA:NOW(), ESTADO:'solicitado', ID_RUTA:RUTA.ID_RUTA, ID_PASAJERO:UID
     let uID=localStorage.getItem("uID");
     if(uID && !this.requested){
-      this.db.crearViaje(this.ruta.tarifa, this.db.getCurrentDatestring(), 'solicitado', this.ruta.id_ruta, parseInt(uID))
+      await this.db.crearViaje(this.ruta.tarifa, this.db.getCurrentDatestring(), 'solicitado', this.ruta.id_ruta, parseInt(uID))
       this.requested=true;
       this.btnMssg="Ver Solicitud";
     }

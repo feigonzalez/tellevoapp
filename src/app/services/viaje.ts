@@ -13,7 +13,7 @@ export class Viaje {
         aprobado:   el CONDUCTOR aprobó la solicitud de pasaje. este estado sólo debería usarse después de que el CONDUCTOR reciba el pago.
                 en este momento, los valores de TARIFA y FECHA se fijan.
         rechazado:  el CONDUCTOR rechazó la soliitud de pasaje
-        cancelado:  el CONDUCTOR o el PASAJERO canceló la solicitud del pasaje
+        cancelado:  el PASAJERO canceló la solicitud del pasaje
         comenzado:  el VIAJE está siendo realizado
         completado: el VIAJE fue completado exitosamente
     

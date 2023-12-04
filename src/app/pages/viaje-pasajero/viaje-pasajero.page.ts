@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { AlertController } from '@ionic/angular';
-import { Viaje } from 'src/app/services/viaje';
+import { BdserviceService } from 'src/app/services/bdservice.service';
 
 @Component({
   selector: 'app-viaje-pasajero',
@@ -16,8 +15,7 @@ export class ViajePasajeroPage implements OnInit {
   countdown : any;
   viaje:any;
 
-  constructor(private location: Location, private router: Router, private activatedRoute: ActivatedRoute,
-      private alertController: AlertController) {
+  constructor(private location: Location, private router: Router, private activatedRoute: ActivatedRoute, private db:BdserviceService) {
     this.activatedRoute.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.ruta = this.router.getCurrentNavigation()?.extras.state?.['ruta']
@@ -27,31 +25,13 @@ export class ViajePasajeroPage implements OnInit {
   }
 
   ngOnInit() {
-    this.countdown = setTimeout(() => {
-      this.finViaje();
-    }, 0);
+    //this.db.presentAlert("Espere a que el conductor apruebe su solicitud");
   }
 
-  cancelarViaje() {
-    console.log("CancelarViaje()");
-    // Cancela el viaje. La lógica detrás de esto aún no está clara, pero es imperativo
-    // que la opción exista.
-    clearInterval(this.countdown);
+  async cancelarViaje() {
+    console.log("!:cancelarViaje()");
+    let uID=localStorage.getItem("uID")
+    if(uID) await this.db.cancelarViaje(this.ruta.id_ruta,uID)
     this.location.back();
-  }
-
-  async finViaje() {
-    const alert = await this.alertController.create({
-      header: 'Espere a que el conductor apruebe su reserva',
-    
-    });
-
-    await alert.present();
-
-    // Cierra la alerta automáticamente después de 5 segundos
-    /*setTimeout(() => {
-      alert.dismiss();
-    
-    }, 5000);*/
   }
 }

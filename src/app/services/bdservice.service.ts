@@ -656,10 +656,7 @@ export class BdserviceService {
 
   leerViajeSolicitado(rID: string, uID:string){
     return this.database.executeSql("SELECT COUNT(id_viaje) AS count FROM viajes WHERE id_ruta = ? AND id_pasajero = ? AND estado = 'solicitado'", [rID, uID]).then(res => {
-      if (res.rows.length == 1) {
-        return res.rows.item(0).count==1;
-      }
-      return false;
+      return (res.rows.length == 1) && (res.rows.item(0).count==1);
     }).catch(e => {
       this.presentAlert("ERROR al verificar Viajes de Ruta (" + rID + ") solicitado por Pasajero (" + uID+ "): " + (e as Error).message);
       return false;
@@ -688,6 +685,13 @@ export class BdserviceService {
     return this.database.executeSql("UPDATE viajes SET tarifa = ?, fecha = ?, estado = ?, id_ruta = ?, id_pasajero = ? WHERE id_viaje = ?;", [tarifa, fecha, estado, id_ruta, id_pasajero, id_viaje]).then((res) => {
     }).catch((e) => {
       this.presentAlert("ERROR al actualizar Viaje (id " + id_viaje + "): " + (e as Error).message);
+    })
+  }
+
+  cancelarViaje(rID:string, uID:string){
+    return this.database.executeSql("UPDATE viajes SET estado = 'cancelado' WHERE id_ruta = ? AND id_pasajero = ?;", [rID, uID]).then((res) => {
+    }).catch((e) => {
+      this.presentAlert("ERROR al cancelar Viaje de ruta ("+rID+") por Usuario ("+uID+"): " + (e as Error).message);
     })
   }
 
