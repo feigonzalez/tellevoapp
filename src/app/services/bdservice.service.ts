@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { InjectSetupWrapper } from '@angular/core/testing';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { AlertController, Platform, ToastController } from '@ionic/angular';
 import { BehaviorSubject, Observable, reduce } from 'rxjs';
@@ -59,7 +58,6 @@ export class BdserviceService {
   ];
   poblarViajesStmts = [
     "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (1, 800, '2023-09-20 16:44:21', 'solicitado', 1, 2)",
-    "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (2, 800, '2023-09-20 19:34:51', 'solicitado', 1, 2)",
     "INSERT OR IGNORE INTO viajes (id_viaje, tarifa, fecha, estado, id_ruta, id_pasajero) VALUES (3, 2000, '2023-10-17 17:21:11', 'solicitado', 2, 3)",
   ]
   poblarCalificacionesStmts = [
@@ -653,6 +651,18 @@ export class BdserviceService {
       this.tablaViajes.next(items as any)
     }).catch(e => {
       this.presentAlert("ERROR al obtener Viajes de Ruta (" + rID + ") y Estado (" + estado + "): " + (e as Error).message);
+    })
+  }
+
+  leerViajeSolicitado(rID: string, uID:string){
+    return this.database.executeSql("SELECT COUNT(id_viaje) AS count FROM viajes WHERE id_ruta = ? AND id_pasajero = ? AND estado = 'solicitado'", [rID, uID]).then(res => {
+      if (res.rows.length == 1) {
+        return res.rows.item(0).count==1;
+      }
+      return false;
+    }).catch(e => {
+      this.presentAlert("ERROR al verificar Viajes de Ruta (" + rID + ") solicitado por Pasajero (" + uID+ "): " + (e as Error).message);
+      return false;
     })
   }
 

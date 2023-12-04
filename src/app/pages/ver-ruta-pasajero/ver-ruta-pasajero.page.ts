@@ -16,8 +16,11 @@ export class VerRutaPasajeroPage implements OnInit {
   viewType: string = "";
   asResv=0;
   asDisp=0;
+  btnMssg:string="Solicitar Pasaje";
+  requested:boolean=false;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private db:BdserviceService) {
+    this.checkRequested();
     this.activatedRoute.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.ruta = this.router.getCurrentNavigation()?.extras.state?.['ruta']
@@ -34,6 +37,7 @@ export class VerRutaPasajeroPage implements OnInit {
     this.db.dbState().subscribe(res=>{
       if(res){
         this.readAsientosReservados()
+        this.checkRequested();
       }
     })
   }
@@ -44,14 +48,23 @@ export class VerRutaPasajeroPage implements OnInit {
     this.asDisp=vehiculo.n_asientos;
   }
 
-  async ngAfterContentInit() {
+  async checkRequested(){
+    let uID=localStorage.getItem("uID");
+    if(uID) this.requested = await this.db.leerViajeSolicitado(this.ruta.id_ruta,uID);
+    if(this.requested) this.btnMssg="Ver Solicitud";
+    
   }
 
-  solicitarViaje() {
+  async solicitarViaje() {
     console.log("!:solicitarViaje()");
+    await this.checkRequested();
     //insert new VIAJE, with values ID_VIAJE:AUTO, TARIFA:RUTA.TARIFA, FECHA:NOW(), ESTADO:'solicitado', ID_RUTA:RUTA.ID_RUTA, ID_PASAJERO:UID
     let uID=localStorage.getItem("uID");
-    if(uID) this.db.crearViaje(this.ruta.tarifa, this.db.getCurrentDatestring(), 'solicitado', this.ruta.id_ruta, parseInt(uID))
+    if(uID && !this.requested){
+      this.db.crearViaje(this.ruta.tarifa, this.db.getCurrentDatestring(), 'solicitado', this.ruta.id_ruta, parseInt(uID))
+      this.requested=true;
+      this.btnMssg="Ver Solicitud";
+    }
     let ne: any = {
       state: {
         ruta: this.ruta,
