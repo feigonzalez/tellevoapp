@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { BdserviceService } from 'src/app/services/bdservice.service';
 import { Ruta } from 'src/app/services/ruta';
 import { Usuario } from 'src/app/services/usuario';
@@ -16,16 +17,19 @@ export class VerRutaPasajeroPage implements OnInit {
   viewType: string = "";
   asResv=0;
   asDisp=0;
-  btnMssg:string="Solicitar Pasaje";
+  btnMssg:string="";
   requested:boolean=false;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private db:BdserviceService) {
-    this.checkRequested();
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private db:BdserviceService, private navCtrl:NavController) {
     this.activatedRoute.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.ruta = this.router.getCurrentNavigation()?.extras.state?.['ruta']
         this.conductor = this.router.getCurrentNavigation()?.extras.state?.['conductor']
         this.viewType = this.router.getCurrentNavigation()?.extras?.state?.['viewType']
+        if(this.router.getCurrentNavigation()?.extras?.state?.['cancel']){
+         this.requested=false; 
+         this.btnMssg="Solicitar Pasaje";
+        }
       } else {
         if(!this.ruta) this.ruta= new Ruta();
         if(!this.conductor) this.conductor= new Usuario()
@@ -59,7 +63,7 @@ export class VerRutaPasajeroPage implements OnInit {
 
   async solicitarViaje() {
     console.log("!:solicitarViaje()");
-    await this.checkRequested();
+    //await this.checkRequested();
     //insert new VIAJE, with values ID_VIAJE:AUTO, TARIFA:RUTA.TARIFA, FECHA:NOW(), ESTADO:'solicitado', ID_RUTA:RUTA.ID_RUTA, ID_PASAJERO:UID
     let uID=localStorage.getItem("uID");
     if(uID && !this.requested){
@@ -73,13 +77,13 @@ export class VerRutaPasajeroPage implements OnInit {
         viewType: this.viewType
       }
     }
-    this.router.navigate(['/viaje-pasajero'], ne); 
+    this.navCtrl.navigateForward('/viaje-pasajero', ne); 
   }
 
   abrirChat(uID:string){
     let ne={state:{
       id_pareja:uID
     }}
-    this.router.navigate(['/mensaje-pasajero'],ne)
+    this.navCtrl.navigateForward('/mensaje-pasajero',ne)
   }
 }

@@ -55,10 +55,10 @@ export class LoginPage implements OnInit {
         localStorage.setItem("loggedIn","true");
         localStorage.setItem("uID",user.id_usuario);
         if(user.id_rol == "1"){
-          this.navCtrl.navigateForward('/inicio-conductor');
+          this.navCtrl.navigateRoot('/inicio-conductor');
           localStorage.setItem("uRole","conductor");
         } else {
-          this.navCtrl.navigateForward('/inicio-pasajero');
+          this.navCtrl.navigateRoot('/inicio-pasajero');
           localStorage.setItem("uRole","pasajero");
         }
       } else {

@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { BdserviceService } from 'src/app/services/bdservice.service';
 import { Ruta } from 'src/app/services/ruta';
 
@@ -19,13 +19,12 @@ export class EditarRutaPage implements OnInit {
   salidaMinuto : number = 0;
   formErrors : any = {};
 
-  constructor(private location:Location,private router: Router, private activatedRoute: ActivatedRoute,
+  constructor(private navCtrl:NavController,private router: Router, private activatedRoute: ActivatedRoute,
       private alertController: AlertController, private db: BdserviceService) {
     this.activatedRoute.queryParams.subscribe(params=>{
       if(this.router.getCurrentNavigation()?.extras.state){
         this.ruta=this.router.getCurrentNavigation()?.extras?.state?.['ruta']
         this.viewType=this.router.getCurrentNavigation()?.extras?.state?.['viewType']
-        console.log("SM2:["+this.salidaMinuto+"]")
         if(this.ruta.id_ruta==-1){
           this.newRuta=true;
         }
@@ -54,9 +53,8 @@ export class EditarRutaPage implements OnInit {
               let uID=localStorage.getItem("uID");
               if(uID) this.db.leerRutasPorUsuario(uID)
               this.db.showToast("Ruta eliminada","success");
-              this.location.back();
             }
-            this.location.back();
+            this.navCtrl.navigateBack('/inicio-conductor')
           }
         }
       ],
@@ -105,7 +103,7 @@ export class EditarRutaPage implements OnInit {
         ruta:this.ruta,
         viewType:"view"
       }}
-      this.location.back();
+      this.navCtrl.navigateBack('/ver-ruta',ne)
     }
   }
 
